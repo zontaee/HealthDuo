@@ -21,7 +21,13 @@ public class Bbs {
         private String bbs_date;
         private int bbs_hit;
         private String m;
-        @OneToMany(mappedBy = "bbs")
-        List<Member> members = new ArrayList<>();
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "member_number")
+        private Member member;
+
+        public void changMember(Member member){
+                this.member=member;
+                member.getBbs().add(this);
+        }
     }
 
