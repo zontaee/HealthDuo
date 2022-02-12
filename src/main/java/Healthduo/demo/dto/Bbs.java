@@ -1,11 +1,7 @@
 package Healthduo.demo.dto;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
 
 
 @Getter
@@ -20,7 +16,7 @@ public class Bbs {
         private String bbs_date;
         private int bbs_hit;
         private String m;
-        private Member member;
+        private MemberDTO member;
 
     }
 

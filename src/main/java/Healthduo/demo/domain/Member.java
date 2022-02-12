@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter @Setter @ToString
 public class Member {
     @Id @GeneratedValue
     private Long member_number;
@@ -24,6 +24,16 @@ public class Member {
     @OneToMany(mappedBy = "member")
     List<Bbs> bbs = new ArrayList<>();
 
+    public Member() {
 
+    }
 
+    public Member(String member_id, String member_password, String member_sex, String member_email, LocalDate member_date, String member_pnumber) {
+        this.member_id = member_id;
+        this.member_password = member_password;
+        this.member_sex = member_sex;
+        this.member_email = member_email;
+        this.member_date = member_date;
+        this.member_pnumber = member_pnumber;
+    }
 }

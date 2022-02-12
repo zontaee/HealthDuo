@@ -1,14 +1,17 @@
 package Healthduo.demo.repository;
 
 import Healthduo.demo.domain.Member;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+@Transactional
 
-@Repository
+@Slf4j
 public class MemberJpaRepository {
     @PersistenceContext
     private EntityManager em;
