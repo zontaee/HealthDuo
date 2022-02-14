@@ -20,9 +20,10 @@ public class Bbs {
         private String bbs_content;
         private String bbs_date;
         private int bbs_hit;
-        private String m;
+        private String bbs_notice;
+        private String bbs_secret;
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "member_number")
+        @JoinColumn(name = "member_id")
         private Member member;
 
         public void changMember(Member member){

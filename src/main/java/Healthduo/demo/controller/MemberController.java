@@ -2,6 +2,8 @@ package Healthduo.demo.controller;
 
 
 import Healthduo.demo.domain.Member;
+import Healthduo.demo.dto.BbsDTO;
+import Healthduo.demo.dto.LoginDTO;
 import Healthduo.demo.dto.MemberDTO;
 import Healthduo.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,8 +47,33 @@ public class MemberController {
         }
         log.info("memberSave(controller start");
         memberService.memberSave(member);
-
-
         return "redirect:/";
+    }
+    @GetMapping("/login")
+    public String getmemberLogin(LoginDTO loginDTO, Model model){
+        model.addAttribute("loginDTO",loginDTO);
+        return "/members/login";
+    }
+
+    @PostMapping("/login")
+    public String postmemberLogin(@Valid LoginDTO loginDTO,BindingResult result, Model model){
+        Member member = new Member(loginDTO.getMember_id(),loginDTO.getMember_password());
+        if (result.hasErrors()) {
+            return "members/login";
+        }
+        log.info("LoginDTO"+ loginDTO.toString());
+        log.info("postmemberLogin(controller start");
+        int resultfind = memberService.memberfind(member);
+        log.info(String.valueOf(resultfind));
+        switch (resultfind) {
+            case 1: result.addError(new ObjectError("loginDTO","등록된 아이디가 없습니다."));
+            break;
+            case 3: result.addError(new ObjectError("loginDTO","등록된 비밀번호가 틀렸습니다."));
+            break;
+        }
+        BbsDTO bbsDTO = new BbsDTO();
+        model.addAttribute("bbsDTO",bbsDTO);
+        return "bbs/write";
+
     }
 }

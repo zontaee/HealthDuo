@@ -13,8 +13,7 @@ import java.util.List;
 @Entity
 @Getter @Setter @ToString
 public class Member {
-    @Id @GeneratedValue
-    private Long member_number;
+    @Id
     private String member_id;
     private String member_password;
     private String member_sex;
@@ -26,6 +25,11 @@ public class Member {
 
     public Member() {
 
+    }
+
+    public Member(String member_id, String member_password) {
+        this.member_id = member_id;
+        this.member_password = member_password;
     }
 
     public Member(String member_id, String member_password, String member_sex, String member_email, LocalDate member_date, String member_pnumber) {
