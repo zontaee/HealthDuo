@@ -22,9 +22,7 @@ public class MemberServiceImpl implements MemberService{
     public int memberfind(Member member) {
         int result;
         log.info("memberSave(controller start");
-        Member findMember = memberRepository.findById(member.getMember_id()).get();
-        log.info(findMember.getMember_id());
-        log.info(findMember.getMember_password());
+        Member findMember = memberRepository.findById(member.getMember_id()).orElse(null);
         if(findMember == null){
             result = 1;//등록된 아이디가 없습니다.
             return result;

@@ -58,9 +58,7 @@ public class MemberController {
     @PostMapping("/login")
     public String postmemberLogin(@Valid LoginDTO loginDTO,BindingResult result, Model model){
         Member member = new Member(loginDTO.getMember_id(),loginDTO.getMember_password());
-        if (result.hasErrors()) {
-            return "members/login";
-        }
+
         log.info("LoginDTO"+ loginDTO.toString());
         log.info("postmemberLogin(controller start");
         int resultfind = memberService.memberfind(member);
@@ -70,6 +68,9 @@ public class MemberController {
             break;
             case 3: result.addError(new ObjectError("loginDTO","등록된 비밀번호가 틀렸습니다."));
             break;
+        }
+        if (result.hasErrors()) {
+            return "members/login";
         }
         BbsDTO bbsDTO = new BbsDTO();
         model.addAttribute("bbsDTO",bbsDTO);
