@@ -18,7 +18,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="member : ${member}">
+            <tr th:each="member : ${memberDTO}">
                 <td th:text="${member.member_id}"></td>
                 <td th:text="${member.member_sex}"></td>
                 <td th:text="${member.member_email}"></td>

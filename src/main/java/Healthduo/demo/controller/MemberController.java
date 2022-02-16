@@ -1,10 +1,12 @@
 package Healthduo.demo.controller;
 
 
+import Healthduo.demo.domain.Bbs;
 import Healthduo.demo.domain.Member;
 import Healthduo.demo.dto.BbsDTO;
 import Healthduo.demo.dto.LoginDTO;
 import Healthduo.demo.dto.MemberDTO;
+import Healthduo.demo.service.BbsService;
 import Healthduo.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -25,6 +29,7 @@ import java.time.LocalDate;
 public class MemberController {
 
     private final MemberService memberService;
+    private final BbsService bbsService;
 
     @RequestMapping("/")
     public String Home() {
@@ -72,9 +77,19 @@ public class MemberController {
         if (result.hasErrors()) {
             return "members/login";
         }
-        BbsDTO bbsDTO = new BbsDTO();
+        log.info("bbsList(controller start");
+        List<Bbs> bbs = bbsService.bbsList();
+        List<BbsDTO> bbsDTO = new ArrayList<>();
+        for (Bbs bbschange : bbs) {
+            BbsDTO bbsDTOAdd = new BbsDTO(bbschange.getBbs_no(),bbschange.getBbs_title(),
+                    bbschange.getBbs_content(),bbschange.getBbs_date(),bbschange.getBbs_hit(),
+                    bbschange.getBbs_notice(),bbschange.getBbs_secret());
+            bbsDTO.add(bbsDTOAdd);
+        }
+        log.info(String.valueOf(bbsDTO.get(0).getBbs_no()));
+        log.info("bbsDTO size" + bbsDTO.size());
         model.addAttribute("bbsDTO",bbsDTO);
-        return "bbs/write";
+        return "bbs/BbsList";
 
     }
 }

@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-        <form class="form-horizontal" th:action="@{/board/register.do}" th:object="${bbsDTO}" method="post" onsubmit="return registerBoard(this)">
+        <form class="form-horizontal" th:action="@{/bbsSave}" th:object="${bbsDTO}" method="post" ><!--onsubmit="return registerBoard(this)"-->
             <!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
             <input type="hidden" th:if="*{bbs_no != null and bbs_no > 0}" th:field="*{bbs_no}" />
 

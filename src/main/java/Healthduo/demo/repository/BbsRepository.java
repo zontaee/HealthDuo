@@ -8,5 +8,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Repository
-public interface BBsRepository extends JpaRepository<Bbs,Long> {
+public interface BbsRepository extends JpaRepository<Bbs,Long> ,BbsRepositoryCustom {
 }
