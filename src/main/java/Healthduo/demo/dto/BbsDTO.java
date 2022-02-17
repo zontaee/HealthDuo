@@ -10,24 +10,24 @@ import lombok.ToString;
 @ToString
 public class BbsDTO {
 
-        private Long bbs_no;
+        private Long bbsNo;
 
-        private String bbs_title;
-        private String bbs_content;
-        private String bbs_date;
-        private Integer bbs_hit;
-        private String bbs_notice;
-        private String bbs_secret;
+        private String bbsTitle;
+        private String bbsContent;
+        private String bbsDate;
+        private Integer bbsHit;
+        private String bbsNotice;
+        private String bbsSecret;
         private MemberDTO member;
 
-        public BbsDTO(Long bbs_no, String bbs_title, String bbs_content, String bbs_date, Integer bbs_hit, String bbs_notice, String bbs_secret) {
-                this.bbs_no = bbs_no;
-                this.bbs_title = bbs_title;
-                this.bbs_content = bbs_content;
-                this.bbs_date = bbs_date;
-                this.bbs_hit = bbs_hit;
-                this.bbs_notice = bbs_notice;
-                this.bbs_secret = bbs_secret;
+        public BbsDTO(Long bbsNo, String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, String bbsNotice, String bbsSecret) {
+                this.bbsNo = bbsNo;
+                this.bbsTitle = bbsTitle;
+                this.bbsContent = bbsContent;
+                this.bbsDate = bbsDate;
+                this.bbsHit = bbsHit;
+                this.bbsNotice = bbsNotice;
+                this.bbsSecret = bbsSecret;
         }
 
         public BbsDTO() {

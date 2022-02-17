@@ -10,12 +10,12 @@ import javax.validation.constraints.NotEmpty;
 @ToString
 public class LoginDTO {
     @NotEmpty(message = "아이디를 입력 해주세요.")
-    private String member_id;
+    private String memberId;
     @NotEmpty(message = "비밀번호를 입력 해주세요.")
-    private String member_password;
+    private String memberPassword;
 
-    public LoginDTO(String member_id, String member_password) {
-        this.member_id = member_id;
-        this.member_password = member_password;
+    public LoginDTO(String memberId, String memberPassword) {
+        this.memberId = memberId;
+        this.memberPassword = memberPassword;
     }
 }

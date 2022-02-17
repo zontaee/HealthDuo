@@ -4,6 +4,10 @@ import Healthduo.demo.domain.Bbs;
 import Healthduo.demo.repository.BbsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,14 +17,14 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BbsServiceImpl implements BbsService {
+public class BbsServiceImpl implements BbsService  {
     private final BbsRepository bbsRepository;
     @Override
-    public List<Bbs> bbsList() {
-        log.info("bbsList(Service start");
-        List<Bbs> bbsList = bbsRepository.findAll();
+    public Page<Bbs> bbsList(Pageable pageable){
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+        pageable = PageRequest.of(page, 10,Sort.by(Sort.Direction.DESC,"bbsno"));
 
-        return bbsList;
+        return bbsRepository.findAll(pageable);
     }
 
     @Override

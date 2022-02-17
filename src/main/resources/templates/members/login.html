@@ -27,16 +27,16 @@
             </div>
             <div>
                 <label for="loginId">ID</label>
-                <input type="text" id="loginId" th:field="*{member_id}" class="form-control"
+                <input type="text" id="loginId" th:field="*{memberId}" class="form-control"
                        th:errorclass="field-error">
-                <div class="field-error" th:errors="*{member_id}" />
+                <div class="field-error" th:errors="*{memberId}" />
             </div>
             <div>
                 <label for="password">비밀번호</label>
-                <input type="password" id="password" th:field="*{member_password}"
+                <input type="password" id="password" th:field="*{memberPassword}"
                        class="form-control"
                        th:errorclass="field-error">
-                <div class="field-error" th:errors="*{member_password}" />
+                <div class="field-error" th:errors="*{memberPassword}" />
             </div>
             <hr class="my-4">
             <div class="row">

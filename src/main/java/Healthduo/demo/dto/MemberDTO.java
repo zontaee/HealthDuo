@@ -10,17 +10,17 @@ import java.time.LocalDate;
 @Getter @Setter
 public class MemberDTO {
 
-    private Long member_number;
+    private Long memberNumber;
     @NotEmpty(message = "아이디를 입력 해주세요.")
-    private String member_id;
+    private String memberId;
     @NotEmpty(message = "비밀번호를 입력 해주세요.")
-    private String member_password;
+    private String memberPassword;
     @NotEmpty(message = "성별를 입력 해주세요.")
-    private String member_sex;
+    private String memberSex;
     @NotEmpty(message = "이메일을 입력 해주세요.")
-    private String member_email;
-    private LocalDate member_date;
+    private String memberEmail;
+    private LocalDate memberDate;
     @NotEmpty(message = "핸드폰번호를 입력 해주세요.")
-    private String member_pnumber;
+    private String memberPnumber;
 
 }

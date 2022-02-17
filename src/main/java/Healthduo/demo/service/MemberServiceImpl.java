@@ -17,7 +17,7 @@ public class MemberServiceImpl implements MemberService{
     public void memberSave(Member member) {
         log.info("memberSave(controller start");
         Member savedMember = memberRepository.saveMember(member);
-        log.info("savedMember Member_id =>" + savedMember.getMember_id());
+        log.info("savedMember Member_id =>" + savedMember.getMemberId());
 
     }
 
@@ -25,13 +25,13 @@ public class MemberServiceImpl implements MemberService{
     public int memberfind(Member member) {
         int result;
         log.info("memberSave(Service start");
-        Member findMember = memberRepository.findById(member.getMember_id()).orElse(null);
+        Member findMember = memberRepository.findById(member.getMemberId()).orElse(null);
         //admin 추가 고려
         if(findMember == null){
             result = 1;//등록된 아이디가 없습니다.
             return result;
         }else {
-            if(findMember.getMember_password().equals(member.getMember_password())){
+            if(findMember.getMemberPassword().equals(member.getMemberPassword())){
                 result =2;
                 return result;//아이디 비밀번호 둘다 일치
             }else {

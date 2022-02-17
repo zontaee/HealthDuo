@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+
+</head>
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+
+                <th>게시판 번호</th>
+                <th>게시판 이름</th>
+                <th>게시판 작성 날짜</th>
+                <th>조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bbs : ${bbsList}">
+                <td th:text="${bbs.getBbsno}"></td>
+                <td th:text="${bbs.getBbsTitle}"></td>
+                <td th:text="${bbs.getBbsDate}"></td>
+                <td th:text="${bbs.getBbsHit}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav style="text-align: center;">
+        <ul class="pagination"
+            th:with="start=${T(Math).floor(bbsList.number/10)*10 + 1},
+                    last=(${start + 9 < bbsList.totalPages ? start + 9 : bbsList.totalPages})">
+            <li>
+                <a th:href="@{/bbsLists(page=1)}" aria-label="First">
+                    <span aria-hidden="true">First</span>
+                </a>
+            </li>
+
+            <li th:class="${bbsList.first} ? 'disabled'">
+                <a th:href="${bbsList.first} ? '#' :@{/bbsLists(page=${bbsList.number})}" aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+
+            <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == bbsList.number + 1} ? 'active'">
+                <a th:text="${page}" th:href="@{/bbsLists(page=${page})}"></a>
+            </li>
+
+            <li th:class="${bbsList.last} ? 'disabled'">
+                <a th:href="${bbsList.last} ? '#' : @{/bbsLists(page=${bbsList.number + 2})}" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/bbsLists(page=${bbsList.totalPages})}" aria-label="Last">
+                    <span aria-hidden="true">Last</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='items.html'"
+                th:onclick="|location.href='@{/write}'|"
+                type="button">글 작성하기</button>
+    </div>
+
+    <div th:replace="fragments/footer :: footer" />
+
+</div> <!-- /container -->
+
+</body>
+</html>

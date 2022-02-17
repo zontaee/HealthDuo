@@ -2,9 +2,7 @@ package Healthduo.demo.repository;
 
 
 import Healthduo.demo.domain.Member;
-import Healthduo.demo.repository.MemberJpaRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,36 +20,36 @@ class MemberJpaRepositoryTest {
     @Test
     void Membersave() {
         Member member = new Member();
-        member.setMember_id("whdlsxo123");
-        member.setMember_password("1234");
-        member.setMember_sex("남");
-        member.setMember_email("whdls123@naver.com");
-        member.setMember_date(LocalDate.now());
-        member.setMember_pnumber("010-2222-3333");
+        member.setMemberId("whdlsxo123");
+        member.setMemberPassword("1234");
+        member.setMemberSex("남");
+        member.setMemberEmail("whdls123@naver.com");
+        member.setMemberDate(LocalDate.now());
+        member.setMemberPnumber("010-2222-3333");
 
         System.out.println(member);
         Member saveMember = memberRepository.save(member);
 
 
-        Member findmember = memberRepository.findById(saveMember.getMember_id()).get();
-        Assertions.assertThat(findmember.getMember_id()).isEqualTo(member.getMember_id());
+        Member findmember = memberRepository.findById(saveMember.getMemberId()).get();
+        Assertions.assertThat(findmember.getMemberId()).isEqualTo(member.getMemberId());
     }
     @Test
     void Login(){
         Member member = new Member();
-        member.setMember_id("whdlsxo123");
-        member.setMember_password("1234");
-        member.setMember_sex("남");
-        member.setMember_email("whdls123@naver.com");
-        member.setMember_date(LocalDate.now());
-        member.setMember_pnumber("010-2222-3333");
+        member.setMemberId("whdlsxo123");
+        member.setMemberPassword("1234");
+        member.setMemberSex("남");
+        member.setMemberEmail("whdls123@naver.com");
+        member.setMemberDate(LocalDate.now());
+        member.setMemberPnumber("010-2222-3333");
 
         System.out.println(member);
         Member saveMember = memberRepository.save(member);
-        Member findmember = memberRepository.findById(saveMember.getMember_id()).get();
+        Member findmember = memberRepository.findById(saveMember.getMemberId()).get();
         
-        Assertions.assertThat(findmember.getMember_id()).isEqualTo("whdlsxo123");
-        Assertions.assertThat(findmember.getMember_password()).isEqualTo("1234");
+        Assertions.assertThat(findmember.getMemberId()).isEqualTo("whdlsxo123");
+        Assertions.assertThat(findmember.getMemberPassword()).isEqualTo("1234");
 
 
     }

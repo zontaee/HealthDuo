@@ -21,10 +21,10 @@ class MemberServiceImplTest {
     BbsRepository bbsRepository;
     @Test
     void Bbssave() {
-        Bbs bbs = new Bbs("아뇽","내용1",String.valueOf(LocalDate.now()),0,"1","1");
-        Bbs bbsssave = bbsRepository.save(bbs);
-        Bbs bbsfind = bbsRepository.findById(bbsssave.getBbs_no()).get();
-        Assertions.assertThat(bbsfind.getBbs_no()).isEqualTo(1);
+        for (int i= 0; i<102;i++) {
+            Bbs bbs = new Bbs("아뇽"+ i, "내용" + i, String.valueOf(LocalDate.now()), 0, "1", "1");
+            bbsRepository.save(bbs);
+        }
     }
 
 }

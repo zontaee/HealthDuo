@@ -1,12 +1,10 @@
 package Healthduo.demo.controller;
 
 
-import Healthduo.demo.domain.Bbs;
 import Healthduo.demo.domain.Member;
-import Healthduo.demo.dto.BbsDTO;
 import Healthduo.demo.dto.LoginDTO;
 import Healthduo.demo.dto.MemberDTO;
-import Healthduo.demo.service.BbsService;
+import Healthduo.demo.method.Method;
 import Healthduo.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -29,11 +25,11 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-    private final BbsService bbsService;
+    private final Method method;
 
     @RequestMapping("/")
     public String Home() {
-        return "Home";
+        return "HomeLogin";
     }
 
     @GetMapping("/members/new")
@@ -45,7 +41,7 @@ public class MemberController {
 
     @PostMapping("/members/new")
     public String memberSave(@Valid MemberDTO memberDTO, BindingResult result) {
-        Member member = new Member(memberDTO.getMember_id(),memberDTO.getMember_password(),memberDTO.getMember_sex(),memberDTO.getMember_email(), LocalDate.now(),memberDTO.getMember_pnumber());
+        Member member = new Member(memberDTO.getMemberId(),memberDTO.getMemberPassword(),memberDTO.getMemberSex(),memberDTO.getMemberEmail(), LocalDate.now(),memberDTO.getMemberPnumber());
         log.info(member.toString());
         if (result.hasErrors()) {
             return "members/createMemberForm";
@@ -62,7 +58,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public String postmemberLogin(@Valid LoginDTO loginDTO,BindingResult result, Model model){
-        Member member = new Member(loginDTO.getMember_id(),loginDTO.getMember_password());
+        Member member = new Member(loginDTO.getMemberId(),loginDTO.getMemberPassword());
 
         log.info("LoginDTO"+ loginDTO.toString());
         log.info("postmemberLogin(controller start");
@@ -77,19 +73,9 @@ public class MemberController {
         if (result.hasErrors()) {
             return "members/login";
         }
-        log.info("bbsList(controller start");
-        List<Bbs> bbs = bbsService.bbsList();
-        List<BbsDTO> bbsDTO = new ArrayList<>();
-        for (Bbs bbschange : bbs) {
-            BbsDTO bbsDTOAdd = new BbsDTO(bbschange.getBbs_no(),bbschange.getBbs_title(),
-                    bbschange.getBbs_content(),bbschange.getBbs_date(),bbschange.getBbs_hit(),
-                    bbschange.getBbs_notice(),bbschange.getBbs_secret());
-            bbsDTO.add(bbsDTOAdd);
-        }
-        log.info(String.valueOf(bbsDTO.get(0).getBbs_no()));
-        log.info("bbsDTO size" + bbsDTO.size());
-        model.addAttribute("bbsDTO",bbsDTO);
-        return "bbs/BbsList";
+    /*    List<BbsDTO> bbsDTO = method.BbsListPaging();
+        model.addAttribute("bbsDTO",bbsDTO);*/
+        return "Home";
 
     }
 }

@@ -1,28 +1,25 @@
 package Healthduo.demo.domain;
 
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 public class Bbs {
         @Id
         @GeneratedValue
-        private Long bbs_no;
-        private String bbs_title;
-        private String bbs_content;
-        private String bbs_date;
-        private Integer bbs_hit;
-        private String bbs_notice;
-        private String bbs_secret;
+        @Column(name = "BBS_NO")
+        private Long bbsno;
+        private String bbsTitle;
+        private String bbsContent;
+        private String bbsDate;
+        private Integer bbsHit;
+        private String bbsNotice;
+        private String bbsSecret;
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "member_id")
         private Member member;
@@ -32,14 +29,14 @@ public class Bbs {
                 member.getBbs().add(this);
         }
 
-        public Bbs( String bbs_title, String bbs_content, String bbs_date, Integer bbs_hit, String bbs_notice, String bbs_secret) {
+        public Bbs(String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, String bbsNotice, String bbsSecret) {
 
-                this.bbs_title = bbs_title;
-                this.bbs_content = bbs_content;
-                this.bbs_date = bbs_date;
-                this.bbs_hit = bbs_hit;
-                this.bbs_notice = bbs_notice;
-                this.bbs_secret = bbs_secret;
+                this.bbsTitle = bbsTitle;
+                this.bbsContent = bbsContent;
+                this.bbsDate = bbsDate;
+                this.bbsHit = bbsHit;
+                this.bbsNotice = bbsNotice;
+                this.bbsSecret = bbsSecret;
         }
 
 
