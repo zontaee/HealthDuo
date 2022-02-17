@@ -20,7 +20,7 @@ JpaRepository를 extends 받아서 save기능을 사용하고 있는데 회원�
 ![image](https://user-images.githubusercontent.com/90680271/154434991-d5a04c6c-9357-4f7e-9e5e-5882eb47acb2.png)
 
 
-페이징을 하고 정렬기능을 추가하려던중 properties를 인식하지 못하는 오류가 발생하여 _(언더스코어) 가 들어간 앤티티 네이밍 떄문인걸 알게되았다..
+페이징을 하고 정렬기능을 추가하려던중 properties를 인식하지 못하는 오류가 발생하여 _(언더스코어) 가 들어간 앤티티 네이밍 때문인걸 알게되았다..
 
 
 따라서  변형된 낙타 표기법 ex (memberId) 로 변경하였다.
