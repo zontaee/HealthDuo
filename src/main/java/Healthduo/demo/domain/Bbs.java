@@ -13,7 +13,7 @@ public class Bbs {
         @Id
         @GeneratedValue
         @Column(name = "BBS_NO")
-        private Long bbsno;
+        private Long bbsNo;
         private String bbsTitle;
         private String bbsContent;
         private String bbsDate;
@@ -38,7 +38,14 @@ public class Bbs {
                 this.bbsNotice = bbsNotice;
                 this.bbsSecret = bbsSecret;
         }
+        public void updateBbs(Long bbsNo,String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, String bbsNotice, String bbsSecret) {
 
+                this.bbsTitle = bbsTitle;
+                this.bbsContent = bbsContent;
+                this.bbsDate = bbsDate;
+                this.bbsNotice = bbsNotice;
+                this.bbsSecret = bbsSecret;
+        }
 
 }
 

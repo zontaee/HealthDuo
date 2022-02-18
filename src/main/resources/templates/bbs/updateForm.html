@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="board/layout/basic">
+<head th:replace="fragments/header :: header" />
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+    .pError{
+        color: red;
+    }
+</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <form class="form-horizontal" th:action="@{/bbsUpdate}" th:object="${bbsDTO}" method="post" ><!--onsubmit="return registerBoard(this)"-->
+        <!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
+        <input type="hidden" th:if="*{bbsNo != null and bbsNo > 0}" th:field="*{bbsNo}" />
+
+        <div class="form-group">
+            <label th:for="bbs_notice" class="col-sm-2 control-label">공지글 설정</label>
+            <div class="col-sm-10" style="margin-top: 10px;">
+                <input type="checkbox" th:value="*{bbsNotice}" id="noticeYn" name="noticeYn" th:checked="*{#strings.equals( bbsNotice, 'Y' )}" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label th:for="bbs_secret" class="col-sm-2 control-label">비밀글 설정</label>
+            <div class="col-sm-10" style="margin-top: 10px;">
+                <input type="checkbox" th:value="*{bbsSecret}" id="secretYn" name="secretYn" th:checked="*{#strings.equals( bbsSecret, 'Y' )}" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label th:for="bbs_title" class="col-sm-2 control-label">제목</label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{bbsTitle}" class="form-control" placeholder="제목을 입력해 주세요." />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label th:for="content" class="col-sm-2 control-label">내용</label>
+            <div class="col-sm-10">
+                <textarea th:field="*{bbsContent}" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
+            </div>
+        </div>
+
+        <div class="btn_wrap text-center">
+            <a th:href="@{/bbsLists}" class="btn btn-default waves-effect waves-light">목록보기</a>
+            <button type="submit" class="btn btn-primary waves-effect waves-light">수정하기</button>
+        </div>
+    </form>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+<!-- /.card-content -->
+
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        function registerBoard(form) {
+
+            form.noticeYn.value = form.noticeYn.checked == false ? 'N' : 'Y';
+            form.secretYn.value = form.secretYn.checked == false ? 'N' : 'Y';
+
+            var result = (
+                isValid(form.title, "제목", null, null)
+                && isValid(form.writer, "이름", null, null)
+                && isValid(form.content, "내용", null, null)
+            );
+
+            if ( result == false ) {
+                return false;
+            }
+        }
+        /*[- end of function -]*/
+
+        /*]]>*/
+    </script>
+</th:block>
+</html>

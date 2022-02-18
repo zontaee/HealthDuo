@@ -19,43 +19,43 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="bbs : ${bbsList}">
-                <td th:text="${bbs.getBbsno}"></td>
-                <td th:text="${bbs.getBbsTitle}"></td>
-                <td th:text="${bbs.getBbsDate}"></td>
-                <td th:text="${bbs.getBbsHit}"></td>
+            <tr th:each="bbs : ${bbsDTO}">
+                <td th:text="${bbs.bbsNo}" ></td>
+                <td ><a th:text="${bbs.bbsTitle}" th:href="@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}"></a></td>  <!--th:onclick="|location.href='@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}'|"-->
+                <td th:text="${bbs.bbsDate}"></td>
+                <td th:text="${bbs.bbsHit}"></td>
             </tr>
             </tbody>
         </table>
     </div>
     <nav style="text-align: center;">
         <ul class="pagination"
-            th:with="start=${T(Math).floor(bbsList.number/10)*10 + 1},
-                    last=(${start + 9 < bbsList.totalPages ? start + 9 : bbsList.totalPages})">
+            th:with="start=${T(Math).floor(bbsDTO.number/10)*10 + 1},
+                    last=(${start + 9 < bbsDTO.totalPages ? start + 9 : bbsDTO.totalPages})">
             <li>
                 <a th:href="@{/bbsLists(page=1)}" aria-label="First">
                     <span aria-hidden="true">First</span>
                 </a>
             </li>
 
-            <li th:class="${bbsList.first} ? 'disabled'">
-                <a th:href="${bbsList.first} ? '#' :@{/bbsLists(page=${bbsList.number})}" aria-label="Previous">
+            <li th:class="${bbsDTO.first} ? 'disabled'">
+                <a th:href="${bbsDTO.first} ? '#' :@{/bbsLists(page=${bbsDTO.number})}" aria-label="Previous">
                     <span aria-hidden="true">&lt;</span>
                 </a>
             </li>
 
-            <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == bbsList.number + 1} ? 'active'">
+            <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == bbsDTO.number + 1} ? 'active'">
                 <a th:text="${page}" th:href="@{/bbsLists(page=${page})}"></a>
             </li>
 
-            <li th:class="${bbsList.last} ? 'disabled'">
-                <a th:href="${bbsList.last} ? '#' : @{/bbsLists(page=${bbsList.number + 2})}" aria-label="Next">
+            <li th:class="${bbsDTO.last} ? 'disabled'">
+                <a th:href="${bbsDTO.last} ? '#' : @{/bbsLists(page=${bbsDTO.number + 2})}" aria-label="Next">
                     <span aria-hidden="true">&gt;</span>
                 </a>
             </li>
 
             <li>
-                <a th:href="@{/bbsLists(page=${bbsList.totalPages})}" aria-label="Last">
+                <a th:href="@{/bbsLists(page=${bbsDTO.totalPages})}" aria-label="Last">
                     <span aria-hidden="true">Last</span>
                 </a>
             </li>
