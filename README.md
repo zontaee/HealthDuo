@@ -25,3 +25,7 @@ JpaRepository를 extends 받아서 save기능을 사용하고 있는데 회원�
 
 따라서  변형된 낙타 표기법 ex (memberId) 로 변경하였다.
 
+2-18 
+
+
+삭제 , 수정 추가 (기본 CRUD)
