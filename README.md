@@ -29,3 +29,8 @@ JpaRepository를 extends 받아서 save기능을 사용하고 있는데 회원�
 
 
 삭제 , 수정 추가 (기본 CRUD)
+
+
+2-19 
+
+아이디 저장하기(쿠키사용), 로그인 유지기능 sesstion ,게시판 작성자 추가(modelmapper(앤티티 DTO 변환 라이브러리))공부 후 적용예정
