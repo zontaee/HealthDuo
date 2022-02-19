@@ -15,6 +15,7 @@
                 <th>게시판 번호</th>
                 <th>게시판 이름</th>
                 <th>게시판 작성 날짜</th>
+                <th>작성자</th>
                 <th>조회수</th>
             </tr>
             </thead>
@@ -23,6 +24,7 @@
                 <td th:text="${bbs.bbsNo}" ></td>
                 <td ><a th:text="${bbs.bbsTitle}" th:href="@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}"></a></td>  <!--th:onclick="|location.href='@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}'|"-->
                 <td th:text="${bbs.bbsDate}"></td>
+                <td th:text="${bbs.member.memberId}"></td>
                 <td th:text="${bbs.bbsHit}"></td>
             </tr>
             </tbody>

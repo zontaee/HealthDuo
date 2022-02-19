@@ -29,7 +29,7 @@ public class Bbs {
                 member.getBbs().add(this);
         }
 
-        public Bbs(String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, String bbsNotice, String bbsSecret) {
+        public Bbs(String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, String bbsNotice, String bbsSecret, Member member) {
 
                 this.bbsTitle = bbsTitle;
                 this.bbsContent = bbsContent;
@@ -37,6 +37,7 @@ public class Bbs {
                 this.bbsHit = bbsHit;
                 this.bbsNotice = bbsNotice;
                 this.bbsSecret = bbsSecret;
+                this.member = member;
         }
         public void updateBbs(Long bbsNo,String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, String bbsNotice, String bbsSecret) {
 

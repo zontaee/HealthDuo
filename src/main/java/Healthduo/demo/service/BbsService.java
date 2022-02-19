@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface BbsService  {
     Page<Bbs> bbsList(Pageable pageable) throws Exception;
 
-    void bbsSave(Bbs bbs1);
+    void bbsSave(Bbs bbs);
 
     Optional<Bbs> findContent(Long bbsNo);
 

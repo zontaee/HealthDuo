@@ -3,7 +3,8 @@
 <div class="header" th:fragment="bodyHeader">
     <ul class="nav nav-pills pull-right">
         <li><a href="/">Home</a></li>
-        <li><a th:href="@{/login}">Login</a></li>
+        <li th:if ="${session.memberId ==null}" ><a th:href="@{/login}">Login</a></li>
+        <li th:if ="${session.memberId !=null}" ><a th:href="@{/logout}">Logout</a></li>
     </ul>
     <a href="/"><h3 class="text-muted">HealthDuo</h3></a>
 </div>

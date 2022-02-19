@@ -1,22 +1,21 @@
 package Healthduo.demo.controller;
 
 import Healthduo.demo.domain.Bbs;
+import Healthduo.demo.domain.Member;
 import Healthduo.demo.dto.BbsDTO;
-import Healthduo.demo.method.Method;
+import Healthduo.demo.service.MemberService;
+import Healthduo.demo.web.Method;
 import Healthduo.demo.service.BbsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -26,6 +25,7 @@ import java.util.Optional;
 public class BBsController {
     private final Method method;
     private final BbsService bbsService;
+    private final MemberService memberService;
 
 
     @GetMapping("/bbsLists")
@@ -36,18 +36,23 @@ public class BBsController {
     }
     @RequestMapping("/write")
     public String BbsWrite(Model model){
-        log.info("BbsWrite(controller start");
+        log.info("BbsWrite(controller start)");
         BbsDTO bbsDTO = new BbsDTO();
         model.addAttribute("bbsDTO",bbsDTO);
         return "bbs/write";
     }
     @PostMapping("/bbsSave")
-    public String BbsSave(Bbs bbs,Pageable pageable ,Model model) throws Exception {
-        log.info("bbsSave(controller start");
-        log.info("bbsList(controller start");
-        log.info("bbs1 = " + bbs.toString());
+    public String BbsSave(Bbs bbs, Pageable pageable , Model model,
+                          @SessionAttribute(name = "memberId", required = false)
+            String loginMember) throws Exception {
+        log.info("bbsSave(controller start)");
+        log.info("memberfindById(controller start)");
+        Member member = memberService.memberfindById(loginMember);
+        bbs.setMember(member);
         bbs.setBbsDate(String.valueOf(LocalDate.now()));
         bbs.setBbsHit(0);
+        bbsService.bbsSave(bbs);
+        log.info("bbsList(controller start)");
         Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable);
         model.addAttribute("bbsDTO",bbsDTO);
         return "bbs/bbsList";

@@ -30,9 +30,9 @@ public class BbsServiceImpl implements BbsService  {
     }
 
     @Override
-    public void bbsSave(Bbs bbs1) {
+    public void bbsSave(Bbs bbs) {
         log.info("bbsSave(Service start)");
-        bbsRepository.BbsSave(bbs1);
+        bbsRepository.BbsSave(bbs);
 
     }
 

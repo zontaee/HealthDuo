@@ -1,5 +1,6 @@
 package Healthduo.demo.dto;
 
+import Healthduo.demo.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,9 +19,9 @@ public class BbsDTO {
         private Integer bbsHit;
         private String bbsNotice;
         private String bbsSecret;
-        private MemberDTO member;
+        private Member member;
 
-        public BbsDTO(Long bbsNo, String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, String bbsNotice, String bbsSecret) {
+        public BbsDTO(Long bbsNo, String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, String bbsNotice, String bbsSecret, Member member) {
                 this.bbsNo = bbsNo;
                 this.bbsTitle = bbsTitle;
                 this.bbsContent = bbsContent;
@@ -28,6 +29,7 @@ public class BbsDTO {
                 this.bbsHit = bbsHit;
                 this.bbsNotice = bbsNotice;
                 this.bbsSecret = bbsSecret;
+                this.member= member;
         }
 
         public BbsDTO() {

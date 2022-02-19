@@ -4,7 +4,7 @@ package Healthduo.demo.controller;
 import Healthduo.demo.domain.Member;
 import Healthduo.demo.dto.LoginDTO;
 import Healthduo.demo.dto.MemberDTO;
-import Healthduo.demo.method.Method;
+import Healthduo.demo.web.Method;
 import Healthduo.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +15,12 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
 
@@ -30,9 +32,18 @@ public class MemberController {
     private final MemberService memberService;
     private final Method method;
 
-    @RequestMapping("/")
-    public String Home() {
-        return "HomeLogin";
+    @GetMapping("/")
+    public String homeLoginV3Spring(
+            @SessionAttribute(name = "memberId", required = false)
+                    Member loginMember,
+            Model model) {
+        //세션에 회원 데이터가 없으면 home
+        if (loginMember == null) {
+            return "HomeLogin";
+        }
+        //세션이 유지되면 로그인으로 이동
+        model.addAttribute("member", loginMember);
+        return "Home";
     }
 
     @GetMapping("/members/new")
@@ -60,7 +71,8 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String postmemberLogin(@Valid LoginDTO loginDTO, BindingResult result,  HttpServletResponse response){
+    public String postmemberLogin(@Valid LoginDTO loginDTO, BindingResult result,
+                                  HttpServletResponse response, HttpServletRequest request){
         Member member = new Member(loginDTO.getMemberId(),loginDTO.getMemberPassword());
         log.info("check = {}",loginDTO.getIdRemember());
         //아이디 쿠키 생성
@@ -85,9 +97,18 @@ public class MemberController {
         if (result.hasErrors()) {
             return "members/login";
         }
-    /*    List<BbsDTO> bbsDTO = method.BbsListPaging();
-        model.addAttribute("bbsDTO",bbsDTO);*/
+        HttpSession session = request.getSession();
+        session.setAttribute("memberId",loginDTO.getMemberId());
         return "Home";
 
+    }
+    @PostMapping("/logout")
+    public String logoutV3(HttpServletRequest request) {
+        //세션을 삭제한다.
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/";
     }
 }
