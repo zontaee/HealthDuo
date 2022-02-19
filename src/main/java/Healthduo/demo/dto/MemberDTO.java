@@ -22,5 +22,6 @@ public class MemberDTO {
     private LocalDate memberDate;
     @NotEmpty(message = "핸드폰번호를 입력 해주세요.")
     private String memberPnumber;
+    //저장용
 
 }

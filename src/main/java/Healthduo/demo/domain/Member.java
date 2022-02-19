@@ -14,7 +14,7 @@ import java.util.List;
 @Getter @Setter @ToString
 public class Member {
     @Id
-    @Column(name = "MEBER_ID")
+    @Column(name = "MEMBER_ID")
     private String memberId;
     private String memberPassword;
     private String memberSex;

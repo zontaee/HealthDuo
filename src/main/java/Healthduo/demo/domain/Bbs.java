@@ -21,7 +21,7 @@ public class Bbs {
         private String bbsNotice;
         private String bbsSecret;
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "member_id")
+        @JoinColumn(name = "MEMBER_ID")
         private Member member;
 
         public void changMember(Member member){
