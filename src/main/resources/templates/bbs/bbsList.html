@@ -12,20 +12,20 @@
             <thead>
             <tr>
 
-                <th>게시판 번호</th>
-                <th>게시판 이름</th>
-                <th>게시판 작성 날짜</th>
-                <th>작성자</th>
-                <th>조회수</th>
+                <th class="text-center">번호</th>
+                <th class="text-center">제목</th>
+                <th class="text-center">작성일</th>
+                <th class="text-center">작성자</th>
+                <th class="text-center">조회수</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="bbs : ${bbsDTO}">
-                <td th:text="${bbs.bbsNo}" ></td>
-                <td ><a th:text="${bbs.bbsTitle}" th:href="@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}"></a></td>  <!--th:onclick="|location.href='@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}'|"-->
-                <td th:text="${bbs.bbsDate}"></td>
-                <td th:text="${bbs.member.memberId}"></td>
-                <td th:text="${bbs.bbsHit}"></td>
+                <td class="col-1 text-center" th:text="${bbs.bbsNo}" ></td>
+                <td class="col-5 text-center" ><a th:text="${bbs.bbsTitle}" th:href="@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}"></a></td>  <!--th:onclick="|location.href='@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}'|"-->
+                <td class="col-2 text-center"th:text="${bbs.bbsDate}"></td>
+                <td class="col-2 text-center"th:text="${bbs.member.memberId}"></td>
+                <td class="col-2 text-center" th:text="${bbs.bbsHit}"></td>
             </tr>
             </tbody>
         </table>
