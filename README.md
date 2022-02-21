@@ -34,3 +34,13 @@ JpaRepository를 extends 받아서 save기능을 사용하고 있는데 회원�
 2-19 
 
 아이디 저장하기(쿠키사용), 로그인 유지기능 sesstion ,게시판 작성자 추가(modelmapper(앤티티 DTO 변환 라이브러리))공부 후 적용예정
+
+
+2-21
+
+
+![image](https://user-images.githubusercontent.com/90680271/154938248-db007cd3-6fe8-4158-9bb8-5d266d5a2e66.png)
+
+
+나는 기본키를 따로 지정해주었는데 위 사진과 같이 기본키 시퀀스가 같이 상승한다... 해결책을 찾는중이다.
+
