@@ -23,6 +23,8 @@ public class Member {
     private String memberPnumber;
     @OneToMany(mappedBy = "member")
     List<Bbs> bbs = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    List<Comment> comments = new ArrayList<>();
 
     public Member() {
 

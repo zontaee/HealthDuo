@@ -65,4 +65,12 @@ public class BbsServiceImpl implements BbsService  {
         log.info("deleteContent(Service start)");
         bbsRepository.deleteById(bbsNo);
     }
+
+    @Override
+    public Bbs bbsfindById(Long bbsNo) {
+        log.info("bbsfindById(Service start)");
+        Optional<Bbs> bbsFinded = bbsRepository.findById(bbsNo);
+        Bbs bbs = bbsFinded.get();
+        return bbs;
+    }
 }

@@ -1,9 +1,12 @@
 package Healthduo.demo.domain;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -11,20 +14,24 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bbs {
         @Id
-        @GeneratedValue
+        @GeneratedValue(strategy = GenerationType.SEQUENCE)
         @Column(name = "BBS_NO")
-        private Long bbsNo;
+        private Long bbsNo;  //bbs기본키
+
         private String bbsTitle;
         private String bbsContent;
         private String bbsDate;
+        @ColumnDefault("0")
         private Integer bbsHit;
         private String bbsNotice;
         private String bbsSecret;
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "MEMBER_ID")
         private Member member;
+        @OneToMany(mappedBy = "bbs")
+        List<Comment> comments = new ArrayList<>();
 
-        public void changMember(Member member){
+        public void addMember(Member member){
                 this.member=member;
                 member.getBbs().add(this);
         }

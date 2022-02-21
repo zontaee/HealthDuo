@@ -20,4 +20,6 @@ public interface BbsService  {
     Optional<Bbs> ContentUpdate(Bbs bbs);
 
     void deleteContent(Long bbsNo);
+
+    Bbs bbsfindById(Long bbsNo);
 }
