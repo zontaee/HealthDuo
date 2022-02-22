@@ -1,5 +1,8 @@
 package Healthduo.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,6 +15,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter @ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Member {
     @Id
     @Column(name = "MEMBER_ID")
@@ -21,9 +25,13 @@ public class Member {
     private String memberEmail;
     private LocalDate memberDate;
     private String memberPnumber;
+
     @OneToMany(mappedBy = "member")
+
     List<Bbs> bbs = new ArrayList<>();
+
     @OneToMany(mappedBy = "member")
+
     List<Comment> comments = new ArrayList<>();
 
     public Member() {

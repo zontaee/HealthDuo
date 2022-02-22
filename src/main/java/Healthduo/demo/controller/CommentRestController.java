@@ -11,10 +11,8 @@ import Healthduo.demo.service.MemberService;
 import Healthduo.demo.web.Method;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,10 +29,19 @@ public class CommentRestController {
     public void CommentWrite(@RequestParam("CommemtContent") String content,
                              @RequestParam("bbsNo") Long bbsNo,
                              @SessionAttribute(name = "memberId", required = false) String loginMember) {
-     Bbs bbs       = bbsService.bbsfindById(bbsNo);
-     Member member = memberService.memberfindById(loginMember);
-     commentRestService.CommentSave(content,bbs,member);
+        log.info("CommentWrite(controller start)");
+        Bbs bbs = bbsService.bbsfindById(bbsNo);
+        Member member = memberService.memberfindById(loginMember);
+        commentRestService.CommentSave(content, bbs, member);
 
+    }
+
+    @PostMapping("findComment")
+    public List<CommentDTO> findComment(@RequestParam("bbsNo") Long bbsNo) {
+        log.info("findComment(controller start)");
+        List<CommentDTO> commentDTO = commentRestService.commentFind(bbsNo);
+        log.info("commentDTO.size() =" +commentDTO.size() );
+        return commentDTO;
     }
 
 }

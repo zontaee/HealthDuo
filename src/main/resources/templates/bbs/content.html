@@ -30,31 +30,35 @@
             <textarea th:field="${bbsDTO.bbsContent}" class="form-control" readonly></textarea>
         </div>
     </div>
-    <div id="comment">
-        <div>
-        <a class="col-2">작성자</a>
-        <a class="col-8">내용</a>
-        <a class="col-2">작성날짜</a>
-        </div>
-        <div>
-            <a class="col-2">작성자</a>
-            <a class="col-8">내용</a>
-            <a class="col-2">작성날짜</a>
-        </div>
-        <div>
-            <a class="col-2">작성자</a>
-            <a class="col-8">내용</a>
-            <a class="col-2">작성날짜</a>
-        </div>
-    </div>
 
-    <div class="form-group">
+        <section class="mb-5">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div  id="comment">
+                        <div class="ms-3">
+                            <div class="fw-bold"> 작성자 : 이름   작성일 :   </div><br>
+                            When I look at the universe and all the ways the universe wants to kill us, I find it hard
+                            to reconcile that with statements of beneficence.
+                        </div>
+                    </div>
+                    <!-- Comment form-->
+                    <form class="mb-4"><textarea class="form-control" rows="3"
+                                                 id="content" placeholder="댓글을 입력해주세요"></textarea>
+                        <button value="등록" th:onclick="commentAdd()">등록</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+
+    <!--<div class="form-group">
         <label th:for="content" class="col-sm-2 control-label">댓글작성</label>
         <div class="col-sm-10">
             <textarea class="form-control" id="content" placeholder="댓글을 입력해 주세요."></textarea>
             <button value="등록" th:onclick="commentAdd()">등록</button>
+            <button value="test" th:onclick="test1()">test</button>
         </div>
-    </div>
+    </div>-->
 
 
     <div class="btn_wrap text-center">
@@ -69,16 +73,15 @@
     <div th:replace="fragments/footer :: footer"/>
 </div>
 <script th:inline="javascript">
-    async function commentAdd() {
-        /*<![CDATA[*/
-        let content = document.getElementById("content").value;
-        let bbsNo = "[[${bbsDTO.bbsNo}]]";
-        if(content === ""){
-            alert("댓글을 입력해주세요.")
-        }
-        console.log("[[${bbsDTO.bbsNo}]]");
-        let URL = "http://localhost:8080/CommentWrite"
+    let addDivComment = document.getElementById("comment");
+    let bbsNo = "[[${bbsDTO.bbsNo}]]";
+    let str = "";
+    window.onload = test1();
 
+    /*<![CDATA[*/
+
+    async function test1() {
+        let URL = "http://localhost:8080/findComment"
 
         let options = {
             method: 'POST',
@@ -86,14 +89,49 @@
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: new URLSearchParams({
-                CommemtContent : content,
-                bbsNo : bbsNo
+                bbsNo: bbsNo
             })
         }
-        await fetch(URL,options)
+        let response = await fetch(URL, options)
+        let comment = await response.json();
+        console.log(comment[0].commentId);
+        for (let i = 0; i < comment.length; i++) {
+            str += "<div class=\'ms-3\'>";
+            str += "<div class=\'fw-bold\'> 작성자 : " + comment[i].memberId + "  작성일 : " + comment[i].date +  "</div>";
+            str += "내용 : "+ comment[i].content ;
+
+            str += "</div><br>"
+        }
+
+        addDivComment.innerHTML = str;
+
+    }
+
+    async function commentAdd() {
+
+        let content = document.getElementById("content").value;
+
+        if (content === "") {
+            alert("댓글을 입력해주세요.")
+        } else {
+            console.log("[[${bbsDTO.bbsNo}]]");
+            let URL = "http://localhost:8080/CommentWrite"
 
 
-      
+            let options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    CommemtContent: content,
+                    bbsNo: bbsNo
+                })
+            }
+            await fetch(URL, options)
+            alert("댓글 등록이 완료 되었습니다.")
+            window.location.reload(true);
+        }
     }
 </script>
 

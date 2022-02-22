@@ -15,4 +15,5 @@ public interface CommentRepository  extends JpaRepository<Comment,Long>,CommentR
     Optional<Integer> findCommentGroup();
     @Query("select max(c.commentCnt) from Comment c")
     Optional<Integer> findcommentCnt();
+
 }

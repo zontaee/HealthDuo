@@ -17,7 +17,7 @@ import java.util.Optional;
 public class Method {
 
     private final BbsService bbsService;
-
+    //bbsList Page
     public Page<BbsDTO> BbsListPaging(Pageable pageable) throws Exception {
         Page<Bbs> bbsList = bbsService.bbsList(pageable);
         Page<BbsDTO> bbsDTo =bbsList.map(m-> new BbsDTO(m.getBbsNo(),m.getBbsTitle(),m.getBbsContent()
@@ -28,6 +28,7 @@ public class Method {
 
         return bbsDTo;
     }
+    //bbsDto
     public BbsDTO getBbsDTO(Optional<Bbs> bbs) {
         BbsDTO bbsDTO = new BbsDTO(bbs.get().getBbsNo(), bbs.get().getBbsTitle(), bbs.get().getBbsContent()
                 , bbs.get().getBbsDate(), bbs.get().getBbsHit(), bbs.get().getBbsNotice(), bbs.get().getBbsSecret(),bbs.get().getMember());

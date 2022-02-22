@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Member memberfindById(String loginMember) {
-        log.info("memberfindById(Service start");
+        log.info("memberfindById(Service start)");
         Member findMember = memberRepository.findById(loginMember).orElse(null);
         return findMember;
     }

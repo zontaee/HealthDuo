@@ -1,5 +1,8 @@
 package Healthduo.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -7,10 +10,18 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
 @Entity
+@SequenceGenerator(
+        name="COMMENT_NO_SEQ", //시퀀스 제너레이터 이름
+        sequenceName="COMMENT_NO", //시퀀스 이름
+        initialValue=1, //시작값
+        allocationSize=1 //메모리를 통해 할당할 범위 사이즈
+)
 @Getter
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+    generator = "COMMENT_NO_SEQ")
     @Column(name = "COMMENT_NO")
     private Long commentId;  //comment 기본키
 
@@ -30,10 +41,12 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BBS_NO")
+
     private Bbs bbs;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
+
     private Member member;
 
     public Comment() {

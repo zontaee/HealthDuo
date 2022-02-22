@@ -1,5 +1,8 @@
 package Healthduo.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -9,12 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@SequenceGenerator(
+        name="BBS_NO_SEQ", //시퀀스 제너레이터 이름
+        sequenceName="BBS_NO", //시퀀스 이름
+        initialValue= 1, //시작값
+        allocationSize=1 //메모리를 통해 할당할 범위 사이즈
+)
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Bbs {
         @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE)
+        @GeneratedValue(strategy = GenerationType.SEQUENCE,
+        generator = "BBS_NO_SEQ")
         @Column(name = "BBS_NO")
         private Long bbsNo;  //bbs기본키
 
@@ -25,9 +36,12 @@ public class Bbs {
         private Integer bbsHit;
         private String bbsNotice;
         private String bbsSecret;
+
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "MEMBER_ID")
+
         private Member member;
+
         @OneToMany(mappedBy = "bbs")
         List<Comment> comments = new ArrayList<>();
 

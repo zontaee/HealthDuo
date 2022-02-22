@@ -13,20 +13,31 @@ import javax.persistence.*;
 @ToString
 public class CommentDTO {
 
-    private Long id;
+    private Long commentId;
 
     private String content;
 
     private int commentCnt;
 
     private int commentGroup;
-    private String Date;
+    private String date;
 
     private int commentSequence;
 
-
+    private String memberId;
     private int level;
 
+    public CommentDTO(Long commentId, String content, int commentCnt, int commentGroup, String date, int commentSequence, int level,  String memberId) {
+        this.commentId = commentId;
+        this.content = content;
+        this.commentCnt = commentCnt;
+        this.commentGroup = commentGroup;
+        this.date = date;
+        this.commentSequence = commentSequence;
+        this.level = level;
+
+        this.memberId = memberId;
+    }
 
     private Bbs bbs;
 
