@@ -53,3 +53,13 @@ JpaRepository를 extends 받아서 save기능을 사용하고 있는데 회원�
 @ManyToOne(fetch = FetchType.LAZY) 연관관계 설정에서 패치 타임을 LAZY 해서 발생하는 문제다. LAZY 를 사용하게 되면 proxy 객채로 생성되어서 fetch API 에서 데이터를 가져올때 오류가 생긴다.
 
 따라서 해결방법은 Eager로 타입을 바꿔주거나 패치조인을 하거나 DTO로 반환해주는 방법이있는데 여기서는 DTO 로 변환하여 해결하였다.
+
+2-23
+
+
+![image](https://user-images.githubusercontent.com/90680271/155350662-f972c9a9-366f-4fb3-be24-78a49e7ec3bc.png)
+
+대댓글 기능은 구현했다. 코드가 좀 복잡하다...
+
+또한 대대대댓글을 계층형으로 표현해야하는데 아직 어떻게 로직을 짤지 생각중이다
+
