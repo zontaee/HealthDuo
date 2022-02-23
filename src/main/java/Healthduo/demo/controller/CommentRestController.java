@@ -40,16 +40,25 @@ public class CommentRestController {
     public List<CommentDTO> findComment(@RequestParam("bbsNo") Long bbsNo) {
         log.info("findComment(controller start)");
         List<CommentDTO> commentDTO = commentRestService.commentFind(bbsNo);
-        log.info("commentDTO.size() =" +commentDTO.size() );
+        log.info("commentDTO.size() =" + commentDTO.size());
         return commentDTO;
     }
+
     @DeleteMapping("commentDelete")
     public void commentDelete(@RequestParam("commentGroup") int commentGroup) {
         log.info("commentDelete(controller start)");
         commentRestService.commentDelete(commentGroup);
     }
+
     @PostMapping("childCommentWrite")
-    public void childCommentWrite(@RequestParam("commentGroup") int commentGroup){
+    public void childCommentWrite(@RequestParam("CommemtContent") String content,
+                                  @RequestParam("bbsNo") Long bbsNo,
+                                  @RequestParam("commentGroup") int commentGroup,
+                                  @SessionAttribute(name = "memberId", required = false) String loginMember) {
+        log.info("childCommentWrite(controller start)");
+        Bbs bbs = bbsService.bbsfindById(bbsNo);
+        Member member = memberService.memberfindById(loginMember);
+        commentRestService.childCommentSave(content,bbs,member,commentGroup);
 
     }
 }

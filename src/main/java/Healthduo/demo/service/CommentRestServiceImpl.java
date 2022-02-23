@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -34,10 +33,10 @@ public class CommentRestServiceImpl implements CommentRestService {
             commentGroup = commentRepository.findCommentGroup().get() + 1;
         }
 
-        if (commentRepository.findcommentCnt().equals(Optional.empty())) {
+        if (commentRepository.findCommentCnt().equals(Optional.empty())) {
             commentCnt = 0;
         } else {
-            commentCnt = commentRepository.findcommentCnt().get() + 1;
+            commentCnt = commentRepository.findCommentCnt().get() + 1;
         }
         log.info("commentGroup={},commentCnt={}", commentGroup, commentCnt);
         Comment comment = new Comment(content, commentCnt, commentGroup, String.valueOf(LocalDate.now()));
@@ -63,5 +62,36 @@ public class CommentRestServiceImpl implements CommentRestService {
     public void commentDelete(int commentGroup) {
         log.info("commentDelete(Service start)");
         commentRepository.deleteByCommentGroup(commentGroup);
+    }
+
+    @Override
+    public void childCommentSave(String content, Bbs bbs, Member member, int commentGroup) {
+        log.info("childCommentSave(Service start)");
+        Integer commentSequence;
+        Integer commentCnt;
+        Integer level;
+        Integer commentGroupnubmer = commentGroup;
+        if (commentRepository.findCommentCnt().equals(Optional.empty())) {
+            commentCnt = 0;
+        } else {
+            commentCnt = commentRepository.findCommentCnt().get() + 1;
+        }
+        if (commentRepository.findCommentSequence().equals(Optional.empty())) {
+            commentSequence = 0;
+        } else {
+            commentSequence = commentRepository.findCommentSequence().get() + 1;
+        }
+        if (commentRepository.findLevel().equals(Optional.empty())) {
+            level = 0;
+        } else {
+            level = commentRepository.findLevel().get() + 1;
+        }
+        log.info("commentGroup={},commentSequence={},commentSequence={},commentGroupnubmer={}"+
+                commentSequence, commentCnt,level,commentGroupnubmer);
+        Comment comment = new Comment(content, commentCnt, commentGroup, String.valueOf(LocalDate.now()),commentSequence,level);
+        comment.addBbs(bbs);
+        comment.addMember(member);
+        commentRepository.contentSave(comment);
+
     }
 }

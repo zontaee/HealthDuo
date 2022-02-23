@@ -59,6 +59,15 @@ public class Comment {
         this.Date = date;
     }
 
+    public Comment(String content, int commentCnt, int commentGroup, String date, int commentSequence, int level) {
+        this.content = content;
+        this.commentCnt = commentCnt;
+        this.commentGroup = commentGroup;
+        Date = date;
+        this.commentSequence = commentSequence;
+        this.level = level;
+    }
+
     public void addMember(Member member){
         this.member=member;
         member.getComments().add(this);

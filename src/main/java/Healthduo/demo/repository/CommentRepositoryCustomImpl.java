@@ -31,7 +31,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom{
         List<Comment> contentFind = queryFactory
                 .selectFrom(comment)
                 .where(comment.bbs.bbsNo.eq(bbsNo))
-                .orderBy(comment.commentId.desc(),comment.commentGroup.desc())
+                .orderBy(comment.commentGroup.desc(),comment.commentSequence.asc())
                 .fetch();
         return contentFind;
     }
@@ -43,4 +43,5 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom{
                 .where(comment.commentGroup.eq(commentGroup))
                 .execute();
     }
+
 }

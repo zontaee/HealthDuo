@@ -13,4 +13,5 @@ public interface CommentRestService {
 
     void commentDelete(int commentGroup);
 
+    void childCommentSave(String content, Bbs bbs, Member member, int commentGroup);
 }

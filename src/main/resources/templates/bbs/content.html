@@ -52,15 +52,6 @@
         </section>
 
 
-    <!--<div class="form-group">
-        <label th:for="content" class="col-sm-2 control-label">댓글작성</label>
-        <div class="col-sm-10">
-            <textarea class="form-control" id="content" placeholder="댓글을 입력해 주세요."></textarea>
-            <button value="등록" th:onclick="commentAdd()">등록</button>
-            <button value="test" th:onclick="test1()">test</button>
-        </div>
-    </div>-->
-
 
     <div class="btn_wrap text-center">
         <a th:href="@{/bbsLists}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
@@ -77,11 +68,13 @@
     let addDivComment = document.getElementById("comment");
     let bbsNo = "[[${bbsDTO.bbsNo}]]";
 
-    window.onload = test1();
+    window.onload = CommentList();
 
     /*<![CDATA[*/
-
-    async function test1() {
+    /**
+     *모든 댓글 불러오기
+     */
+    async function CommentList() {
         let str = "";
         let URL = "http://localhost:8080/findComment"
 
@@ -96,25 +89,49 @@
         }
         let response = await fetch(URL, options)
         let comment = await response.json();
-        console.log(comment[0].commentId);
+
         for (let i = 0; i < comment.length; i++) {
-            let childId = "child"+ i;
+            let childId = "child"+ comment[i].commentGroup;
+            let childIdLevel =  toString(comment[i].commentGroup) +"L"+ toString(comment[i].level);
+            let childIDLevelCom = "child" +childIdLevel
+            console.log("test1 childId = " +childId);
+            console.log("childIdLevel= " + typeof childIdLevel);
+            console.log("childIDLevelCom= " +childIDLevelCom);
+            if(comment[i].level > 0){
+                console.log(comment[i].level)
+                let childcommentsign="";
+                for(let j = 0; j<comment[i].level; j++){
+                    childcommentsign += "-";
 
-            str += "<div class=\'ms-3\'>";
-            str += "<div class=\'fw-bold\'> 작성자 : " + comment[i].memberId + "  작성일 : " + comment[i].date;
-            str += "<button value='button' onclick='childCommentAdd("+i+")'>댓글</button>"
-            str += "<button value='button' onclick='commentDelete(" +comment[i].commentGroup+ ")'>삭제</button></div>"
-            str += "내용 : "+ comment[i].content ;
-            str += "<div id='"+childId+"'></div>" ;
+                }
+                console.log(childcommentsign)
+                str += "<div class=\'ms-3\'>";
+                str += "<div class=\'fw-bold\'>"+childcommentsign + "작성자 : " + comment[i].memberId + "  작성일 : " + comment[i].date;
+                str += '<button value="button" onclick="childCommentAdd(\''+childIdLevel+'\')">댓글</button>';
+                str += "<button value='button' onclick='commentDelete(" +comment[i].commentGroup+ ")'>삭제</button></div><br>"
+                str +=  childcommentsign+"내용 : "+ comment[i].content ;
+                str += "<div id='"+childIDLevelCom+"'></div></div>" ;
+                str += "</div><br>"
 
+            }else {
 
-            str += "</div><br>"
+                str += "<div class=\'ms-3\'>";
+                str += "<div class=\'fw-bold\'> 작성자 : " + comment[i].memberId + "  작성일 : " + comment[i].date;
+                str += "<button value='button' onclick='childCommentAdd(" + comment[i].commentGroup + ")'>댓글</button>"
+                str += "<button value='button' onclick='commentDelete(" + comment[i].commentGroup + ")'>삭제</button></div><br>"
+                str += "내용 : " + comment[i].content;
+                str += "<div id='" + childId + "'></div>";
+                str += "</div><br>"
+            }
         }
 
         addDivComment.innerHTML = str;
 
     }
 
+    /**
+     *댓글생성 함수
+     */
     async function commentAdd() {
 
         let content = document.getElementById("content").value;
@@ -141,6 +158,10 @@
             window.location.reload(true);
         }
     }
+
+    /**
+     *댓글 삭제 함수
+     */
     async function commentDelete(commentGroup) {
         let URL = "http://localhost:8080/commentDelete"
         console.log(URL);
@@ -159,15 +180,52 @@
 
 
     }
+
+    /**
+     * childnumber -> <div id=""> id에 추가하여 대댓글을 작성할떄 댓글을 작성할 댓글 바로아래 작성창 생성
+     * childnumbertext -> <textarea> 밸류값 저장
+     * 위 두변수다 댓글에 댓글을 작성하기위해 생성
+     * 대댓글 작성폼생성 을 위한 함수
+     */
     function childCommentAdd(child){
         let str = "";
         let childnumber = "child" + child;
+        let childnumbertext = "childtext" + child;
         let childcontent = document.getElementById(childnumber);
         str +="<form className='mb-4'>";
-        str +="<textarea className='form-control' rows='3' id='"+childnumber+"' placeholder='댓글을 입력해주세요'></textarea>";
-        str +="<button value='등록' th:onclick='commentChildAdd()'>등록</button>";
-        str +="<button value='취소' th:onclick='commentChildAdd()'>취소</button><br>";
+        str +="<textarea className='form-control' rows='3' id='"+childnumbertext+"' placeholder='댓글을 입력해주세요'></textarea>";
+        str +="<button value='등록' onclick='childCommentCreate("+child+")'>등록</button>";
+        str +="<button value='취소' th:onclick='com()'>취소</button><br>";
         childcontent.innerHTML = str;
+    }
+
+    /**
+     * 대댓글 작성 데이터베이스 저장 함수
+     */
+    async function childCommentCreate(child) {
+
+        let childnumbertext = "childtext" + child;
+        alert(childnumbertext);
+        let content = document.getElementById(childnumbertext).value;
+        alert(content);
+        console.log(content);
+        let bbsNo = "[[${bbsDTO.bbsNo}]]";
+
+        let URL = "http://localhost:8080/childCommentWrite"
+
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                CommemtContent: content,
+                bbsNo: bbsNo,
+                commentGroup:child
+            })
+        }
+        let response = await fetch(URL, options)
+
     }
 </script>
 
