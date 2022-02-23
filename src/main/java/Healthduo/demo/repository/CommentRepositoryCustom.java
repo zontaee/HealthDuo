@@ -9,4 +9,5 @@ import java.util.List;
 public interface CommentRepositoryCustom  {
     Comment contentSave(Comment comment);
     List<Comment> contentFind(Long bbsNo);
+    void deleteByCommentGroup(int commentGroup );
 }

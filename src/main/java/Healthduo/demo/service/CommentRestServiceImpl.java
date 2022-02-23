@@ -58,4 +58,10 @@ public class CommentRestServiceImpl implements CommentRestService {
         }
         return commentDTO;
     }
+
+    @Override
+    public void commentDelete(int commentGroup) {
+        log.info("commentDelete(Service start)");
+        commentRepository.deleteByCommentGroup(commentGroup);
+    }
 }

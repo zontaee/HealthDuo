@@ -35,4 +35,12 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom{
                 .fetch();
         return contentFind;
     }
+
+    @Override
+    public void deleteByCommentGroup(int commentGroup) {
+        long execute = queryFactory
+                .delete(comment)
+                .where(comment.commentGroup.eq(commentGroup))
+                .execute();
+    }
 }

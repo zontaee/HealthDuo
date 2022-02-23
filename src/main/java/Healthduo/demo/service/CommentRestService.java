@@ -10,4 +10,7 @@ public interface CommentRestService {
     void CommentSave(String content, Bbs bbs, Member member);
 
     List<CommentDTO> commentFind(Long bbsNo);
+
+    void commentDelete(int commentGroup);
+
 }

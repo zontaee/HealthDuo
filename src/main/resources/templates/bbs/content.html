@@ -45,6 +45,7 @@
                     <form class="mb-4"><textarea class="form-control" rows="3"
                                                  id="content" placeholder="댓글을 입력해주세요"></textarea>
                         <button value="등록" th:onclick="commentAdd()">등록</button>
+
                     </form>
                 </div>
             </div>
@@ -75,12 +76,13 @@
 <script th:inline="javascript">
     let addDivComment = document.getElementById("comment");
     let bbsNo = "[[${bbsDTO.bbsNo}]]";
-    let str = "";
+
     window.onload = test1();
 
     /*<![CDATA[*/
 
     async function test1() {
+        let str = "";
         let URL = "http://localhost:8080/findComment"
 
         let options = {
@@ -96,9 +98,15 @@
         let comment = await response.json();
         console.log(comment[0].commentId);
         for (let i = 0; i < comment.length; i++) {
+            let childId = "child"+ i;
+
             str += "<div class=\'ms-3\'>";
-            str += "<div class=\'fw-bold\'> 작성자 : " + comment[i].memberId + "  작성일 : " + comment[i].date +  "</div>";
+            str += "<div class=\'fw-bold\'> 작성자 : " + comment[i].memberId + "  작성일 : " + comment[i].date;
+            str += "<button value='button' onclick='childCommentAdd("+i+")'>댓글</button>"
+            str += "<button value='button' onclick='commentDelete(" +comment[i].commentGroup+ ")'>삭제</button></div>"
             str += "내용 : "+ comment[i].content ;
+            str += "<div id='"+childId+"'></div>" ;
+
 
             str += "</div><br>"
         }
@@ -132,6 +140,34 @@
             alert("댓글 등록이 완료 되었습니다.")
             window.location.reload(true);
         }
+    }
+    async function commentDelete(commentGroup) {
+        let URL = "http://localhost:8080/commentDelete"
+        console.log(URL);
+        let options = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                commentGroup: commentGroup
+            })
+        }
+        await fetch(URL, options)
+        alert("댓글 삭제 완료 되었습니다.")
+        window.location.reload(true);
+
+
+    }
+    function childCommentAdd(child){
+        let str = "";
+        let childnumber = "child" + child;
+        let childcontent = document.getElementById(childnumber);
+        str +="<form className='mb-4'>";
+        str +="<textarea className='form-control' rows='3' id='"+childnumber+"' placeholder='댓글을 입력해주세요'></textarea>";
+        str +="<button value='등록' th:onclick='commentChildAdd()'>등록</button>";
+        str +="<button value='취소' th:onclick='commentChildAdd()'>취소</button><br>";
+        childcontent.innerHTML = str;
     }
 </script>
 

@@ -43,5 +43,13 @@ public class CommentRestController {
         log.info("commentDTO.size() =" +commentDTO.size() );
         return commentDTO;
     }
+    @DeleteMapping("commentDelete")
+    public void commentDelete(@RequestParam("commentGroup") int commentGroup) {
+        log.info("commentDelete(controller start)");
+        commentRestService.commentDelete(commentGroup);
+    }
+    @PostMapping("childCommentWrite")
+    public void childCommentWrite(@RequestParam("commentGroup") int commentGroup){
 
+    }
 }
