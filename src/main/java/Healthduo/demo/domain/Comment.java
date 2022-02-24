@@ -39,6 +39,8 @@ public class Comment {
     @ColumnDefault("0")
     private int level;
 
+    private String childInfo;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BBS_NO")
 
@@ -59,13 +61,14 @@ public class Comment {
         this.Date = date;
     }
 
-    public Comment(String content, int commentCnt, int commentGroup, String date, int commentSequence, int level) {
+    public Comment(String content, int commentCnt, int commentGroup, String date, int commentSequence, int level ,String childInfo) {
         this.content = content;
         this.commentCnt = commentCnt;
         this.commentGroup = commentGroup;
         Date = date;
         this.commentSequence = commentSequence;
         this.level = level;
+        this.childInfo = childInfo;
     }
 
     public void addMember(Member member){

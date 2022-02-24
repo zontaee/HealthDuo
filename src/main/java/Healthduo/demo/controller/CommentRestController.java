@@ -53,12 +53,14 @@ public class CommentRestController {
     @PostMapping("childCommentWrite")
     public void childCommentWrite(@RequestParam("CommemtContent") String content,
                                   @RequestParam("bbsNo") Long bbsNo,
-                                  @RequestParam("commentGroup") int commentGroup,
+                                  @RequestParam("childinfo") String childinfo,
+                                  @RequestParam("Seq") int seq,
                                   @SessionAttribute(name = "memberId", required = false) String loginMember) {
         log.info("childCommentWrite(controller start)");
+        log.info("seq = "   + seq);
         Bbs bbs = bbsService.bbsfindById(bbsNo);
         Member member = memberService.memberfindById(loginMember);
-        commentRestService.childCommentSave(content,bbs,member,commentGroup);
+        commentRestService.childCommentSave(content,bbs,member,childinfo, seq);
 
     }
 }

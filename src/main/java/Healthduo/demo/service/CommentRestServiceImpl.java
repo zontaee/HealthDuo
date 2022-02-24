@@ -65,30 +65,67 @@ public class CommentRestServiceImpl implements CommentRestService {
     }
 
     @Override
-    public void childCommentSave(String content, Bbs bbs, Member member, int commentGroup) {
+    public void childCommentSave(String content, Bbs bbs, Member member, String childinfo, int seq) {
         log.info("childCommentSave(Service start)");
-        Integer commentSequence;
+        String childInfo = childinfo;
+        String[] sliceChildInfo = childInfo.split("L");
+        log.info("childinfo={},sliceChildInfo[1]={},sliceChildInfo[2]={}",childInfo,sliceChildInfo[1],sliceChildInfo[2]);
+        Integer commentGroupnubmer = Integer.parseInt(sliceChildInfo[1]);
+        Integer commentSequence ;
         Integer commentCnt;
-        Integer level;
-        Integer commentGroupnubmer = commentGroup;
-        if (commentRepository.findCommentCnt().equals(Optional.empty())) {
-            commentCnt = 0;
-        } else {
+        Integer level ;
+        Integer commentSequencefinded = commentRepository.findCommentSequence(commentGroupnubmer);
+        log.info("commentSequencefinded = " + commentSequencefinded);
+
+
+        Optional<Comment> findedChildInfo = commentRepository.commentChildInfo(childInfo);
+        if(Integer.parseInt(sliceChildInfo[2])==0){
+            log.info("1");
+            commentSequence = commentSequencefinded +1;
+            level =1;
             commentCnt = commentRepository.findCommentCnt().get() + 1;
+        }else {
+
+
+            if (findedChildInfo.equals(Optional.empty())) {
+                log.info("2");
+                commentSequence = seq +1;
+                commentRepository.updateSeqyebce(seq);
+                if (commentRepository.findCommentCnt().equals(Optional.empty())) {
+                    commentCnt = 0;
+
+                } else {
+                    commentCnt = commentRepository.findCommentCnt().get() + 1;
+                }
+                if (commentRepository.findLevel().equals(Optional.empty())) {
+                    level = 0;
+                } else {
+                    level = Integer.parseInt(sliceChildInfo[2]) + 1;
+                }
+            } else {
+                log.info("3");
+                log.info("2");
+                commentSequence = seq +1;
+                commentRepository.updateSeqyebce(seq);
+
+                if (commentRepository.findCommentCnt().equals(Optional.empty())) {
+                    commentCnt = 0;
+                } else {
+                    commentCnt = commentRepository.findCommentCnt().get() + 1;
+                }
+                if (commentRepository.findLevel().equals(Optional.empty())) {
+                    level = 0;
+                } else {
+                    level = Integer.parseInt(sliceChildInfo[2]);
+                }
+            }
         }
-        if (commentRepository.findCommentSequence().equals(Optional.empty())) {
-            commentSequence = 0;
-        } else {
-            commentSequence = commentRepository.findCommentSequence().get() + 1;
-        }
-        if (commentRepository.findLevel().equals(Optional.empty())) {
-            level = 0;
-        } else {
-            level = commentRepository.findLevel().get() + 1;
-        }
-        log.info("commentGroup={},commentSequence={},commentSequence={},commentGroupnubmer={}"+
-                commentSequence, commentCnt,level,commentGroupnubmer);
-        Comment comment = new Comment(content, commentCnt, commentGroup, String.valueOf(LocalDate.now()),commentSequence,level);
+
+
+
+        log.info("commentGroupnubmer={},commentSequence={},level={},commentGroupnubmer={}"+
+                commentGroupnubmer, commentSequence,level,commentGroupnubmer);
+        Comment comment = new Comment(content, commentCnt, commentGroupnubmer, String.valueOf(LocalDate.now()),commentSequence,level,childInfo);
         comment.addBbs(bbs);
         comment.addMember(member);
         commentRepository.contentSave(comment);

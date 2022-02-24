@@ -23,7 +23,7 @@ public class CommentDTO {
     private String date;
 
     private int commentSequence;
-
+    private String childinfo;
     private String memberId;
     private int level;
 

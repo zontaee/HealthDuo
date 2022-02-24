@@ -8,11 +8,12 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 
-public class CommentRepositoryCustomImpl implements CommentRepositoryCustom{
-    private  final EntityManager em;
-    private  final JPAQueryFactory queryFactory;
+public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
+    private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     public CommentRepositoryCustomImpl(EntityManager em, JPAQueryFactory queryFactory) {
         this.em = em;
@@ -20,6 +21,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom{
     }
 
     QComment comment = new QComment("comment");
+
     @Override
     public Comment contentSave(Comment comment) {
         em.persist(comment);
@@ -31,7 +33,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom{
         List<Comment> contentFind = queryFactory
                 .selectFrom(comment)
                 .where(comment.bbs.bbsNo.eq(bbsNo))
-                .orderBy(comment.commentGroup.desc(),comment.commentSequence.asc())
+                .orderBy(comment.commentGroup.desc(), comment.commentSequence.asc())
                 .fetch();
         return contentFind;
     }
@@ -42,6 +44,56 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom{
                 .delete(comment)
                 .where(comment.commentGroup.eq(commentGroup))
                 .execute();
+    }
+
+    @Override
+    public Optional<Comment> commentChildInfo(String childinfo) {
+        Optional<Comment> comemntChildInfo = queryFactory
+                .selectFrom(comment)
+                .where(comment.childInfo.eq(childinfo))
+                .stream().findAny();
+        return comemntChildInfo;
+    }
+    @Override
+    public Integer findCommentSequence(String childinfo) {
+
+        Integer findCommentsequence = queryFactory
+                .select(comment.commentSequence.max())
+                .from(comment)
+                .where(comment.childInfo.eq(childinfo))
+                .fetchOne();
+
+        return findCommentsequence;
+    }
+
+    @Override
+    public Integer findLevel(String childinfo) {
+        Integer findLevel = queryFactory
+                .select(comment.level.max())
+                .from(comment)
+                .where(comment.childInfo.eq(childinfo))
+                .fetchOne();
+        return findLevel;
+    }
+
+    @Override
+    public Integer findCommentSequence(Integer Groupnumber) {
+        Integer findCommentSequence = queryFactory
+                .select(comment.commentSequence.max())
+                .from(comment)
+                .where(comment.commentGroup.eq(Groupnumber))
+                .fetchOne();
+        return findCommentSequence;
+    }
+
+    @Override
+    public void updateSeqyebce(int seq) {
+        long execute = queryFactory
+                .update(comment)
+                .set(comment.commentSequence, comment.commentSequence.add(1))
+                .where(comment.commentSequence.gt(seq))
+                .execute();
+
     }
 
 }

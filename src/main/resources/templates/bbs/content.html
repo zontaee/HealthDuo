@@ -31,26 +31,26 @@
         </div>
     </div>
 
-        <section class="mb-5">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <div  id="comment">
-                        <div class="ms-3">
-                            <div class="fw-bold"> 작성자 : 이름   작성일 :   </div><br>
-                            When I look at the universe and all the ways the universe wants to kill us, I find it hard
-                            to reconcile that with statements of beneficence.
-                        </div>
+    <section class="mb-5">
+        <div class="card bg-light">
+            <div class="card-body">
+                <div id="comment">
+                    <div class="ms-3">
+                        <div class="fw-bold"> 작성자 : 이름 작성일 :</div>
+                        <br>
+                        When I look at the universe and all the ways the universe wants to kill us, I find it hard
+                        to reconcile that with statements of beneficence.
                     </div>
-                    <!-- Comment form-->
-                    <form class="mb-4"><textarea class="form-control" rows="3"
-                                                 id="content" placeholder="댓글을 입력해주세요"></textarea>
-                        <button value="등록" th:onclick="commentAdd()">등록</button>
-
-                    </form>
                 </div>
-            </div>
-        </section>
+                <!-- Comment form-->
+                <form class="mb-4"><textarea class="form-control" rows="3"
+                                             id="content" placeholder="댓글을 입력해주세요"></textarea>
+                    <button value="등록" th:onclick="commentAdd()">등록</button>
 
+                </form>
+            </div>
+        </div>
+    </section>
 
 
     <div class="btn_wrap text-center">
@@ -91,41 +91,42 @@
         let comment = await response.json();
 
         for (let i = 0; i < comment.length; i++) {
-            let childId = "child"+ comment[i].commentGroup;
-            let childIdLevel =  toString(comment[i].commentGroup) +"L"+ toString(comment[i].level);
-            let childIDLevelCom = "child" +childIdLevel
-            console.log("test1 childId = " +childId);
-            console.log("childIdLevel= " + typeof childIdLevel);
-            console.log("childIDLevelCom= " +childIDLevelCom);
-            if(comment[i].level > 0){
-                console.log(comment[i].level)
-                let childcommentsign="";
-                for(let j = 0; j<comment[i].level; j++){
-                    childcommentsign += "-";
+            let childId = "child" + comment[i].commentGroup;
+            let childIdLevel = "L"+comment[i].commentGroup + "L" + comment[i].level;
+            let childIDLevelCom = "child" + childIdLevel
+            let seq = comment[i].commentSequence;
+            console.log("test1 childId = " + childId);
+            console.log("childIdLevel= " + childIdLevel);
+            console.log("childIDLevelCom= " + childIDLevelCom);
+            /* if(comment[i].level > 0){*/
+            console.log(comment[i].level)
+            let childcommentsign = "";
+            for (let j = 0; j < comment[i].level; j++) {
+                childcommentsign += "-";
 
-                }
-                console.log(childcommentsign)
-                str += "<div class=\'ms-3\'>";
-                str += "<div class=\'fw-bold\'>"+childcommentsign + "작성자 : " + comment[i].memberId + "  작성일 : " + comment[i].date;
-                str += '<button value="button" onclick="childCommentAdd(\''+childIdLevel+'\')">댓글</button>';
-                str += "<button value='button' onclick='commentDelete(" +comment[i].commentGroup+ ")'>삭제</button></div><br>"
-                str +=  childcommentsign+"내용 : "+ comment[i].content ;
-                str += "<div id='"+childIDLevelCom+"'></div></div>" ;
-                str += "</div><br>"
-
-            }else {
-
-                str += "<div class=\'ms-3\'>";
-                str += "<div class=\'fw-bold\'> 작성자 : " + comment[i].memberId + "  작성일 : " + comment[i].date;
-                str += "<button value='button' onclick='childCommentAdd(" + comment[i].commentGroup + ")'>댓글</button>"
-                str += "<button value='button' onclick='commentDelete(" + comment[i].commentGroup + ")'>삭제</button></div><br>"
-                str += "내용 : " + comment[i].content;
-                str += "<div id='" + childId + "'></div>";
-                str += "</div><br>"
             }
+            console.log(childcommentsign)
+            str += "<div class=\'ms-3\'>";
+            str += "<div class=\'fw-bold\'>" + childcommentsign + "작성자 : " + comment[i].memberId + "  작성일 : " + comment[i].date;
+            str += '<button value="button" onclick="childCommentAdd('+seq +',\'' + childIdLevel + '\' )">댓글</button>';
+            str += "<button value='button' onclick='commentDelete(" + comment[i].commentGroup + ")'>삭제</button></div><br>"
+            str += childcommentsign + "내용 : " + comment[i].content;
+            str += "<div id='" + childIDLevelCom + "'></div></div>";
+            str += "</div><br>"
+            addDivComment.innerHTML = str;
+            /*    }else {*/
+            /*
+                            str += "<div class=\'ms-3\'>";
+                            str += "<div class=\'fw-bold\'> 작성자 : " + comment[i].memberId + "  작성일 : " + comment[i].date;
+                            str += "<button value='button' onclick='childCommentAdd(" + comment[i].commentGroup + ")'>댓글</button>"
+                            str += "<button value='button' onclick='commentDelete(" + comment[i].commentGroup + ")'>삭제</button></div><br>"
+                            str += "내용 : " + comment[i].content;
+                            str += "<div id='" + childId + "'></div>";
+                            str += "</div><br>"*/
         }
 
-        addDivComment.innerHTML = str;
+
+
 
     }
 
@@ -187,23 +188,24 @@
      * 위 두변수다 댓글에 댓글을 작성하기위해 생성
      * 대댓글 작성폼생성 을 위한 함수
      */
-    function childCommentAdd(child){
+    function childCommentAdd(Seq,child) {
         let str = "";
+        let seq = Seq;
         let childnumber = "child" + child;
         let childnumbertext = "childtext" + child;
         let childcontent = document.getElementById(childnumber);
-        str +="<form className='mb-4'>";
-        str +="<textarea className='form-control' rows='3' id='"+childnumbertext+"' placeholder='댓글을 입력해주세요'></textarea>";
-        str +="<button value='등록' onclick='childCommentCreate("+child+")'>등록</button>";
-        str +="<button value='취소' th:onclick='com()'>취소</button><br>";
+        str += "<form className='mb-4'>";
+        str += "<textarea className='form-control' rows='3' id='" + childnumbertext + "' placeholder='댓글을 입력해주세요'></textarea>";
+        str += '<button value="button" onclick="childCommentWirte('+seq +',\'' + child + '\')">입력</button>';
+        str += "<button value='취소' th:onclick='com()'>취소</button><br>";
         childcontent.innerHTML = str;
     }
 
     /**
      * 대댓글 작성 데이터베이스 저장 함수
      */
-    async function childCommentCreate(child) {
-
+    async function childCommentWirte(Seq,child) {
+        let seq = Seq;
         let childnumbertext = "childtext" + child;
         alert(childnumbertext);
         let content = document.getElementById(childnumbertext).value;
@@ -221,10 +223,13 @@
             body: new URLSearchParams({
                 CommemtContent: content,
                 bbsNo: bbsNo,
-                commentGroup:child
+                childinfo: child,
+                Seq : seq
             })
         }
         let response = await fetch(URL, options)
+        alert("댓글 등록이 완료 되었습니다.")
+        window.location.reload(true);
 
     }
 </script>
