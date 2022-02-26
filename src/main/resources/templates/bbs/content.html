@@ -92,9 +92,10 @@
 
         for (let i = 0; i < comment.length; i++) {
             let childId = "child" + comment[i].commentGroup;
-            let childIdLevel = "L"+comment[i].commentGroup + "L" + comment[i].level;
+            let childIdLevel = "L"+comment[i].commentGroup + "L" + comment[i].level +"L" +comment[i].checkInfo;
             let childIDLevelCom = "child" + childIdLevel
             let seq = comment[i].commentSequence;
+            let div = "divId"+ seq;
             console.log("test1 childId = " + childId);
             console.log("childIdLevel= " + childIdLevel);
             console.log("childIDLevelCom= " + childIDLevelCom);
@@ -111,7 +112,7 @@
             str += '<button value="button" onclick="childCommentAdd('+seq +',\'' + childIdLevel + '\' )">댓글</button>';
             str += "<button value='button' onclick='commentDelete(" + comment[i].commentGroup + ")'>삭제</button></div><br>"
             str += childcommentsign + "내용 : " + comment[i].content;
-            str += "<div id='" + childIDLevelCom + "'></div></div>";
+            str += "<div id='" + div + "'></div></div>";
             str += "</div><br>"
             addDivComment.innerHTML = str;
             /*    }else {*/
@@ -191,9 +192,10 @@
     function childCommentAdd(Seq,child) {
         let str = "";
         let seq = Seq;
+        let div = "divId"+ seq;
         let childnumber = "child" + child;
         let childnumbertext = "childtext" + child;
-        let childcontent = document.getElementById(childnumber);
+        let childcontent = document.getElementById(div);
         str += "<form className='mb-4'>";
         str += "<textarea className='form-control' rows='3' id='" + childnumbertext + "' placeholder='댓글을 입력해주세요'></textarea>";
         str += '<button value="button" onclick="childCommentWirte('+seq +',\'' + child + '\')">입력</button>';

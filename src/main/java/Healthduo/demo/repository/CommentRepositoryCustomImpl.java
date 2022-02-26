@@ -88,10 +88,20 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
 
     @Override
     public void updateSeqyebce(int seq) {
-        long execute = queryFactory
+         queryFactory
                 .update(comment)
                 .set(comment.commentSequence, comment.commentSequence.add(1))
                 .where(comment.commentSequence.gt(seq))
+                .execute();
+
+    }
+
+    @Override
+    public void updateCheck(int seq) {
+        queryFactory
+                .update(comment)
+                .set(comment.checkInfo,1)
+                .where(comment.commentSequence.eq(seq))
                 .execute();
 
     }

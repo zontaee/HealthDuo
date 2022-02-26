@@ -40,16 +40,17 @@ public class Comment {
     private int level;
 
     private String childInfo;
-
+    @ColumnDefault("0")
+    private int checkInfo;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BBS_NO")
-
     private Bbs bbs;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
-
     private Member member;
+
+
 
     public Comment() {
     }
@@ -61,7 +62,7 @@ public class Comment {
         this.Date = date;
     }
 
-    public Comment(String content, int commentCnt, int commentGroup, String date, int commentSequence, int level ,String childInfo) {
+    public Comment(String content, int commentCnt, int commentGroup, String date, int commentSequence, int level ,String childInfo, int checkInfo) {
         this.content = content;
         this.commentCnt = commentCnt;
         this.commentGroup = commentGroup;
@@ -69,6 +70,9 @@ public class Comment {
         this.commentSequence = commentSequence;
         this.level = level;
         this.childInfo = childInfo;
+        this.checkInfo = checkInfo;
+
+
     }
 
     public void addMember(Member member){

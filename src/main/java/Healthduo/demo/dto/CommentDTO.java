@@ -21,6 +21,7 @@ public class CommentDTO {
 
     private int commentGroup;
     private String date;
+    private int checkInfo;
 
     private int commentSequence;
     private String childinfo;

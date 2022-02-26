@@ -74,6 +74,7 @@ public class CommentRestServiceImpl implements CommentRestService {
         Integer commentSequence ;
         Integer commentCnt;
         Integer level ;
+        Integer check = 0;
         Integer commentSequencefinded = commentRepository.findCommentSequence(commentGroupnubmer);
         log.info("commentSequencefinded = " + commentSequencefinded);
 
@@ -87,10 +88,11 @@ public class CommentRestServiceImpl implements CommentRestService {
         }else {
 
 
-            if (findedChildInfo.equals(Optional.empty())) {
+            if (Integer.parseInt(sliceChildInfo[3])==0) {
                 log.info("2");
                 commentSequence = seq +1;
                 commentRepository.updateSeqyebce(seq);
+                commentRepository.updateCheck(seq);
                 if (commentRepository.findCommentCnt().equals(Optional.empty())) {
                     commentCnt = 0;
 
@@ -104,7 +106,6 @@ public class CommentRestServiceImpl implements CommentRestService {
                 }
             } else {
                 log.info("3");
-                log.info("2");
                 commentSequence = seq +1;
                 commentRepository.updateSeqyebce(seq);
 
@@ -125,7 +126,7 @@ public class CommentRestServiceImpl implements CommentRestService {
 
         log.info("commentGroupnubmer={},commentSequence={},level={},commentGroupnubmer={}"+
                 commentGroupnubmer, commentSequence,level,commentGroupnubmer);
-        Comment comment = new Comment(content, commentCnt, commentGroupnubmer, String.valueOf(LocalDate.now()),commentSequence,level,childInfo);
+        Comment comment = new Comment(content, commentCnt, commentGroupnubmer, String.valueOf(LocalDate.now()),commentSequence,level,childInfo ,check);
         comment.addBbs(bbs);
         comment.addMember(member);
         commentRepository.contentSave(comment);
