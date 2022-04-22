@@ -11,7 +11,7 @@ public interface CommentRestService {
 
     List<CommentDTO> commentFind(Long bbsNo);
 
-    void commentDelete(int commentGroup);
+    void commentDelete(int commentGroup, int commentSequence);
 
     void childCommentSave(String content, Bbs bbs, Member member, String childinfo,int seq);
 

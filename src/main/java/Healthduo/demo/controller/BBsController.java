@@ -29,22 +29,24 @@ public class BBsController {
 
 
     @GetMapping("/bbsLists")
-    public String BbsList(@PageableDefault() Pageable pageable , Model model) throws Exception {
+    public String BbsList(@PageableDefault() Pageable pageable, Model model) throws Exception {
         Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable);
-        model.addAttribute("bbsDTO",bbsDTO);
-        return"bbs/bbsList";
+        model.addAttribute("bbsDTO", bbsDTO);
+        return "bbs/bbsList";
     }
+
     @RequestMapping("/write")
-    public String BbsWrite(Model model){
+    public String BbsWrite(Model model) {
         log.info("BbsWrite(controller start)");
         BbsDTO bbsDTO = new BbsDTO();
-        model.addAttribute("bbsDTO",bbsDTO);
+        model.addAttribute("bbsDTO", bbsDTO);
         return "bbs/write";
     }
+
     @PostMapping("/bbsSave")
-    public String BbsSave(Bbs bbs, Pageable pageable , Model model,
+    public String BbsSave(Bbs bbs, Pageable pageable, Model model,
                           @SessionAttribute(name = "memberId", required = false)
-            String loginMember) throws Exception {
+                                  String loginMember) throws Exception {
         log.info("bbsSave(controller start)");
         log.info("memberfindById(controller start)");
         Member member = memberService.memberfindById(loginMember);
@@ -54,44 +56,46 @@ public class BBsController {
         bbsService.bbsSave(bbs);
         log.info("bbsList(controller start)");
         Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable);
-        model.addAttribute("bbsDTO",bbsDTO);
+        model.addAttribute("bbsDTO", bbsDTO);
         return "bbs/bbsList";
     }
+
     @GetMapping("/content/{bbsNo}")
-    public String BbsContent(@PathVariable Long bbsNo, Model model){
+    public String BbsContent(@PathVariable Long bbsNo, Model model) {
         log.info("BbsContent(controller start)");
         Optional<Bbs> bbs = bbsService.findContent(bbsNo);
         BbsDTO bbsDTO = method.getBbsDTO(bbs);
-        model.addAttribute("bbsDTO",bbsDTO);
+        model.addAttribute("bbsDTO", bbsDTO);
         log.info("bbs_hit = " + bbsDTO.getBbsHit());
         return "bbs/content";
     }
+
     @GetMapping("/updateForm/{bbsNo}")
-    public String findContentUpdate(@PathVariable Long bbsNo, Model model){
+    public String findContentUpdate(@PathVariable Long bbsNo, Model model) {
         log.info("BbsContent(controller start)");
         Optional<Bbs> bbs = bbsService.findContentUpdate(bbsNo);
         BbsDTO bbsDTO = method.getBbsDTO(bbs);
-        model.addAttribute("bbsDTO",bbsDTO);
+        model.addAttribute("bbsDTO", bbsDTO);
         return "bbs/updateForm";
     }
 
 
-
     @PostMapping("/bbsUpdate")
-    public String ContentUpdate(Bbs bbs, Model model){
+    public String ContentUpdate(Bbs bbs, Model model) {
         log.info("ContentUpdate(controller start)");
-        Optional<Bbs> bbsUpdate = bbsService. ContentUpdate(bbs);
+        Optional<Bbs> bbsUpdate = bbsService.ContentUpdate(bbs);
         BbsDTO bbsDTO = method.getBbsDTO(bbsUpdate);
-        model.addAttribute("bbsDTO",bbsDTO);
+        model.addAttribute("bbsDTO", bbsDTO);
         return "bbs/content";
 
     }
+
     @GetMapping("/delete/{bbsNo}")
-    private String deleteContent(@PathVariable Long bbsNo,Pageable pageable,Model model) throws Exception {
+    private String deleteContent(@PathVariable Long bbsNo, Pageable pageable, Model model) throws Exception {
         log.info("deleteContent(controller start)");
         bbsService.deleteContent(bbsNo);
         Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable);
-        model.addAttribute("bbsDTO",bbsDTO);
+        model.addAttribute("bbsDTO", bbsDTO);
         return "bbs/bbsList";
     }
 

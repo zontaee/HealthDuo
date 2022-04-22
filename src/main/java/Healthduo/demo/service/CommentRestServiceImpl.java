@@ -48,20 +48,22 @@ public class CommentRestServiceImpl implements CommentRestService {
     @Override
     public List<CommentDTO> commentFind(Long bbsNo) {
         log.info("commentFind(Service start)");
-        List<CommentDTO>  commentDTO = new ArrayList<>();
+        List<CommentDTO> commentDTO = new ArrayList<>();
         List<Comment> comments = commentRepository.contentFind(bbsNo);
         for (Comment comment : comments) {
-            CommentDTO recommentDTO = new CommentDTO(comment.getCommentId(),comment.getContent(),comment.getCommentCnt(),
-                    comment.getCommentGroup(),comment.getDate(),comment.getCommentSequence(),comment.getLevel(),comment.getMember().getMemberId());
+            CommentDTO recommentDTO = new CommentDTO(comment.getCommentId(), comment.getContent(), comment.getCommentCnt(),
+                    comment.getCommentGroup(), comment.getDate(), comment.getCommentSequence(), comment.getLevel(), comment.getMember().getMemberId());
             commentDTO.add(recommentDTO);
         }
         return commentDTO;
     }
 
     @Override
-    public void commentDelete(int commentGroup) {
+    public void commentDelete(int commentGroup ,int commentSequence) {
         log.info("commentDelete(Service start)");
-        commentRepository.deleteByCommentGroup(commentGroup);
+        commentRepository.deleteComment(commentGroup,commentSequence);
+
+
     }
 
     @Override
@@ -69,28 +71,28 @@ public class CommentRestServiceImpl implements CommentRestService {
         log.info("childCommentSave(Service start)");
         String childInfo = childinfo;
         String[] sliceChildInfo = childInfo.split("L");
-        log.info("childinfo={},sliceChildInfo[1]={},sliceChildInfo[2]={}",childInfo,sliceChildInfo[1],sliceChildInfo[2]);
+        log.info("childinfo={},sliceChildInfo[1]={},sliceChildInfo[2]={}", childInfo, sliceChildInfo[1], sliceChildInfo[2]);
         Integer commentGroupnubmer = Integer.parseInt(sliceChildInfo[1]);
-        Integer commentSequence ;
+        Integer commentSequence;
         Integer commentCnt;
-        Integer level ;
+        Integer level;
         Integer check = 0;
         Integer commentSequencefinded = commentRepository.findCommentSequence(commentGroupnubmer);
         log.info("commentSequencefinded = " + commentSequencefinded);
 
 
         Optional<Comment> findedChildInfo = commentRepository.commentChildInfo(childInfo);
-        if(Integer.parseInt(sliceChildInfo[2])==0){
+        if (Integer.parseInt(sliceChildInfo[2]) == 0) {
             log.info("1");
-            commentSequence = commentSequencefinded +1;
-            level =1;
+            commentSequence = commentSequencefinded + 1;
+            level = 1;
             commentCnt = commentRepository.findCommentCnt().get() + 1;
-        }else {
+        } else {
 
 
-            if (Integer.parseInt(sliceChildInfo[3])==0) {
+            if (Integer.parseInt(sliceChildInfo[3]) == 0) {
                 log.info("2");
-                commentSequence = seq +1;
+                commentSequence = seq + 1;
                 commentRepository.updateSeqyebce(seq);
                 commentRepository.updateCheck(seq);
                 if (commentRepository.findCommentCnt().equals(Optional.empty())) {
@@ -106,7 +108,7 @@ public class CommentRestServiceImpl implements CommentRestService {
                 }
             } else {
                 log.info("3");
-                commentSequence = seq +1;
+                commentSequence = seq + 1;
                 commentRepository.updateSeqyebce(seq);
 
                 if (commentRepository.findCommentCnt().equals(Optional.empty())) {
@@ -121,15 +123,11 @@ public class CommentRestServiceImpl implements CommentRestService {
                 }
             }
         }
-
-
-
-        log.info("commentGroupnubmer={},commentSequence={},level={},commentGroupnubmer={}"+
-                commentGroupnubmer, commentSequence,level,commentGroupnubmer);
-        Comment comment = new Comment(content, commentCnt, commentGroupnubmer, String.valueOf(LocalDate.now()),commentSequence,level,childInfo ,check);
+        log.info("commentGroupnubmer={},commentSequence={},level={},commentGroupnubmer={}" +
+                commentGroupnubmer, commentSequence, level, commentGroupnubmer);
+        Comment comment = new Comment(content, commentCnt, commentGroupnubmer, String.valueOf(LocalDate.now()), commentSequence, level, childInfo, check);
         comment.addBbs(bbs);
         comment.addMember(member);
         commentRepository.contentSave(comment);
-
     }
 }

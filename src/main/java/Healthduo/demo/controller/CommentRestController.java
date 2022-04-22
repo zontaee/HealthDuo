@@ -45,9 +45,12 @@ public class CommentRestController {
     }
 
     @DeleteMapping("commentDelete")
-    public void commentDelete(@RequestParam("commentGroup") int commentGroup) {
+    public void commentDelete(@RequestParam("commentGroup") int commentGroup,
+                              @RequestParam("commentSequence") int  commentSequence) {
         log.info("commentDelete(controller start)");
-        commentRestService.commentDelete(commentGroup);
+        log.info("-------------------------------");
+        log.info("commentGroup={}  ,commentSequence={}" , commentGroup,commentSequence);
+        commentRestService.commentDelete(commentGroup, commentSequence);
     }
 
     @PostMapping("childCommentWrite")

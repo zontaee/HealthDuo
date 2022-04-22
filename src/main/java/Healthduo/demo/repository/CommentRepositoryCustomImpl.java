@@ -54,6 +54,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
                 .stream().findAny();
         return comemntChildInfo;
     }
+
     @Override
     public Integer findCommentSequence(String childinfo) {
 
@@ -88,7 +89,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
 
     @Override
     public void updateSeqyebce(int seq) {
-         queryFactory
+        queryFactory
                 .update(comment)
                 .set(comment.commentSequence, comment.commentSequence.add(1))
                 .where(comment.commentSequence.gt(seq))
@@ -100,10 +101,20 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
     public void updateCheck(int seq) {
         queryFactory
                 .update(comment)
-                .set(comment.checkInfo,1)
+                .set(comment.checkInfo, 1)
                 .where(comment.commentSequence.eq(seq))
                 .execute();
 
     }
+
+    @Override
+    public void deleteComment(int commentGroup, int commentSequence) {
+        queryFactory
+                .delete(comment)
+                .where(comment.commentGroup.eq(commentGroup), comment.commentSequence.eq(commentSequence))
+                .execute();
+
+    }
+
 
 }
