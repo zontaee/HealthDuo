@@ -22,12 +22,25 @@ public class Method {
         Page<Bbs> bbsList = bbsService.bbsList(pageable);
         Page<BbsDTO> bbsDTo =bbsList.map(m-> new BbsDTO(m.getBbsNo(),m.getBbsTitle(),m.getBbsContent()
                 ,m.getBbsDate(),m.getBbsHit(),m.getBbsNotice(),m.getBbsSecret(),m.getMember()));
+        log.info("BbsListPaging start");
         log.info("총 element 수 : {}, 전체 page 수 : {}, 페이지에 표시할 element 수 : {}, 현재 페이지 index : {}, 현재 페이지의 element 수 : {}",
                 bbsDTo.getTotalElements(), bbsDTo.getTotalPages(), bbsDTo.getSize(),
                 bbsDTo.getNumber(), bbsDTo.getNumberOfElements());
 
         return bbsDTo;
     }
+    public Page<BbsDTO> BbsListSerchPaging(Pageable pageable, String bbsListSearch , String searchText) throws Exception {
+        Page<Bbs> bbsList = bbsService.bbsListSearch(pageable ,bbsListSearch ,searchText);
+        Page<BbsDTO> bbsDTo =bbsList.map(m-> new BbsDTO(m.getBbsNo(),m.getBbsTitle(),m.getBbsContent()
+                ,m.getBbsDate(),m.getBbsHit(),m.getBbsNotice(),m.getBbsSecret(),m.getMember()));
+        log.info("BbsListSerchPaging start");
+        log.info("총 element 수 : {}, 전체 page 수 : {}, 페이지에 표시할 element 수 : {}, 현재 페이지 index : {}, 현재 페이지의 element 수 : {}",
+                bbsDTo.getTotalElements(), bbsDTo.getTotalPages(), bbsDTo.getSize(),
+                bbsDTo.getNumber(), bbsDTo.getNumberOfElements());
+
+        return bbsDTo;
+    }
+
     //bbsDto
     public BbsDTO getBbsDTO(Optional<Bbs> bbs) {
         BbsDTO bbsDTO = new BbsDTO(bbs.get().getBbsNo(), bbs.get().getBbsTitle(), bbs.get().getBbsContent()

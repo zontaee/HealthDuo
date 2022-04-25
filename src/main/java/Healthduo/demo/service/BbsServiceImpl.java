@@ -28,6 +28,13 @@ public class BbsServiceImpl implements BbsService  {
 
         return bbsRepository.findAll(pageable);
     }
+    @Override
+    public Page<Bbs> bbsListSearch(Pageable pageable, String bbsListSearch, String searchText) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10,Sort.by(Sort.Direction.DESC,"bbsNo"));
+
+        return bbsRepository.findBySearch(searchText,pageable);
+    }
 
     @Override
     public void bbsSave(Bbs bbs) {
@@ -73,4 +80,6 @@ public class BbsServiceImpl implements BbsService  {
         Bbs bbs = bbsFinded.get();
         return bbs;
     }
+
+
 }

@@ -22,4 +22,6 @@ public interface BbsService  {
     void deleteContent(Long bbsNo);
 
     Bbs bbsfindById(Long bbsNo);
+
+    Page<Bbs> bbsListSearch(Pageable pageable, String bbsListSearch, String searchText);
 }
