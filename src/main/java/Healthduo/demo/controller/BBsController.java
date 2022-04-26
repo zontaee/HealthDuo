@@ -35,21 +35,22 @@ public class BBsController {
         return "bbs/bbsList";
     }
 
-    @PostMapping("bbsListSearch")
+    @RequestMapping("bbsListSearch")
     public String bbsListSerch(@PageableDefault() Pageable pageable, Model model,
                                @RequestParam("searchField") String bbsListSearch,
                                @RequestParam("searchText") String searchText) throws Exception {
-        log.info("bbsListSerch(controller start)" );
-        log.info("Pageable  =" + pageable );
-        log.info("searchField = "+  bbsListSearch );
-        log.info("searchText = "+  searchText );
-        Page<BbsDTO> bbsDTO = method.BbsListSerchPaging(pageable,bbsListSearch,searchText);
-        method.BbsListSerchPaging(pageable,bbsListSearch,searchText);
+        log.info("bbsListSerch(controller start)");
+        log.info("Pageable  =" + pageable);
+        log.info("searchField = " + bbsListSearch);
+        log.info("searchText = " + searchText);
+        Page<BbsDTO> bbsDTO = method.BbsListSerchPaging(pageable, bbsListSearch, searchText);
+        method.BbsListSerchPaging(pageable, bbsListSearch, searchText);
         model.addAttribute("bbsDTO", bbsDTO);
+        model.addAttribute("searchField", bbsListSearch);
+        model.addAttribute("searchText", searchText);
 
 
-
-        return "bbs/bbsList";
+        return "bbs/bbsListSearch";
     }
 
     @RequestMapping("/write")

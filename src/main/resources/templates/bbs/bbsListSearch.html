@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <style>
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+
+                <th class="text-center">번호</th>
+                <th class="text-center">제목</th>
+                <th class="text-center">작성일</th>
+                <th class="text-center">작성자</th>
+                <th class="text-center">조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bbs : ${bbsDTO}">
+                <td class="col-1 text-center" th:text="${bbs.bbsNo}"></td>
+                <td class="col-5 text-center"><a th:text="${bbs.bbsTitle}"
+                                                 th:href="@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}"></a></td>
+                <!--th:onclick="|location.href='@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}'|"-->
+                <td class="col-2 text-center" th:text="${bbs.bbsDate}"></td>
+                <td class="col-2 text-center" th:text="${bbs.member.memberId}"></td>
+                <td class="col-2 text-center" th:text="${bbs.bbsHit}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav style="text-align: center;">
+        <ul class="pagination"
+            th:with="start=${T(Math).floor(bbsDTO.number/10)*10 + 1},
+                    last=(${start + 9 < bbsDTO.totalPages ? start + 9 : bbsDTO.totalPages})">
+            <li>
+                <a th:href="@{/bbsListSearch(page=1,searchField=${searchField},searchText=${searchText})}" aria-label="First">
+                    <span aria-hidden="true">First</span>
+                </a>
+            </li>
+
+            <li th:class="${bbsDTO.first} ? 'disabled'">
+                <a th:href="${bbsDTO.first} ? '#' :@{/bbsListSearch(page=${bbsDTO.number},searchField=${searchField},searchText=${searchText})}" aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+
+            <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == bbsDTO.number + 1} ? 'active'">
+                <a th:text="${page}" th:href="@{/bbsListSearch(page=${page},searchField=${searchField},searchText=${searchText})}"></a>
+            </li>
+
+            <li th:class="${bbsDTO.last} ? 'disabled'">
+                <a th:href="${bbsDTO.last} ? '#' : @{/bbsListSearch(page=${bbsDTO.number + 2},searchField=${searchField},searchText=${searchText})}" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/bbsListSearch(page=${bbsDTO.totalPages},searchField=${searchField},searchText=${searchText})}" aria-label="Last">
+                    <span aria-hidden="true">Last</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="row"></div>
+
+    <form method="post" id = "search" name="search" action="bbsListSearch">
+        <table class="pull-right">
+            <tr>
+                <td><select class="form-control" name="searchField">
+                    <option value="0">선택</option>
+                    <option value="bbsTitle">제목</option>
+                    <option value="userID">작성자</option>
+                </select></td>
+                <td><input type="text" class="form-control"
+                           placeholder="검색어 입력" name="searchText" maxlength="100"></td>
+                <td>
+                    <button type="submit" class="btn btn-success">검색</button>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+    </div>
+
+
+    <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='items.html'"
+                th:onclick="|location.href='@{/write}'|"
+                type="button">글 작성하기
+        </button>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+
+</div> <!-- /container -->
+
+</body>
+</html>
