@@ -28,12 +28,25 @@ public class BbsServiceImpl implements BbsService  {
 
         return bbsRepository.findAll(pageable);
     }
+
     @Override
     public Page<Bbs> bbsListSearch(Pageable pageable, String bbsListSearch, String searchText) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10,Sort.by(Sort.Direction.DESC,"bbsNo"));
+        Page<Bbs> bySearch = bbsRepository.findBySearchContent(searchText, pageable);
+        switch (bbsListSearch) {
+            case "bbsTitle":
+                bySearch = bbsRepository.findBySearchTitle(searchText,pageable);
+                break;
+            case "bbsContent":
+                bySearch = bbsRepository.findBySearchContent(searchText,pageable);
+                break;
+            case "userID":
+                bySearch = bbsRepository.findBySearchUserID(searchText,pageable);
+                break;
 
-        return bbsRepository.findBySearch(searchText,pageable);
+        }
+        return bySearch;
     }
 
     @Override

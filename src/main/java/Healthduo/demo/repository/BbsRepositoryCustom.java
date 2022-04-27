@@ -9,5 +9,7 @@ import java.util.List;
 
 public interface BbsRepositoryCustom {
     Bbs BbsSave(Bbs bbs);
-    Page<Bbs> findBySearch(String contents, Pageable pageable);
+    Page<Bbs> findBySearchContent(String contents, Pageable pageable);
+    Page<Bbs> findBySearchTitle(String title, Pageable pageable);
+    Page<Bbs> findBySearchUserID(String UserID, Pageable pageable);
 }

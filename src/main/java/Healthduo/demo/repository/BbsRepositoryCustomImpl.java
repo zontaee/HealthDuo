@@ -28,7 +28,7 @@ public class BbsRepositoryCustomImpl implements BbsRepositoryCustom{
     }
 
     @Override
-    public Page<Bbs> findBySearch(String contents, Pageable pageable) {
+    public Page<Bbs> findBySearchContent(String contents, Pageable pageable) {
         QueryResults<Bbs> results = queryFactory
                 .select(bbs)
                 .from(bbs)
@@ -42,5 +42,37 @@ public class BbsRepositoryCustomImpl implements BbsRepositoryCustom{
 
         return new PageImpl<>(content,pageable,total);
 
+    }
+
+    @Override
+    public Page<Bbs> findBySearchTitle(String title, Pageable pageable) {
+        QueryResults<Bbs> results = queryFactory
+                .select(bbs)
+                .from(bbs)
+                .where(bbs.bbsTitle.like("%"+title+"%"))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<Bbs> content = results.getResults();
+        long total = results.getTotal();
+
+        return new PageImpl<>(content,pageable,total);
+    }
+
+    @Override
+    public Page<Bbs> findBySearchUserID(String UserID, Pageable pageable) {
+        QueryResults<Bbs> results = queryFactory
+                .select(bbs)
+                .from(bbs)
+                .where(bbs.member.memberId.like("%"+UserID+"%"))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<Bbs> content = results.getResults();
+        long total = results.getTotal();
+
+        return new PageImpl<>(content,pageable,total);
     }
 }
