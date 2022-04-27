@@ -43,6 +43,7 @@ public class BBsController {
         log.info("Pageable  =" + pageable);
         log.info("searchField = " + bbsListSearch);
         log.info("searchText = " + searchText);
+
         Page<BbsDTO> bbsDTO = method.BbsListSerchPaging(pageable, bbsListSearch, searchText);
         method.BbsListSerchPaging(pageable, bbsListSearch, searchText);
         model.addAttribute("bbsDTO", bbsDTO);
