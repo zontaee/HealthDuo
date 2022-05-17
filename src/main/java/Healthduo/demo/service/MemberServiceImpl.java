@@ -11,8 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+
     @Override
     public void memberSave(Member member) {
         log.info("memberSave(controller start");
@@ -27,15 +28,15 @@ public class MemberServiceImpl implements MemberService{
         log.info("memberSave(Service start");
         Member findMember = memberRepository.findById(member.getMemberId()).orElse(null);
         //admin 추가 고려
-        if(findMember == null){
+        if (findMember == null) {
             result = 1;//등록된 아이디가 없습니다.
             return result;
-        }else {
-            if(findMember.getMemberPassword().equals(member.getMemberPassword())){
-                result =2;
+        } else {
+            if (findMember.getMemberPassword().equals(member.getMemberPassword())) {
+                result = 2;
                 return result;//아이디 비밀번호 둘다 일치
-            }else {
-                result =3;
+            } else {
+                result = 3;
                 return result;//등록된 비밀번호가 틀렸습니다.
             }
         }
