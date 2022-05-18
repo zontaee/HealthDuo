@@ -27,7 +27,14 @@ public class BBsController {
     private final BbsService bbsService;
     private final MemberService memberService;
 
-
+    /**
+     * 게시판 글 목록(페이징)
+     *
+     * @param pageable
+     * @param model
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/bbsLists")
     public String BbsList(@PageableDefault() Pageable pageable, Model model) throws Exception {
         Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable);
@@ -35,15 +42,21 @@ public class BBsController {
         return "bbs/bbsList";
     }
 
+    /**
+     * 게시판 검색 결과
+     *
+     * @param pageable
+     * @param model
+     * @param bbsListSearch
+     * @param searchText
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("bbsListSearch")
     public String bbsListSerch(@PageableDefault() Pageable pageable, Model model,
                                @RequestParam("searchField") String bbsListSearch,
                                @RequestParam("searchText") String searchText) throws Exception {
         log.info("bbsListSerch(controller start)");
-        log.info("Pageable  =" + pageable);
-        log.info("searchField = " + bbsListSearch);
-        log.info("searchText = " + searchText);
-
         Page<BbsDTO> bbsDTO = method.BbsListSerchPaging(pageable, bbsListSearch, searchText);
         method.BbsListSerchPaging(pageable, bbsListSearch, searchText);
         model.addAttribute("bbsDTO", bbsDTO);
@@ -54,6 +67,12 @@ public class BBsController {
         return "bbs/bbsListSearch";
     }
 
+    /**
+     * 글작성
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping("/write")
     public String BbsWrite(Model model) {
         log.info("BbsWrite(controller start)");
@@ -62,12 +81,21 @@ public class BBsController {
         return "bbs/write";
     }
 
+    /**
+     * 글 저장(서버)
+     *
+     * @param bbs
+     * @param pageable
+     * @param model
+     * @param loginMember
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/bbsSave")
     public String BbsSave(Bbs bbs, Pageable pageable, Model model,
                           @SessionAttribute(name = "memberId", required = false)
                                   String loginMember) throws Exception {
         log.info("bbsSave(controller start)");
-        log.info("memberfindById(controller start)");
         Member member = memberService.memberfindById(loginMember);
         bbs.setMember(member);
         bbs.setBbsDate(String.valueOf(LocalDate.now()));
@@ -79,6 +107,13 @@ public class BBsController {
         return "bbs/bbsList";
     }
 
+    /**
+     * 게시글 보기
+     *
+     * @param bbsNo
+     * @param model
+     * @return
+     */
     @GetMapping("/content/{bbsNo}")
     public String BbsContent(@PathVariable Long bbsNo, Model model) {
         log.info("BbsContent(controller start)");
@@ -89,6 +124,13 @@ public class BBsController {
         return "bbs/content";
     }
 
+    /**
+     * 게시글 수정
+     *
+     * @param bbsNo
+     * @param model
+     * @return
+     */
     @GetMapping("/updateForm/{bbsNo}")
     public String findContentUpdate(@PathVariable Long bbsNo, Model model) {
         log.info("BbsContent(controller start)");
@@ -98,6 +140,13 @@ public class BBsController {
         return "bbs/updateForm";
     }
 
+    /**
+     * 게시글 업데이드(서버)
+     *
+     * @param bbs
+     * @param model
+     * @return
+     */
 
     @PostMapping("/bbsUpdate")
     public String ContentUpdate(Bbs bbs, Model model) {
@@ -109,6 +158,15 @@ public class BBsController {
 
     }
 
+    /**
+     * 글삭제
+     *
+     * @param bbsNo
+     * @param pageable
+     * @param model
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/delete/{bbsNo}")
     private String deleteContent(@PathVariable Long bbsNo, Pageable pageable, Model model) throws Exception {
         log.info("deleteContent(controller start)");

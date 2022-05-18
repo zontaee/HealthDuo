@@ -17,7 +17,13 @@ import java.util.Optional;
 public class Method {
 
     private final BbsService bbsService;
-    //bbsList Page
+
+    /**
+     * bbs페이징 DTO 변환 메서드
+     * @param pageable
+     * @return
+     * @throws Exception
+     */
     public Page<BbsDTO> BbsListPaging(Pageable pageable) throws Exception {
         Page<Bbs> bbsList = bbsService.bbsList(pageable);
         Page<BbsDTO> bbsDTo =bbsList.map(m-> new BbsDTO(m.getBbsNo(),m.getBbsTitle(),m.getBbsContent()
@@ -29,6 +35,15 @@ public class Method {
 
         return bbsDTo;
     }
+
+    /**
+     * bbs검색후 페이징 DTO 변환 메서드
+     * @param pageable
+     * @param bbsListSearch
+     * @param searchText
+     * @return
+     * @throws Exception
+     */
     public Page<BbsDTO> BbsListSerchPaging(Pageable pageable, String bbsListSearch , String searchText) throws Exception {
         Page<Bbs> bbsList = bbsService.bbsListSearch(pageable ,bbsListSearch ,searchText);
         Page<BbsDTO> bbsDTo =bbsList.map(m-> new BbsDTO(m.getBbsNo(),m.getBbsTitle(),m.getBbsContent()
@@ -41,7 +56,11 @@ public class Method {
         return bbsDTo;
     }
 
-    //bbsDto
+    /**
+     * bbs DTO 변환 메서드
+     * @param bbs
+     * @return
+     */
     public BbsDTO getBbsDTO(Optional<Bbs> bbs) {
         BbsDTO bbsDTO = new BbsDTO(bbs.get().getBbsNo(), bbs.get().getBbsTitle(), bbs.get().getBbsContent()
                 , bbs.get().getBbsDate(), bbs.get().getBbsHit(), bbs.get().getBbsNotice(), bbs.get().getBbsSecret(),bbs.get().getMember());

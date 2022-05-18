@@ -19,12 +19,13 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BbsServiceImpl implements BbsService  {
+public class BbsServiceImpl implements BbsService {
     private final BbsRepository bbsRepository;
+
     @Override
-    public Page<Bbs> bbsList(Pageable pageable){
+    public Page<Bbs> bbsList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 10,Sort.by(Sort.Direction.DESC,"bbsNo"));
+        pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "bbsNo"));
 
         return bbsRepository.findAll(pageable);
     }
@@ -32,17 +33,17 @@ public class BbsServiceImpl implements BbsService  {
     @Override
     public Page<Bbs> bbsListSearch(Pageable pageable, String bbsListSearch, String searchText) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 10,Sort.by(Sort.Direction.DESC,"bbsNo"));
+        pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "bbsNo"));
         Page<Bbs> bySearch = bbsRepository.findBySearchContent(searchText, pageable);
         switch (bbsListSearch) {
             case "bbsTitle":
-                bySearch = bbsRepository.findBySearchTitle(searchText,pageable);
+                bySearch = bbsRepository.findBySearchTitle(searchText, pageable);
                 break;
             case "bbsContent":
-                bySearch = bbsRepository.findBySearchContent(searchText,pageable);
+                bySearch = bbsRepository.findBySearchContent(searchText, pageable);
                 break;
             case "userID":
-                bySearch = bbsRepository.findBySearchUserID(searchText,pageable);
+                bySearch = bbsRepository.findBySearchUserID(searchText, pageable);
                 break;
 
         }
@@ -60,7 +61,7 @@ public class BbsServiceImpl implements BbsService  {
     public Optional<Bbs> findContent(Long bbsNo) {
         log.info("findContent(Service start)");
         Optional<Bbs> bbsContent = bbsRepository.findById(bbsNo);
-        bbsContent.get().setBbsHit(bbsContent.get().getBbsHit() +1);
+        bbsContent.get().setBbsHit(bbsContent.get().getBbsHit() + 1);
         return bbsContent;
     }
 
@@ -76,7 +77,7 @@ public class BbsServiceImpl implements BbsService  {
         log.info("ContentUpdate(Service start)");
         Optional<Bbs> findContentUpdate = bbsRepository.findById(bbs.getBbsNo());
         findContentUpdate.get().updateBbs(bbs.getBbsNo(), bbs.getBbsTitle(), bbs.getBbsContent(), String.valueOf(LocalDate.now())
-        , bbs.getBbsHit(), bbs.getBbsNotice(), bbs.getBbsSecret());
+                , bbs.getBbsHit(), bbs.getBbsNotice(), bbs.getBbsSecret());
         return findContentUpdate;
     }
 
