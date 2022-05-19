@@ -36,10 +36,8 @@
             <div class="card-body">
                 <div id="comment">
                     <div class="ms-3">
-                        <div class="fw-bold"> 작성자 : 이름 작성일 :</div>
-                        <br>
-                        When I look at the universe and all the ways the universe wants to kill us, I find it hard
-                        to reconcile that with statements of beneficence.
+                        <div class="fw-bold"></div>
+
                     </div>
                 </div>
                 <!-- Comment form-->
@@ -91,16 +89,10 @@
         let comment = await response.json();
 
         for (let i = 0; i < comment.length; i++) {
-            let childId = "child" + comment[i].commentGroup;
             let childIdLevel = "L" + comment[i].commentGroup + "L" + comment[i].level + "L" + comment[i].checkInfo;
-            let childIDLevelCom = "child" + childIdLevel
             let seq = comment[i].commentSequence;
-            let div = "divId" + seq;
-            console.log("test1 childId = " + childId);
-            console.log("childIdLevel= " + childIdLevel);
-            console.log("childIDLevelCom= " + childIDLevelCom);
-            /* if(comment[i].level > 0){*/
-            console.log(comment[i].level)
+            let cnt = comment[i].commentCnt;
+            let div = "divId" + cnt;
             let childcommentsign = "";
             for (let j = 0; j < comment[i].level; j++) {
                 childcommentsign += "-";
@@ -109,22 +101,13 @@
             console.log(childcommentsign)
             str += "<div class=\'ms-3\'>";
             str += "<div class=\'fw-bold\'>" + childcommentsign + "작성자 : " + comment[i].memberId + "  작성일 : " + comment[i].date;
-            str += '<button value="button" onclick="childCommentAdd(' + seq + ',\'' + childIdLevel + '\' )">댓글</button>';
+            str += '<button value="button" onclick="childCommentAdd(' + seq + ',\'' + childIdLevel + '\',\'' + cnt + '\'  )">댓글</button>';
             str += '<button value="button" onclick="commentDelete(' + comment[i].commentGroup + ',\'' + comment[i].commentSequence + '\' )">삭제</button>';
-            str += "<button value='button' onclick='commentDelete(" + comment[i].commentGroup + ")'>삭제</button></div><br>"
+            str += "<br>"
             str += childcommentsign + "내용 : " + comment[i].content;
             str += "<div id='" + div + "'></div></div>";
             str += "</div><br>"
             addDivComment.innerHTML = str;
-            /*    }else {*/
-            /*
-                            str += "<div class=\'ms-3\'>";
-                            str += "<div class=\'fw-bold\'> 작성자 : " + comment[i].memberId + "  작성일 : " + comment[i].date;
-                            str += "<button value='button' onclick='childCommentAdd(" + comment[i].commentGroup + ")'>댓글</button>"
-                            str += "<button value='button' onclick='commentDelete(" + comment[i].commentGroup + ")'>삭제</button></div><br>"
-                            str += "내용 : " + comment[i].content;
-                            str += "<div id='" + childId + "'></div>";
-                            str += "</div><br>"*/
         }
 
 
@@ -165,9 +148,6 @@
      */
     async function commentDelete(commentGroup,commentSequence) {
         let URL = "http://localhost:8080/commentDelete"
-        console.log(URL);
-        console.log(commentGroup);
-        console.log(commentSequence);
         let options = {
             method: 'DELETE',
             headers: {
@@ -189,11 +169,10 @@
      * 위 두변수다 댓글에 댓글을 작성하기위해 생성
      * 대댓글 작성폼생성 을 위한 함수
      */
-    function childCommentAdd(Seq, child) {
+    function childCommentAdd(Seq, child, cnt) {
         let str = "";
         let seq = Seq;
-        let div = "divId" + seq;
-        let childnumber = "child" + child;
+        let div = "divId" + cnt;
         let childnumbertext = "childtext" + child;
         let childcontent = document.getElementById(div);
         str += "<form className='mb-4'>";
@@ -209,10 +188,7 @@
     async function childCommentWirte(Seq, child) {
         let seq = Seq;
         let childnumbertext = "childtext" + child;
-        alert(childnumbertext);
         let content = document.getElementById(childnumbertext).value;
-        alert(content);
-        console.log(content);
         let bbsNo = "[[${bbsDTO.bbsNo}]]";
 
         let URL = "http://localhost:8080/childCommentWrite"

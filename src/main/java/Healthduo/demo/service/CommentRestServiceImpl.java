@@ -80,8 +80,6 @@ public class CommentRestServiceImpl implements CommentRestService {
         Integer commentSequencefinded = commentRepository.findCommentSequence(commentGroupnubmer);
         log.info("commentSequencefinded = " + commentSequencefinded);
 
-
-        Optional<Comment> findedChildInfo = commentRepository.commentChildInfo(childInfo);
         if (Integer.parseInt(sliceChildInfo[2]) == 0) {
             log.info("1");
             commentSequence = commentSequencefinded + 1;
