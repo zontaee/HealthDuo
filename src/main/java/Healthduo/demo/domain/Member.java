@@ -15,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter @ToString
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Member {
     @Id
     @Column(name = "MEMBER_ID")

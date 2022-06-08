@@ -20,8 +20,7 @@ import javax.persistence.*;
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-    generator = "COMMENT_NO_SEQ")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "COMMENT_NO")
     private Long commentId;  //comment 기본키
 

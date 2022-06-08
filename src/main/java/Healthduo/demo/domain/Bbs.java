@@ -24,8 +24,7 @@ import java.util.List;
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Bbs {
         @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE,
-        generator = "BBS_NO_SEQ")
+        @GeneratedValue(strategy = GenerationType.AUTO)
         @Column(name = "BBS_NO")
         private Long bbsNo;  //bbs기본키
 
