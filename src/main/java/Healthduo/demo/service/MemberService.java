@@ -8,4 +8,7 @@ public interface MemberService {
     int memberfind(Member member);
 
     Member memberfindById(String loginMember);
+
+    int duplicatedMember(String memberId);
+
 }

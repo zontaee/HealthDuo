@@ -14,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.Cookie;
@@ -27,7 +26,7 @@ import java.time.LocalDate;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class MemberController {
+public class memberController {
 
     private final MemberService memberService;
     private final Method method;

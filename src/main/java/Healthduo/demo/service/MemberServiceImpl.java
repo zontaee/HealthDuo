@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @Transactional
@@ -25,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int memberfind(Member member) {
         int result;
-        log.info("memberSave(Service start");
+        log.info("memberfind(Service start)");
         Member findMember = memberRepository.findById(member.getMemberId()).orElse(null);
         //admin 추가 고려
         if (findMember == null) {
@@ -48,5 +50,20 @@ public class MemberServiceImpl implements MemberService {
         log.info("memberfindById(Service start)");
         Member findMember = memberRepository.findById(loginMember).orElse(null);
         return findMember;
+    }
+
+    @Override
+    public int duplicatedMember(String memberId) {
+        log.info("duplicatedMember(Service start)");
+        int checkIdNumber;
+        Member findId = memberRepository.findById(memberId).orElse(null);
+
+        if (findId == null) {
+            checkIdNumber = 0;
+        } else {
+            checkIdNumber = 1;
+        }
+
+        return checkIdNumber;
     }
 }

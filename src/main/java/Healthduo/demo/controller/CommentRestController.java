@@ -25,6 +25,12 @@ public class CommentRestController {
     private final MemberService memberService;
     private final CommentRestService commentRestService;
 
+    /**
+     * 댓글 작성
+     * @param content
+     * @param bbsNo
+     * @param loginMember
+     */
     @PostMapping("CommentWrite")
     public void CommentWrite(@RequestParam("CommemtContent") String content,
                              @RequestParam("bbsNo") Long bbsNo,
@@ -36,6 +42,11 @@ public class CommentRestController {
 
     }
 
+    /**
+     * 댓글찾기
+     * @param bbsNo
+     * @return
+     */
     @PostMapping("findComment")
     public List<CommentDTO> findComment(@RequestParam("bbsNo") Long bbsNo) {
         log.info("findComment(controller start)");
@@ -44,6 +55,11 @@ public class CommentRestController {
         return commentDTO;
     }
 
+    /**
+     * 댓글 삭제
+     * @param commentGroup
+     * @param commentSequence
+     */
     @DeleteMapping("commentDelete")
     public void commentDelete(@RequestParam("commentGroup") int commentGroup,
                               @RequestParam("commentSequence") int  commentSequence) {
@@ -53,6 +69,14 @@ public class CommentRestController {
         commentRestService.commentDelete(commentGroup, commentSequence);
     }
 
+    /**
+     * 대댓글 작성
+     * @param content
+     * @param bbsNo
+     * @param childinfo
+     * @param seq
+     * @param loginMember
+     */
     @PostMapping("childCommentWrite")
     public void childCommentWrite(@RequestParam("CommemtContent") String content,
                                   @RequestParam("bbsNo") Long bbsNo,
