@@ -104,7 +104,7 @@ public class BBsController {
         log.info("bbsList(controller start)");
         Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable);
         model.addAttribute("bbsDTO", bbsDTO);
-        return "bbs/bbsList";
+        return "redirect:/bbsLists";  //리다이렉트로 보내주면 된다.
     }
 
     /**
