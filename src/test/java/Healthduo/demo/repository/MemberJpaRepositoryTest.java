@@ -2,14 +2,14 @@ package Healthduo.demo.repository;
 
 
 import Healthduo.demo.domain.Member;
+import Healthduo.demo.service.MemberService;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -23,9 +23,12 @@ class MemberJpaRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
     @Autowired
+    MemberService memberService;
+    @Autowired
     EntityManager em;
 
     @Test
+    @DisplayName("회원가입")
     void Membersave() {
         Member member = new Member();
         member.setMemberId("whdlsxo123");
@@ -44,7 +47,7 @@ class MemberJpaRepositoryTest {
     }
 
     @Test
-    @DisplayName("중복 아이디 회원 검증")
+    @DisplayName("중복 아이디 회원 오류")
     void overlapMemberSave() {
 
         Member member1 = new Member();
@@ -72,6 +75,7 @@ class MemberJpaRepositoryTest {
     }
 
     @Test
+    @DisplayName("로그인")
     void Login() {
         Member member = new Member();
         member.setMemberId("whdlsxo123");
@@ -87,6 +91,26 @@ class MemberJpaRepositoryTest {
 
         assertThat(findmember.getMemberId()).isEqualTo("whdlsxo123");
         assertThat(findmember.getMemberPassword()).isEqualTo("1234");
+
+
+    }
+    @Test
+    @DisplayName("중복 회원 검사")
+    void checkDuplicatedMember() {
+
+        Member member = new Member();
+        member.setMemberId("whdlsxo123");
+        member.setMemberPassword("1234");
+        member.setMemberSex("남");
+        member.setMemberEmail("whdls123@naver.com");
+        member.setMemberDate(LocalDate.now());
+        member.setMemberPnumber("010-2222-3333");
+
+        Member saveMember = memberRepository.save(member);
+        int checkNumber = memberService.duplicatedMember("whdlsxo123");
+
+        assertThat(1).isEqualTo(checkNumber);
+
 
 
     }
