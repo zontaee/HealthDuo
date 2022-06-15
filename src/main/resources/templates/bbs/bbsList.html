@@ -24,6 +24,17 @@
             </tr>
             </thead>
             <tbody>
+
+            <tr th:each="bbs : ${noticeBbs}">
+                <td class="col-1 text-center" th:text="공지글"></td>
+                <td class="col-5 text-center"><a th:text="${bbs.bbsTitle}"
+                                                 th:href="@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}"></a></td>
+                <!--th:onclick="|location.href='@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}'|"-->
+                <td class="col-2 text-center" th:text="${bbs.bbsDate}"></td>
+                <td class="col-2 text-center" th:text="${bbs.member.memberId}"></td>
+                <td class="col-2 text-center" th:text="${bbs.bbsHit}"></td>
+            </tr>
+
             <tr th:each="bbs : ${bbsDTO}">
                 <td class="col-1 text-center" th:text="${bbs.bbsNo}"></td>
                 <td class="col-5 text-center"><a th:text="${bbs.bbsTitle}"

@@ -31,10 +31,10 @@ public class Bbs {
         private String bbsTitle;
         private String bbsContent;
         private String bbsDate;
-        @ColumnDefault("0")
         private Integer bbsHit;
-        private String bbsNotice;
-        private String bbsSecret;
+        private Boolean bbsNotice;
+        private Boolean bbsSecret;
+        private String checkNS;
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "MEMBER_ID")
@@ -48,8 +48,11 @@ public class Bbs {
                 this.member=member;
                 member.getBbs().add(this);
         }
+        public void noticeAddCheck(){
+                this.checkNS += "n";
+        }
 
-        public Bbs(String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, String bbsNotice, String bbsSecret, Member member) {
+        public Bbs(String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, Boolean bbsNotice, Boolean bbsSecret, Member member) {
 
                 this.bbsTitle = bbsTitle;
                 this.bbsContent = bbsContent;
@@ -59,7 +62,7 @@ public class Bbs {
                 this.bbsSecret = bbsSecret;
                 this.member = member;
         }
-        public void updateBbs(Long bbsNo,String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, String bbsNotice, String bbsSecret) {
+        public void updateBbs(Long bbsNo,String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, Boolean bbsNotice, Boolean bbsSecret) {
 
                 this.bbsTitle = bbsTitle;
                 this.bbsContent = bbsContent;

@@ -15,8 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -37,8 +36,11 @@ public class BBsController {
      */
     @GetMapping("/bbsLists")
     public String BbsList(@PageableDefault() Pageable pageable, Model model) throws Exception {
+        log.info("bbsLists(controller start)");
         Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable);
+        List<BbsDTO> noticeBbs = method.getBbsDTO();
         model.addAttribute("bbsDTO", bbsDTO);
+        model.addAttribute("noticeBbs", noticeBbs);
         return "bbs/bbsList";
     }
 
@@ -85,25 +87,17 @@ public class BBsController {
      * 글 저장(서버)
      *
      * @param bbs
-     * @param pageable
-     * @param model
      * @param loginMember
      * @return
      * @throws Exception
      */
     @PostMapping("/bbsSave")
-    public String BbsSave(Bbs bbs, Pageable pageable, Model model,
+    public String BbsSave(Bbs bbs,
                           @SessionAttribute(name = "memberId", required = false)
-                                  String loginMember) throws Exception {
+                                  String loginMember) {
         log.info("bbsSave(controller start)");
         Member member = memberService.memberfindById(loginMember);
-        bbs.setMember(member);
-        bbs.setBbsDate(String.valueOf(LocalDate.now()));
-        bbs.setBbsHit(0);
-        bbsService.bbsSave(bbs);
-        log.info("bbsList(controller start)");
-        Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable);
-        model.addAttribute("bbsDTO", bbsDTO);
+        bbsService.bbsSave(bbs, member);
         return "redirect:/bbsLists";  //리다이렉트로 보내주면 된다.
     }
 

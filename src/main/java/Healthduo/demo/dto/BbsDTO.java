@@ -17,11 +17,11 @@ public class BbsDTO {
         private String bbsContent;
         private String bbsDate;
         private Integer bbsHit;
-        private String bbsNotice;
-        private String bbsSecret;
+        private Boolean bbsNotice;
+        private Boolean bbsSecret;
         private Member member;
 
-        public BbsDTO(Long bbsNo, String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, String bbsNotice, String bbsSecret, Member member) {
+        public BbsDTO(Long bbsNo, String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, Boolean bbsNotice, Boolean bbsSecret, Member member) {
                 this.bbsNo = bbsNo;
                 this.bbsTitle = bbsTitle;
                 this.bbsContent = bbsContent;

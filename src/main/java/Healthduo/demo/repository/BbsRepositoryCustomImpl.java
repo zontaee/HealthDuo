@@ -75,4 +75,15 @@ public class BbsRepositoryCustomImpl implements BbsRepositoryCustom{
 
         return new PageImpl<>(content,pageable,total);
     }
+
+    @Override
+    public List<Bbs> findNoticeBbsList() {
+        QueryResults<Bbs> results = queryFactory
+                .select(bbs)
+                .from(bbs)
+                .where(bbs.checkNS.contains("n"))
+                .fetchResults();
+
+        return results.getResults();
+    }
 }

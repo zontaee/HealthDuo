@@ -1,7 +1,7 @@
 package Healthduo.demo.service;
 
 import Healthduo.demo.domain.Bbs;
-import Healthduo.demo.dto.BbsDTO;
+import Healthduo.demo.domain.Member;
 import Healthduo.demo.repository.BbsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -24,6 +25,7 @@ public class BbsServiceImpl implements BbsService {
 
     @Override
     public Page<Bbs> bbsList(Pageable pageable) {
+        log.info("bbsList(Service start)");
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "bbsNo"));
 
@@ -32,6 +34,7 @@ public class BbsServiceImpl implements BbsService {
 
     @Override
     public Page<Bbs> bbsListSearch(Pageable pageable, String bbsListSearch, String searchText) {
+        log.info("bbsListSearch(Service start)");
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "bbsNo"));
         Page<Bbs> bySearch = bbsRepository.findBySearchContent(searchText, pageable);
@@ -51,8 +54,23 @@ public class BbsServiceImpl implements BbsService {
     }
 
     @Override
-    public void bbsSave(Bbs bbs) {
+    public List<Bbs> noticeBbsList() {
+        log.info("noticeBbsList(Service start)");
+        List<Bbs> noticeBbsList = bbsRepository.findNoticeBbsList();
+
+        return noticeBbsList;
+    }
+
+    @Override
+    public void bbsSave(Bbs bbs , Member member) {
         log.info("bbsSave(Service start)");
+        bbs.setMember(member);
+        bbs.setBbsDate(String.valueOf(LocalDate.now()));
+        bbs.setBbsHit(0);
+
+        if(bbs.getBbsNotice()){
+            bbs.noticeAddCheck();
+        }
         bbsRepository.BbsSave(bbs);
 
     }
