@@ -30,7 +30,7 @@ public class Method {
     public Page<BbsDTO> BbsListPaging(Pageable pageable) throws Exception {
         Page<Bbs> bbsList = bbsService.bbsList(pageable);
         Page<BbsDTO> bbsDTo = bbsList.map(m -> new BbsDTO(m.getBbsNo(), m.getBbsTitle(), m.getBbsContent()
-                , m.getBbsDate(), m.getBbsHit(), m.getBbsNotice(), m.getBbsSecret(), m.getMember()));
+                , m.getBbsDate(), m.getBbsHit(), m.getBbsNotice(), m.getBbsSecret(),m.getCheckNS(), m.getMember()));
         log.info("BbsListPaging start");
         log.info("총 element 수 : {}, 전체 page 수 : {}, 페이지에 표시할 element 수 : {}, 현재 페이지 index : {}, 현재 페이지의 element 수 : {}",
                 bbsDTo.getTotalElements(), bbsDTo.getTotalPages(), bbsDTo.getSize(),
@@ -51,7 +51,7 @@ public class Method {
     public Page<BbsDTO> BbsListSerchPaging(Pageable pageable, String bbsListSearch, String searchText) throws Exception {
         Page<Bbs> bbsList = bbsService.bbsListSearch(pageable, bbsListSearch, searchText);
         Page<BbsDTO> bbsDTo = bbsList.map(m -> new BbsDTO(m.getBbsNo(), m.getBbsTitle(), m.getBbsContent()
-                , m.getBbsDate(), m.getBbsHit(), m.getBbsNotice(), m.getBbsSecret(), m.getMember()));
+                , m.getBbsDate(), m.getBbsHit(), m.getBbsNotice(), m.getBbsSecret(),m.getCheckNS(), m.getMember()));
         log.info("BbsListSerchPaging start");
         log.info("총 element 수 : {}, 전체 page 수 : {}, 페이지에 표시할 element 수 : {}, 현재 페이지 index : {}, 현재 페이지의 element 수 : {}",
                 bbsDTo.getTotalElements(), bbsDTo.getTotalPages(), bbsDTo.getSize(),
@@ -68,7 +68,7 @@ public class Method {
      */
     public BbsDTO getBbsDTO(Optional<Bbs> bbs) {
         BbsDTO bbsDTO = new BbsDTO(bbs.get().getBbsNo(), bbs.get().getBbsTitle(), bbs.get().getBbsContent()
-                , bbs.get().getBbsDate(), bbs.get().getBbsHit(), bbs.get().getBbsNotice(), bbs.get().getBbsSecret(), bbs.get().getMember());
+                , bbs.get().getBbsDate(), bbs.get().getBbsHit(), bbs.get().getBbsNotice(), bbs.get().getBbsSecret(), bbs.get().getCheckNS(),bbs.get().getMember());
         return bbsDTO;
     }
 
@@ -82,7 +82,7 @@ public class Method {
         List<BbsDTO> bbsdto = new ArrayList<>();
         for (Bbs bbs : bbsList) {
             bbsdto.add(new BbsDTO(bbs.getBbsNo(), bbs.getBbsTitle(), bbs.getBbsContent(), bbs.getBbsDate(), bbs.getBbsHit()
-                    , bbs.getBbsNotice(), bbs.getBbsSecret(), bbs.getMember()));
+                    , bbs.getBbsNotice(), bbs.getBbsSecret(),bbs.getCheckNS() ,bbs.getMember()));
         }
         return bbsdto;
     }

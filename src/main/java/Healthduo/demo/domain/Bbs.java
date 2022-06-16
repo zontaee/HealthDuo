@@ -13,63 +13,70 @@ import java.util.List;
 
 @Entity
 @SequenceGenerator(
-        name="BBS_NO_SEQ", //시퀀스 제너레이터 이름
-        sequenceName="BBS_NO", //시퀀스 이름
-        initialValue= 1, //시작값
-        allocationSize=1 //메모리를 통해 할당할 범위 사이즈
+        name = "BBS_NO_SEQ", //시퀀스 제너레이터 이름
+        sequenceName = "BBS_NO", //시퀀스 이름
+        initialValue = 1, //시작값
+        allocationSize = 1 //메모리를 통해 할당할 범위 사이즈
 )
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Bbs {
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        @Column(name = "BBS_NO")
-        private Long bbsNo;  //bbs기본키
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "BBS_NO")
+    private Long bbsNo;  //bbs기본키
 
-        private String bbsTitle;
-        private String bbsContent;
-        private String bbsDate;
-        private Integer bbsHit;
-        private Boolean bbsNotice;
-        private Boolean bbsSecret;
-        private String checkNS;
+    private String bbsTitle;
+    private String bbsContent;
+    private String bbsDate;
+    private Integer bbsHit;
+    private Boolean bbsNotice;
+    private Boolean bbsSecret;
+    private String checkNS;
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "MEMBER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_ID")
 
-        private Member member;
+    private Member member;
 
-        @OneToMany(mappedBy = "bbs")
-        List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "bbs")
+    List<Comment> comments = new ArrayList<>();
 
-        public void addMember(Member member){
-                this.member=member;
-                member.getBbs().add(this);
-        }
-        public void noticeAddCheck(){
-                this.checkNS += "n";
-        }
+    public void addMember(Member member) {
+        this.member = member;
+        member.getBbs().add(this);
+    }
 
-        public Bbs(String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, Boolean bbsNotice, Boolean bbsSecret, Member member) {
+    public void noticeAddCheck() {
+        this.checkNS += "n";
+    }
 
-                this.bbsTitle = bbsTitle;
-                this.bbsContent = bbsContent;
-                this.bbsDate = bbsDate;
-                this.bbsHit = bbsHit;
-                this.bbsNotice = bbsNotice;
-                this.bbsSecret = bbsSecret;
-                this.member = member;
-        }
-        public void updateBbs(Long bbsNo,String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, Boolean bbsNotice, Boolean bbsSecret) {
+    public void secretAddCheck() {
+        this.checkNS += "s";
+    }
 
-                this.bbsTitle = bbsTitle;
-                this.bbsContent = bbsContent;
-                this.bbsDate = bbsDate;
-                this.bbsNotice = bbsNotice;
-                this.bbsSecret = bbsSecret;
-        }
+    public Bbs(String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, Boolean bbsNotice, Boolean bbsSecret, Member member) {
+
+        this.bbsTitle = bbsTitle;
+        this.bbsContent = bbsContent;
+        this.bbsDate = bbsDate;
+        this.bbsHit = bbsHit;
+        this.bbsNotice = bbsNotice;
+        this.bbsSecret = bbsSecret;
+        this.member = member;
+    }
+
+    public void updateBbs(Long bbsNo, String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, Boolean bbsNotice, Boolean bbsSecret) {
+
+        this.bbsTitle = bbsTitle;
+        this.bbsContent = bbsContent;
+        this.bbsDate = bbsDate;
+        this.bbsNotice = bbsNotice;
+        this.bbsSecret = bbsSecret;
+    }
+
 
 }
 

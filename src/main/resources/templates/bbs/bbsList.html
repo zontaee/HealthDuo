@@ -1,11 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-    <style>
-        .center {
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
 
@@ -37,8 +32,11 @@
 
             <tr th:each="bbs : ${bbsDTO}">
                 <td class="col-1 text-center" th:text="${bbs.bbsNo}"></td>
-                <td class="col-5 text-center"><a th:text="${bbs.bbsTitle}"
-                                                 th:href="@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}"></a></td>
+                <td class="col-5 text-center" th:if="${bbs.checkNS.toString().contains('s')}">
+                    <a class="secret" th:text="${bbs.bbsTitle} + '-비밀글-'"
+                       th:attr= "onclick=|javascript:secretBbsCheck(${bbs.bbsNo},'${bbs.member.memberId}')|"></a></td>
+                <td class="col-5 text-center" th:unless="${bbs.checkNS.toString().contains('s')}">
+                    <a th:text="${bbs.bbsTitle}"  th:href="@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}"></a></td>
                 <!--th:onclick="|location.href='@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}'|"-->
                 <td class="col-2 text-center" th:text="${bbs.bbsDate}"></td>
                 <td class="col-2 text-center" th:text="${bbs.member.memberId}"></td>
@@ -82,7 +80,7 @@
     </nav>
     <div class="row"></div>
 
-    <form method="post" id = "search" name="search" action="bbsListSearch">
+    <form method="post" id="search" name="search" action="bbsListSearch">
         <table class="pull-right">
             <tr>
                 <td><select class="form-control" name="searchField">
@@ -99,20 +97,31 @@
 
         </table>
     </form>
-    </div>
+</div>
 
 
-    <div class="col">
-        <button class="w-100 btn btn-secondary btn-lg"
-                onclick="location.href='items.html'"
-                th:onclick="|location.href='@{/write}'|"
-                type="button">글 작성하기
-        </button>
-    </div>
+<div class="col">
+    <button class="w-100 btn btn-secondary btn-lg"
+            onclick="location.href='items.html'"
+            th:onclick="|location.href='@{/write}'|"
+            type="button">글 작성하기
+    </button>
+</div>
 
-    <div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: footer"/>
 
 </div> <!-- /container -->
 
 </body>
+
+<script type="text/javascript">
+    let getSesstion = "[[ ${session.memberId} ]]";
+    function secretBbsCheck(bbsno,member){
+     if(getSesstion == member){
+         window.location = "http://localhost:8080/content/" + bbsno;
+    }else {
+     alert("비밀글 입니다")}
+    }
+
+</script>
 </html>

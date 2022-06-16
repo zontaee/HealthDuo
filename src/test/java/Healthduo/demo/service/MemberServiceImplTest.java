@@ -35,7 +35,7 @@ class MemberServiceImplTest {
         System.out.println(member);
         Member saveMember = memberRepository.save(member);
         for (int i= 0; i<102;i++) {
-            Bbs bbs = new Bbs("아뇽"+ i, "내용" + i, String.valueOf(LocalDate.now()), 0, "1", "1",saveMember);
+            Bbs bbs = new Bbs("아뇽"+ i, "내용" + i, String.valueOf(LocalDate.now()), 0, false, false,saveMember);
             bbsRepository.save(bbs);
         }
     }

@@ -67,9 +67,14 @@ public class BbsServiceImpl implements BbsService {
         bbs.setMember(member);
         bbs.setBbsDate(String.valueOf(LocalDate.now()));
         bbs.setBbsHit(0);
+        bbs.setCheckNS(" ");
 
         if(bbs.getBbsNotice()){
             bbs.noticeAddCheck();
+        }
+        if(bbs.getBbsSecret()){
+            bbs.secretAddCheck();
+
         }
         bbsRepository.BbsSave(bbs);
 

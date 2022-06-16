@@ -20,8 +20,9 @@ public class BbsDTO {
         private Boolean bbsNotice;
         private Boolean bbsSecret;
         private Member member;
+        private String checkNS;
 
-        public BbsDTO(Long bbsNo, String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, Boolean bbsNotice, Boolean bbsSecret, Member member) {
+        public BbsDTO(Long bbsNo, String bbsTitle, String bbsContent, String bbsDate, Integer bbsHit, Boolean bbsNotice, Boolean bbsSecret,String checkNS ,Member member) {
                 this.bbsNo = bbsNo;
                 this.bbsTitle = bbsTitle;
                 this.bbsContent = bbsContent;
@@ -30,6 +31,8 @@ public class BbsDTO {
                 this.bbsNotice = bbsNotice;
                 this.bbsSecret = bbsSecret;
                 this.member= member;
+                this.checkNS= checkNS;
+
         }
 
         public BbsDTO() {
