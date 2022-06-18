@@ -29,12 +29,14 @@ public class postConstruct {
         Member member = new Member("asd","123","남자","whdlsxo123@naver.com", LocalDate.now(),"010-2323-4343");
         Region region1 = new Region("경기도","성남시","분당구","서현동");
         Region region2 = new Region("경기도","성남시","분당구","분당동");
+        Region region5 = new Region("경기도","성남시","수정구","태평동");
         Region region3 = new Region("서울특별시","강남구","서초동");
         Region region4 = new Region("서울특별시","강남구","반포동");
         regionRepository.save(region1);
         regionRepository.save(region2);
         regionRepository.save(region3);
         regionRepository.save(region4);
+        regionRepository.save(region5);
         memberRepository.save(member);
     }
 

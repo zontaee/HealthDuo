@@ -8,26 +8,26 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@Getter@Setter@ToString
+@Getter @Setter @ToString
 public class Region {
     private String region;
-    private String City;
-    private String FullCity;
+    private String city;
+    private String fullCity;
     @Id
     private String Street;
     public Region() {
     }
 
-    public Region(String region, String city, String street) {
+    public Region(String region, String fullCity, String street) {
         this.region = region;
-        City = city;
-        Street = street;
+        this.fullCity = fullCity;
+        this.Street = street;
     }
 
     public Region(String region, String city, String fullCity, String street) {
         this.region = region;
-        City = city;
-        FullCity = fullCity;
-        Street = street;
+        this.city = city;
+        this.fullCity = fullCity;
+        this.Street = street;
     }
 }

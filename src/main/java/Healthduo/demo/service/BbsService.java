@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface BbsService  {
     Page<Bbs> bbsList(Pageable pageable) throws Exception;
 
-    void bbsSave(Bbs bbs , Member member);
+    void bbsSave(Bbs bbs, String street, Member member);
 
     Optional<Bbs> findContent(Long bbsNo);
 

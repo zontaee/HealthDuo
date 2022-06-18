@@ -3,7 +3,9 @@ package Healthduo.demo.controller;
 import Healthduo.demo.domain.Bbs;
 import Healthduo.demo.domain.Member;
 import Healthduo.demo.dto.BbsDTO;
+import Healthduo.demo.dto.RegionDTO;
 import Healthduo.demo.service.MemberService;
+import Healthduo.demo.service.RegionService;
 import Healthduo.demo.web.Method;
 import Healthduo.demo.service.BbsService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class BBsController {
     private final Method method;
     private final BbsService bbsService;
     private final MemberService memberService;
+    private final RegionService regionService;
 
     /**
      * 게시판 글 목록(페이징)
@@ -35,7 +38,8 @@ public class BBsController {
      * @throws Exception
      */
     @GetMapping("/bbsLists")
-    public String BbsList(@PageableDefault() Pageable pageable, Model model) throws Exception {
+    public String BbsList(@PageableDefault() Pageable pageable,
+                          Model model) throws Exception {
         log.info("bbsLists(controller start)");
         Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable);
         List<BbsDTO> noticeBbs = method.getBbsDTO();
@@ -78,8 +82,10 @@ public class BBsController {
     @RequestMapping("/write")
     public String BbsWrite(Model model) {
         log.info("BbsWrite(controller start)");
+        List<String> region = regionService.getRegionInfo();
         BbsDTO bbsDTO = new BbsDTO();
         model.addAttribute("bbsDTO", bbsDTO);
+        model.addAttribute("region", region);
         return "bbs/write";
     }
 
@@ -93,11 +99,13 @@ public class BBsController {
      */
     @PostMapping("/bbsSave")
     public String BbsSave(Bbs bbs,
+                          @RequestParam("street") String street,
                           @SessionAttribute(name = "memberId", required = false)
                                   String loginMember) {
         log.info("bbsSave(controller start)");
+        log.info("---------------------------" + street);
         Member member = memberService.memberfindById(loginMember);
-        bbsService.bbsSave(bbs, member);
+        bbsService.bbsSave(bbs,street ,member);
         return "redirect:/bbsLists";  //리다이렉트로 보내주면 된다.
     }
 

@@ -35,6 +35,7 @@ public class Bbs {
     private Boolean bbsNotice;
     private Boolean bbsSecret;
     private String checkNS;
+    private String address;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")

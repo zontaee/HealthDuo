@@ -62,9 +62,10 @@ public class BbsServiceImpl implements BbsService {
     }
 
     @Override
-    public void bbsSave(Bbs bbs , Member member) {
+    public void bbsSave(Bbs bbs, String street, Member member) {
         log.info("bbsSave(Service start)");
         bbs.setMember(member);
+        bbs.setAddress(street);
         bbs.setBbsDate(String.valueOf(LocalDate.now()));
         bbs.setBbsHit(0);
         bbs.setCheckNS(" ");

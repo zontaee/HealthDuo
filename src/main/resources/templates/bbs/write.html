@@ -1,72 +1,218 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="board/layout/basic">
-<head th:replace="fragments/header :: header" />
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="board/layout/basic">
+<head th:replace="fragments/header :: header"/>
 <style>
     .fieldError {
         border-color: #bd2130;
     }
-    .pError{
+
+    .pError {
         color: red;
     }
 </style>
 <body>
-    <div id="justify-content" class="container">
+<div id="justify-content" class="container">
 
-        <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-        <form class="form-horizontal" th:action="@{/bbsSave}" th:object="${bbsDTO}" method="post" >
-            <div class="row justify-content-start" >
-                <label class="col-sm-2 control-label">지역</label>
-                <select class="col-sm-3 form-select " field="배송 방식">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <form class="form-horizontal" th:action="@{/bbsSave}" th:object="${bbsDTO}" method="post">
+        <div class="row justify-content-start">
+            <!--  <div class= "col-sm-2">-->
+            <label class="col-sm-2 control-label">지역</label>
+            <!--     </div>-->
+            <div class="col-sm-2 ">
+                <select class="form-select" id="region" name="region" field="지역"
+                        onchange="changeRegion(this.value)">
                     <option value="">지역</option>
-                </select>
-                <select class="col-sm-3 form-select" field="배송 방식">
-                    <option value="">지역</option>
-                </select>
-                <select class="col-sm-3 form-select" field="배송 방식">
-                    <option value="">지역</option>
+                    <option th:each="region : ${region}" th:value="${region}"
+                            th:text="${region}">FAST
+                    </option>
                 </select>
             </div>
-            <!--onsubmit="return registerBoard(this)"-->
-            <!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
-            <input type="hidden" th:if="*{bbsNo != null and bbsNo > 0}" th:field="*{bbsNo}" />
-            <div class="row justify-content-start">
-                <label th:for="bbs_notice" class="col-sm-2 control-label">공지글 설정</label>
-                <div class="col-sm-4" style="margin-top: 10px;">
-                    <input type="checkbox" id="bbsNotice" th:field="*{bbsNotice}" th:checked="checked">
-                </div>
-                <label th:for="bbs_secret" class="col-sm-2 control-label">비밀글 설정</label>
-                <div class="col-sm-4" style="margin-top: 10px;">
-                    <input type="checkbox" id="bbsSecret" th:field="*{bbsSecret}" th:checked="checked">
-                </div>
+            <div id="one" class="col-sm-2 ">
+
+            </div>
+            <div id="two" class="col-sm-2 ">
+
+            </div>
+            <div id="three" class="col-sm-2 ">
+
             </div>
 
-
-
-            <div class="form-group">
-                <label th:for="bbs_title" class="col-sm-2 control-label">제목</label>
-                <div class="col-sm-10">
-                    <input type="text" th:field="*{bbsTitle}" class="form-control" placeholder="제목을 입력해 주세요." />
-                </div>
+        </div>
+        <input type="hidden" th:if="*{bbsNo != null and bbsNo > 0}" th:field="*{bbsNo}"/>
+        <div class="row justify-content-start">
+            <label th:for="bbs_notice" class="col-sm-2 control-label">공지글 설정</label>
+            <div class="col-sm-4" style="margin-top: 10px;">
+                <input type="checkbox" id="bbsNotice" th:field="*{bbsNotice}" th:checked="checked">
             </div>
-
-
-            <div class="form-group">
-                <label th:for="content" class="col-sm-2 control-label">내용</label>
-                <div class="col-sm-10">
-                    <textarea th:field="*{bbsContent}" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
-                </div>
+            <label th:for="bbs_secret" class="col-sm-2 control-label">비밀글 설정</label>
+            <div class="col-sm-4" style="margin-top: 10px;">
+                <input type="checkbox" id="bbsSecret" th:field="*{bbsSecret}" th:checked="checked">
             </div>
+        </div>
 
-            <div class="btn_wrap text-center">
-                <a th:href="@{/bbsLists}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
-                <button type="submit" class="btn btn-primary waves-effect waves-light">저장하기</button>
+
+        <div class="form-group">
+            <label th:for="bbs_title" class="col-sm-2 control-label">제목</label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{bbsTitle}" class="form-control" placeholder="제목을 입력해 주세요."/>
             </div>
-        </form>
-        <div th:replace="fragments/footer :: footer" />
-    </div>
+        </div>
+
+
+        <div class="form-group">
+            <label th:for="content" class="col-sm-2 control-label">내용</label>
+            <div class="col-sm-10">
+                <textarea th:field="*{bbsContent}" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
+            </div>
+        </div>
+
+        <div class="btn_wrap text-center">
+            <a th:href="@{/bbsLists}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
+            <button type="submit" class="btn btn-primary waves-effect waves-light">저장하기</button>
+        </div>
+    </form>
+    <div th:replace="fragments/footer :: footer"/>
+</div>
 </body>
-    <!-- /.card-content -->
+<!-- /.card-content -->
+<script type="text/javascript">
+    /**
+     * 지역 선택 메소드 -> 특별시와 도를 구분하여 셀렉트박스 생성
+     * @param region
+     * @returns {Promise<void>}
+     */
+    let firstSelect = document.getElementById("one");
+    let secondSelect = document.getElementById("two");
+    let thridSelect = document.getElementById("three");
 
+    async function changeRegion(region) {
+        let str = "";
+        let str2 = "";
+        let str3 = "";
+        let URL = "http://localhost:8080/findCity"
+
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                region: region
+            })
+        }
+        let response = await fetch(URL, options)
+        let nextinfo = await response.json();
+        let firstSelect = document.getElementById("one");
+        let secondSelect = document.getElementById("two");
+        let thridSelect = document.getElementById("three");
+
+        //초기화
+        firstSelect.innerHTML = str;
+        secondSelect.innerHTML = str;
+        thridSelect.innerHTML = str;
+
+
+        if (region == "서울특별시") {
+
+            str += '<select class="form-select" id="fullCity" name="fullCity" field="구"  onchange="changeStreet(this.value)">';
+            str += '<option value="">구</option>';
+            for (let i = 0; i < nextinfo.length; i++) {
+                str += '<option value="' + nextinfo[i] + '"> ' + nextinfo[i] + ' </option>'
+            }
+            str += '</select>'
+
+            firstSelect.innerHTML = str;
+
+            str2 += '<select class=" form-select" id="street" name="street" field="동">'
+            str2 += '<option value="">동</option>'
+            str2 += '</select>'
+            secondSelect.innerHTML = str2;
+        } else {
+            str += '<select class="form-select" id="city" name="city" field="시"  onchange="changefullCity(this.value)">';
+            str += '<option value="">시</option>';
+            for (let i = 0; i < nextinfo.length; i++) {
+                str += '<option value="' + nextinfo[i] + '"> ' + nextinfo[i] + ' </option>'
+            }
+            str += '</select>'
+
+            firstSelect.innerHTML = str;
+
+
+            str2 += '<select class="form-select" id="fullCity" name="fullCity" field="구"  onchange="changeStreet(this.value)">'
+            str2 += '<option value="">구</option>'
+            str2 += '</select>'
+            secondSelect.innerHTML = str2;
+
+            str3 += '<select class="form-select" id="street" name="street" field="동">'
+            str3 += '<option value="">동</option>'
+            str3 += '</select>'
+            thridSelect.innerHTML = str3;
+
+        }
+
+    }
+
+    async function changefullCity(city) {
+
+        let streetSelect = document.getElementById("street");
+        //street 정보 삭제
+        let elementsByTagName = streetSelect.getElementsByTagName("option");
+        console.log(elementsByTagName.length);
+        for (let i = elementsByTagName.length - 1; i >= 0; i--) {
+            elementsByTagName[i].remove();
+        }
+        let str = ""
+        let fullCityId = document.getElementById("fullCity");
+        let URL = "http://localhost:8080/findfullCity"
+
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                city: city
+            })
+        }
+        let response = await fetch(URL, options)
+        let nextinfo = await response.json();
+
+
+        for (let i = 0; i < nextinfo.length; i++) {
+            str += '<option value="' + nextinfo[i] + '"> ' + nextinfo[i] + ' </option>'
+        }
+        fullCityId.innerHTML = str;
+
+    }
+
+    async function changeStreet(fullCity) {
+        let str = ""
+        let streetId = document.getElementById("street");
+        let URL = "http://localhost:8080/findStreet"
+
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                fullCity: fullCity
+            })
+        }
+        let response = await fetch(URL, options)
+        let nextinfo = await response.json();
+        for (let i = 0; i < nextinfo.length; i++) {
+            str += '<option value="' + nextinfo[i] + '"> ' + nextinfo[i] + ' </option>'
+        }
+        streetId.innerHTML = str;
+
+
+    }
+
+
+</script>
 
 
 </html>
