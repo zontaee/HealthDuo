@@ -36,4 +36,12 @@ public class RegionRestController {
         List<String> streetInfo = regionService.streetInfo(fullCity);
         return streetInfo;
     }
+
+
+    @PostMapping("bbsregion")
+    public List<String>  bbsregion() {
+        log.info("bbsregion(controller start)");
+        List<String> bbsRegion = regionService.getRegionInfo();
+        return bbsRegion;
+    }
 }

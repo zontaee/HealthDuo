@@ -2,25 +2,58 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
     <title>Hello</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        .custom {
+            width: 200px !important;
+            margin-right: 5px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="jumbotron">
         <h3>HEALTHDUO</h3>
-          <br><br><br>
+        <br><br><br>
         <div class="row">
-            <div class="col">
-                <button class="w-200 btn btn-secondary btn-lg" type="button"
-                        th:onclick="|location.href='@{/bbsLists}'|">
-                    게시판
-                </button>
+            <div id="addressInfo" class="col">
+                <!--   <button class="w-200 btn btn-secondary btn-lg" type="button"
+                           th:onclick="|location.href='@{/bbsLists}'|">
+                       게시판
+                   </button>-->
 
+            </div>
         </div>
-
     </div>
-    <div th:replace="fragments/footer :: footer" />
+    <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
+<script type="text/javascript">
+    let addressInfo = document.getElementById("addressInfo");
+
+    window.onload = async function () {
+        alert("dd");
+        str = "";
+        let URL = "http://localhost:8080/bbsregion"
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+        }
+        let response = await fetch(URL, options)
+        let regionInfo = await response.json();
+        for (let i = 0; i < regionInfo.length; i++) {
+            str += '<button class="btn-secondary btn-lg custom" type="button" onclick="nextRegion(' + regionInfo[i] + ')">' + regionInfo[i] + '</button>';
+        if(i%2 == 0 && i>0){
+            str += '<br>'
+        }
+        }
+        addressInfo.innerHTML = str;
+    }
+
+
+
+</script>
 </html>
