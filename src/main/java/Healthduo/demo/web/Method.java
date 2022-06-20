@@ -1,9 +1,7 @@
 package Healthduo.demo.web;
 
 import Healthduo.demo.domain.Bbs;
-import Healthduo.demo.domain.Region;
 import Healthduo.demo.dto.BbsDTO;
-import Healthduo.demo.dto.RegionDTO;
 import Healthduo.demo.service.BbsService;
 import Healthduo.demo.service.RegionService;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +26,21 @@ public class Method {
      * bbs페이징 DTO 변환 메서드
      *
      * @param pageable
+     * @param address
      * @return
      * @throws Exception
      */
+    public Page<BbsDTO> BbsListPaging(Pageable pageable, String address) throws Exception {
+        Page<Bbs> bbsList = bbsService.bbsList(pageable,address);
+        Page<BbsDTO> bbsDTo = bbsList.map(m -> new BbsDTO(m.getBbsNo(), m.getBbsTitle(), m.getBbsContent()
+                , m.getBbsDate(), m.getBbsHit(), m.getBbsNotice(), m.getBbsSecret(), m.getCheckNS(), m.getMember()));
+        log.info("BbsListPaging start");
+        log.info("총 element 수 : {}, 전체 page 수 : {}, 페이지에 표시할 element 수 : {}, 현재 페이지 index : {}, 현재 페이지의 element 수 : {}",
+                bbsDTo.getTotalElements(), bbsDTo.getTotalPages(), bbsDTo.getSize(),
+                bbsDTo.getNumber(), bbsDTo.getNumberOfElements());
+
+        return bbsDTo;
+    }
     public Page<BbsDTO> BbsListPaging(Pageable pageable) throws Exception {
         Page<Bbs> bbsList = bbsService.bbsList(pageable);
         Page<BbsDTO> bbsDTo = bbsList.map(m -> new BbsDTO(m.getBbsNo(), m.getBbsTitle(), m.getBbsContent()

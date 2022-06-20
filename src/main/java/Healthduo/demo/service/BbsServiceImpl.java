@@ -57,8 +57,15 @@ public class BbsServiceImpl implements BbsService {
     public List<Bbs> noticeBbsList() {
         log.info("noticeBbsList(Service start)");
         List<Bbs> noticeBbsList = bbsRepository.findNoticeBbsList();
-
         return noticeBbsList;
+    }
+
+    @Override
+    public Page<Bbs> bbsList(Pageable pageable, String address) {
+        log.info("bbsList(Service start)");
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "bbsNo"));
+        return bbsRepository.findAllAddress(pageable,address);
     }
 
     @Override

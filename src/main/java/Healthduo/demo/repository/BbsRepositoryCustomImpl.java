@@ -86,4 +86,18 @@ public class BbsRepositoryCustomImpl implements BbsRepositoryCustom{
 
         return results.getResults();
     }
+
+    @Override
+    public Page<Bbs> findAllAddress(Pageable pageable, String address) {
+        QueryResults<Bbs> results = queryFactory
+                .select(bbs)
+                .from(bbs)
+                .where(bbs.address.eq(address))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+        List<Bbs> bbsList = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(bbsList,pageable,total);
+    }
 }

@@ -27,4 +27,6 @@ public interface BbsService  {
     Page<Bbs> bbsListSearch(Pageable pageable, String bbsListSearch, String searchText);
 
     List<Bbs> noticeBbsList();
+
+    Page<Bbs> bbsList(Pageable pageable, String address);
 }

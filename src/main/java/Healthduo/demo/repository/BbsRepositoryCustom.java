@@ -14,4 +14,6 @@ public interface BbsRepositoryCustom {
     Page<Bbs> findBySearchTitle(String title, Pageable pageable);
     Page<Bbs> findBySearchUserID(String UserID, Pageable pageable);
     List<Bbs> findNoticeBbsList();
+
+    Page<Bbs> findAllAddress(Pageable pageable, String address);
 }

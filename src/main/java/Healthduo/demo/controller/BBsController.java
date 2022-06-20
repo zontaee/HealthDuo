@@ -3,7 +3,6 @@ package Healthduo.demo.controller;
 import Healthduo.demo.domain.Bbs;
 import Healthduo.demo.domain.Member;
 import Healthduo.demo.dto.BbsDTO;
-import Healthduo.demo.dto.RegionDTO;
 import Healthduo.demo.service.MemberService;
 import Healthduo.demo.service.RegionService;
 import Healthduo.demo.web.Method;
@@ -16,6 +15,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +42,7 @@ public class BBsController {
                           @RequestParam("address") String address,
                           Model model) throws Exception {
         log.info("bbsLists(controller start)");
-        Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable);
+        Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable,address);
         List<BbsDTO> noticeBbs = method.getBbsDTO();
         model.addAttribute("bbsDTO", bbsDTO);
         model.addAttribute("noticeBbs", noticeBbs);
@@ -101,15 +101,15 @@ public class BBsController {
     @PostMapping("/bbsSave")
     public String BbsSave(Bbs bbs,
                           @RequestParam("street") String street,
+                          RedirectAttributes redirectAttributes,
                           @SessionAttribute(name = "memberId", required = false)
                                   String loginMember) {
         log.info("bbsSave(controller start)");
-        log.info("---------------------------" + street);
         Member member = memberService.memberfindById(loginMember);
-        bbsService.bbsSave(bbs,street ,member);
-        return "redirect:/bbsLists";  //리다이렉트로 보내주면 된다.
+        redirectAttributes.addAttribute("address", street);
+        bbsService.bbsSave(bbs, street, member);
+        return "redirect:/bbsLists?";
     }
-
     /**
      * 게시글 보기
      *
