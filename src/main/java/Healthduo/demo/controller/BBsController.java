@@ -39,6 +39,7 @@ public class BBsController {
      */
     @GetMapping("/bbsLists")
     public String BbsList(@PageableDefault() Pageable pageable,
+                          @RequestParam("address") String address,
                           Model model) throws Exception {
         log.info("bbsLists(controller start)");
         Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable);

@@ -4,6 +4,7 @@ package Healthduo.demo.controller;
 import Healthduo.demo.domain.Member;
 import Healthduo.demo.dto.LoginDTO;
 import Healthduo.demo.dto.MemberDTO;
+import Healthduo.demo.service.RegionService;
 import Healthduo.demo.web.Method;
 import Healthduo.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -30,6 +32,7 @@ public class memberController {
 
     private final MemberService memberService;
     private final Method method;
+    private final RegionService regionService;
 
     /**
      * 세션 유무에따라 홈화면 분류
@@ -48,7 +51,9 @@ public class memberController {
             return "HomeLogin";
         }
         //세션이 유지되면 로그인으로 이동
+        List<String> regionInfo = regionService.getRegionInfo();
         model.addAttribute("member", loginMember);
+        model.addAttribute("regionInfo",regionInfo);
         return "Home";
     }
 
@@ -141,7 +146,7 @@ public class memberController {
         }
         HttpSession session = request.getSession();
         session.setAttribute("memberId", loginDTO.getMemberId());
-        return "Home";
+        return "redirect:/";
 
     }
 
