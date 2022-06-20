@@ -59,7 +59,3 @@ JpaRepository를 extends 받아서 save기능을 사용하고 있는데 회원�
 
 ![image](https://user-images.githubusercontent.com/90680271/155350662-f972c9a9-366f-4fb3-be24-78a49e7ec3bc.png)
 
-
-
-무한대댓글
-
