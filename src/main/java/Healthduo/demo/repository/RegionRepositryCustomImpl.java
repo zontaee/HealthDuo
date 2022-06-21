@@ -1,8 +1,8 @@
 package Healthduo.demo.repository;
 
-import Healthduo.demo.domain.QComment;
+
 import Healthduo.demo.domain.QRegion;
-import Healthduo.demo.domain.Region;
+
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
@@ -38,6 +38,11 @@ public class RegionRepositryCustomImpl implements RegionRepositryCustom {
         return findCity;
     }
 
+    /**
+     * 지역 정보 다음 구정보가 필요할 시 쿼리(서울특별시 강남구)
+     * @param regions
+     * @return
+     */
     @Override
     public List<String> findFullCity(String regions) {
         List<String> findFullCity = queryFactory.select(region.fullCity).distinct()
@@ -47,6 +52,11 @@ public class RegionRepositryCustomImpl implements RegionRepositryCustom {
         return findFullCity;
     }
 
+    /**
+     * 시정보 다음 구정보가 필요할 시 쿼리(경기도 성남시 분당구)
+     * @param citys
+     * @return
+     */
     @Override
     public List<String> findFullCity2(String citys) {
         List<String> findFullCity = queryFactory.select(region.fullCity).distinct()
@@ -58,10 +68,10 @@ public class RegionRepositryCustomImpl implements RegionRepositryCustom {
 
     @Override
     public List<String> findStreet(String fullCitys) {
-        List<String> street = queryFactory.select(region.Street).distinct()
+        List<String> findStreet = queryFactory.select(region.Street).distinct()
                 .from(region)
                 .where(region.fullCity.eq(fullCitys))
                 .fetch();
-        return street;
+        return findStreet;
     }
 }

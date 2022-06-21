@@ -25,24 +25,27 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int memberfind(Member member) {
-        int result;
+    public int loginCheck(Member member) {
+        int loginCheckResult;
         log.info("memberfind(Service start)");
-        Member findMember = memberRepository.findById(member.getMemberId()).orElse(null);
+        Member loginCheck = memberRepository.findById(member.getMemberId()).orElse(null);
         //admin 추가 고려
-        if (findMember == null) {
-            result = 1;//등록된 아이디가 없습니다.
-            return result;
+        if (loginCheck == null) {
+            loginCheckResult = 1;//등록된 아이디가 없습니다.
+            return loginCheckResult;
         } else {
-            if (findMember.getMemberPassword().equals(member.getMemberPassword())) {
-                result = 2;
-                return result;//아이디 비밀번호 둘다 일치
+            if (loginCheck.getMemberPassword().equals(member.getMemberPassword())) {
+                loginCheckResult = 2;
+                return loginCheckResult;//아이디 비밀번호 둘다 일치
             } else {
-                result = 3;
-                return result;//등록된 비밀번호가 틀렸습니다.
+                loginCheckResult = 3;
+                return loginCheckResult;//등록된 비밀번호가 틀렸습니다.
             }
         }
 
+        //loginCheck = 1 등록된 아이디가 없습니다.
+        //loginCheck = 2 아이디 비밀번호 둘다 일치
+        //loginCheck = 3 등록된 비밀번호가 틀렸습니다.
     }
 
     @Override
@@ -59,9 +62,9 @@ public class MemberServiceImpl implements MemberService {
         Member findId = memberRepository.findById(memberId).orElse(null);
 
         if (findId == null) {
-            checkIdNumber = 0;
+            checkIdNumber = 0; //중복회원x
         } else {
-            checkIdNumber = 1;
+            checkIdNumber = 1; //중복회원o
         }
 
         return checkIdNumber;

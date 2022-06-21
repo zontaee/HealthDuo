@@ -5,7 +5,6 @@ import Healthduo.demo.domain.Member;
 import Healthduo.demo.dto.LoginDTO;
 import Healthduo.demo.dto.MemberDTO;
 import Healthduo.demo.service.RegionService;
-import Healthduo.demo.web.Method;
 import Healthduo.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +30,6 @@ import java.util.List;
 public class memberController {
 
     private final MemberService memberService;
-    private final Method method;
     private final RegionService regionService;
 
     /**
@@ -42,7 +40,7 @@ public class memberController {
      * @return
      */
     @GetMapping("/")
-    public String homeLoginV3Spring(
+    public String homeLoginCheck(
             @SessionAttribute(name = "memberId", required = false)
                     Member loginMember,
             Model model) {
@@ -53,7 +51,7 @@ public class memberController {
         //세션이 유지되면 로그인으로 이동
         List<String> regionInfo = regionService.getRegionInfo();
         model.addAttribute("member", loginMember);
-        model.addAttribute("regionInfo",regionInfo);
+        model.addAttribute("regionInfo", regionInfo);
         return "Home";
     }
 
@@ -64,7 +62,7 @@ public class memberController {
      * @return
      */
     @GetMapping("/members/new")
-    public String createForm(Model model) {
+    public String createMemberForm(Model model) {
         MemberDTO memberDTO = new MemberDTO();
         model.addAttribute("memberDTO", memberDTO);
         return "members/createMemberForm";
@@ -100,7 +98,7 @@ public class memberController {
      */
 
     @GetMapping("/login")
-    public String getmemberLogin(LoginDTO loginDTO, Model model) {
+    public String memberLogin(LoginDTO loginDTO, Model model) {
         model.addAttribute("loginDTO", loginDTO);
         return "/members/login";
     }
@@ -115,8 +113,8 @@ public class memberController {
      * @return
      */
     @PostMapping("/login")
-    public String postmemberLogin(@Valid LoginDTO loginDTO, BindingResult result,
-                                  HttpServletResponse response, HttpServletRequest request) {
+    public String memberLogin(@Valid LoginDTO loginDTO, BindingResult result,
+                              HttpServletResponse response, HttpServletRequest request) {
         Member member = new Member(loginDTO.getMemberId(), loginDTO.getMemberPassword());
         log.info("check = {}", loginDTO.getIdRemember());
         //아이디 쿠키 생성
@@ -129,11 +127,11 @@ public class memberController {
             response.addCookie(deleteCookie);
         }
 
-        log.info("postmemberLogin(controller start");
-        int resultfind = memberService.memberfind(member);
-        log.info(String.valueOf(resultfind));
+        log.info("memberLogin(controller start");
+        int loginCheck = memberService.loginCheck(member);
+        log.info(String.valueOf(loginCheck));
 
-        switch (resultfind) {
+        switch (loginCheck) {
             case 1:
                 result.addError(new ObjectError("loginDTO", "등록된 아이디가 없습니다."));
                 break;
@@ -157,7 +155,7 @@ public class memberController {
      * @return
      */
     @GetMapping("/logout")
-    public String logoutV3(HttpServletRequest request) {
+    public String logout(HttpServletRequest request) {
         //세션을 삭제한다.
         HttpSession session = request.getSession(false);
         if (session != null) {

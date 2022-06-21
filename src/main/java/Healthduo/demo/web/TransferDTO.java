@@ -17,7 +17,7 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class Method {
+public class TransferDTO {
 
     private final BbsService bbsService;
     private final RegionService regionService;

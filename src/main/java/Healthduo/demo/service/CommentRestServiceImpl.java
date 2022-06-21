@@ -91,7 +91,7 @@ public class CommentRestServiceImpl implements CommentRestService {
             if (Integer.parseInt(sliceChildInfo[3]) == 0) {
                 log.info("2");
                 commentSequence = seq + 1;
-                commentRepository.updateSeqyebce(seq);
+                commentRepository.updateSequence(seq);
                 commentRepository.updateCheck(seq);
                 if (commentRepository.findCommentCnt().equals(Optional.empty())) {
                     commentCnt = 0;
@@ -107,7 +107,7 @@ public class CommentRestServiceImpl implements CommentRestService {
             } else {
                 log.info("3");
                 commentSequence = seq + 1;
-                commentRepository.updateSeqyebce(seq);
+                commentRepository.updateSequence(seq);
 
                 if (commentRepository.findCommentCnt().equals(Optional.empty())) {
                     commentCnt = 0;

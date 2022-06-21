@@ -1,6 +1,5 @@
 package Healthduo.demo.repository;
 
-import Healthduo.demo.domain.Bbs;
 import Healthduo.demo.domain.Comment;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public interface CommentRepositoryCustom {
 
     Integer findCommentSequence(Integer Groupnumber);
 
-    void updateSeqyebce(int seq);
+    void updateSequence(int seq);
 
     void updateCheck(int seq);
 

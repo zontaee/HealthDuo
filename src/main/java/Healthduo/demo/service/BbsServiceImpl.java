@@ -97,10 +97,10 @@ public class BbsServiceImpl implements BbsService {
     }
 
     @Override
-    public Optional<Bbs> findContentUpdate(Long bbsNo) {
-        log.info("updateContent(Service start)");
-        Optional<Bbs> findContentUpdate = bbsRepository.findById(bbsNo);
-        return findContentUpdate;
+    public Optional<Bbs> findUpdatedContent(Long bbsNo) {
+        log.info("findUpdatedContent(Service start)");
+        Optional<Bbs> findUpdatedContent = bbsRepository.findById(bbsNo);
+        return findUpdatedContent;
     }
 
     @Override

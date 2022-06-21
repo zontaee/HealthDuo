@@ -2,16 +2,13 @@ package Healthduo.demo.controller;
 
 import Healthduo.demo.domain.Bbs;
 import Healthduo.demo.domain.Member;
-import Healthduo.demo.dto.BbsDTO;
 import Healthduo.demo.dto.CommentDTO;
-import Healthduo.demo.dto.MemberDTO;
 import Healthduo.demo.service.BbsService;
 import Healthduo.demo.service.CommentRestService;
 import Healthduo.demo.service.MemberService;
-import Healthduo.demo.web.Method;
+import Healthduo.demo.web.TransferDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class CommentRestController {
-    private final Method method;
+    private final TransferDTO transferDTO;
     private final BbsService bbsService;
     private final MemberService memberService;
     private final CommentRestService commentRestService;

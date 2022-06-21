@@ -5,7 +5,7 @@ import Healthduo.demo.domain.Member;
 public interface MemberService {
     void memberSave(Member member);
 
-    int memberfind(Member member);
+    int loginCheck(Member member);
 
     Member memberfindById(String loginMember);
 

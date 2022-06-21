@@ -5,7 +5,7 @@ import Healthduo.demo.domain.Member;
 import Healthduo.demo.dto.BbsDTO;
 import Healthduo.demo.service.MemberService;
 import Healthduo.demo.service.RegionService;
-import Healthduo.demo.web.Method;
+import Healthduo.demo.web.TransferDTO;
 import Healthduo.demo.service.BbsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 public class BBsController {
-    private final Method method;
+    private final TransferDTO transferDTO;
     private final BbsService bbsService;
     private final MemberService memberService;
     private final RegionService regionService;
@@ -33,6 +33,7 @@ public class BBsController {
      * 게시판 글 목록(페이징)
      *
      * @param pageable
+     * @param address
      * @param model
      * @return
      * @throws Exception
@@ -42,8 +43,8 @@ public class BBsController {
                           @RequestParam("address") String address,
                           Model model) throws Exception {
         log.info("bbsLists(controller start)");
-        Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable,address);
-        List<BbsDTO> noticeBbs = method.getBbsDTO();
+        Page<BbsDTO> bbsDTO = transferDTO.BbsListPaging(pageable, address);
+        List<BbsDTO> noticeBbs = transferDTO.getBbsDTO();
         model.addAttribute("bbsDTO", bbsDTO);
         model.addAttribute("noticeBbs", noticeBbs);
         return "bbs/bbsList";
@@ -60,17 +61,15 @@ public class BBsController {
      * @throws Exception
      */
     @RequestMapping("bbsListSearch")
-    public String bbsListSerch(@PageableDefault() Pageable pageable, Model model,
-                               @RequestParam("searchField") String bbsListSearch,
-                               @RequestParam("searchText") String searchText) throws Exception {
-        log.info("bbsListSerch(controller start)");
-        Page<BbsDTO> bbsDTO = method.BbsListSerchPaging(pageable, bbsListSearch, searchText);
-        method.BbsListSerchPaging(pageable, bbsListSearch, searchText);
+    public String bbsListSearch(@PageableDefault() Pageable pageable, Model model,
+                                @RequestParam("searchField") String bbsListSearch,
+                                @RequestParam("searchText") String searchText) throws Exception {
+        log.info("bbsListSearch(controller start)");
+        Page<BbsDTO> bbsDTO = transferDTO.BbsListSerchPaging(pageable, bbsListSearch, searchText);
+        transferDTO.BbsListSerchPaging(pageable, bbsListSearch, searchText);
         model.addAttribute("bbsDTO", bbsDTO);
         model.addAttribute("searchField", bbsListSearch);
         model.addAttribute("searchText", searchText);
-
-
         return "bbs/bbsListSearch";
     }
 
@@ -110,6 +109,7 @@ public class BBsController {
         bbsService.bbsSave(bbs, street, member);
         return "redirect:/bbsLists?";
     }
+
     /**
      * 게시글 보기
      *
@@ -121,7 +121,7 @@ public class BBsController {
     public String BbsContent(@PathVariable Long bbsNo, Model model) {
         log.info("BbsContent(controller start)");
         Optional<Bbs> bbs = bbsService.findContent(bbsNo);
-        BbsDTO bbsDTO = method.getBbsDTO(bbs);
+        BbsDTO bbsDTO = transferDTO.getBbsDTO(bbs);
         model.addAttribute("bbsDTO", bbsDTO);
         log.info("bbs_hit = " + bbsDTO.getBbsHit());
         return "bbs/content";
@@ -135,10 +135,10 @@ public class BBsController {
      * @return
      */
     @GetMapping("/updateForm/{bbsNo}")
-    public String findContentUpdate(@PathVariable Long bbsNo, Model model) {
-        log.info("BbsContent(controller start)");
-        Optional<Bbs> bbs = bbsService.findContentUpdate(bbsNo);
-        BbsDTO bbsDTO = method.getBbsDTO(bbs);
+    public String findUpdatedContent(@PathVariable Long bbsNo, Model model) {
+        log.info("findUpdatedContent(controller start)");
+        Optional<Bbs> bbs = bbsService.findUpdatedContent(bbsNo);
+        BbsDTO bbsDTO = transferDTO.getBbsDTO(bbs);
         model.addAttribute("bbsDTO", bbsDTO);
         return "bbs/updateForm";
     }
@@ -155,7 +155,7 @@ public class BBsController {
     public String ContentUpdate(Bbs bbs, Model model) {
         log.info("ContentUpdate(controller start)");
         Optional<Bbs> bbsUpdate = bbsService.ContentUpdate(bbs);
-        BbsDTO bbsDTO = method.getBbsDTO(bbsUpdate);
+        BbsDTO bbsDTO = transferDTO.getBbsDTO(bbsUpdate);
         model.addAttribute("bbsDTO", bbsDTO);
         return "bbs/content";
 
@@ -174,7 +174,7 @@ public class BBsController {
     private String deleteContent(@PathVariable Long bbsNo, Pageable pageable, Model model) throws Exception {
         log.info("deleteContent(controller start)");
         bbsService.deleteContent(bbsNo);
-        Page<BbsDTO> bbsDTO = method.BbsListPaging(pageable);
+        Page<BbsDTO> bbsDTO = transferDTO.BbsListPaging(pageable);
         model.addAttribute("bbsDTO", bbsDTO);
         return "bbs/bbsList";
     }

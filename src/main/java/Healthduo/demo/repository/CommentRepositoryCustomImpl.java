@@ -40,7 +40,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
 
     @Override
     public void deleteByCommentGroup(int commentGroup) {
-        long execute = queryFactory
+                 queryFactory
                 .delete(comment)
                 .where(comment.commentGroup.eq(commentGroup))
                 .execute();
@@ -78,17 +78,17 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
     }
 
     @Override
-    public Integer findCommentSequence(Integer Groupnumber) {
+    public Integer findCommentSequence(Integer Groupumber) {
         Integer findCommentSequence = queryFactory
                 .select(comment.commentSequence.max())
                 .from(comment)
-                .where(comment.commentGroup.eq(Groupnumber))
+                .where(comment.commentGroup.eq(Groupumber))
                 .fetchOne();
         return findCommentSequence;
     }
 
     @Override
-    public void updateSeqyebce(int seq) {
+    public void updateSequence(int seq) {
         queryFactory
                 .update(comment)
                 .set(comment.commentSequence, comment.commentSequence.add(1))
