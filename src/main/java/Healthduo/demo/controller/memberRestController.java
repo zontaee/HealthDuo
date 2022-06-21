@@ -23,8 +23,6 @@ public class memberRestController {
     public int duplicatedMember(@RequestParam("memberId") String memberId) {
         log.info("duplicatedMember(controller start)");
        int checkIdNumber =  memberService.duplicatedMember(memberId);
-        log.info("checkIdNumber = " + checkIdNumber);
-
         return checkIdNumber;
     }
 }

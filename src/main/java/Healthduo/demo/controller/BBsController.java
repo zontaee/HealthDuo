@@ -107,7 +107,7 @@ public class BBsController {
         Member member = memberService.memberfindById(loginMember);
         redirectAttributes.addAttribute("address", street);
         bbsService.bbsSave(bbs, street, member);
-        return "redirect:/bbsLists?";
+        return "redirect:/bbsLists";
     }
 
     /**
@@ -137,7 +137,7 @@ public class BBsController {
     @GetMapping("/updateForm/{bbsNo}")
     public String findUpdatedContent(@PathVariable Long bbsNo, Model model) {
         log.info("findUpdatedContent(controller start)");
-        Optional<Bbs> bbs = bbsService.findUpdatedContent(bbsNo);
+        Optional<Bbs> bbs = bbsService.findUpdatingContent(bbsNo);
         BbsDTO bbsDTO = transferDTO.getBbsDTO(bbs);
         model.addAttribute("bbsDTO", bbsDTO);
         return "bbs/updateForm";

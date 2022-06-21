@@ -17,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class CommentRestController {
-    private final TransferDTO transferDTO;
     private final BbsService bbsService;
     private final MemberService memberService;
     private final CommentRestService commentRestService;
@@ -61,8 +60,6 @@ public class CommentRestController {
     public void commentDelete(@RequestParam("commentGroup") int commentGroup,
                               @RequestParam("commentSequence") int  commentSequence) {
         log.info("commentDelete(controller start)");
-        log.info("-------------------------------");
-        log.info("commentGroup={}  ,commentSequence={}" , commentGroup,commentSequence);
         commentRestService.commentDelete(commentGroup, commentSequence);
     }
 
@@ -81,7 +78,6 @@ public class CommentRestController {
                                   @RequestParam("Seq") int seq,
                                   @SessionAttribute(name = "memberId", required = false) String loginMember) {
         log.info("childCommentWrite(controller start)");
-        log.info("seq = "   + seq);
         Bbs bbs = bbsService.bbsfindById(bbsNo);
         Member member = memberService.memberfindById(loginMember);
         commentRestService.childCommentSave(content,bbs,member,childinfo, seq);

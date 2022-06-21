@@ -15,7 +15,7 @@ public interface BbsService  {
 
     Optional<Bbs> findContent(Long bbsNo);
 
-    Optional<Bbs> findUpdatedContent(Long bbsNo);
+    Optional<Bbs> findUpdatingContent(Long bbsNo);
 
 
     Optional<Bbs> ContentUpdate(Bbs bbs);

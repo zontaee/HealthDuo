@@ -6,6 +6,8 @@ import Healthduo.demo.dto.LoginDTO;
 import Healthduo.demo.dto.MemberDTO;
 import Healthduo.demo.service.RegionService;
 import Healthduo.demo.service.MemberService;
+import Healthduo.demo.web.ControllerMethod;
+import Healthduo.demo.web.TransferDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -31,6 +32,8 @@ public class memberController {
 
     private final MemberService memberService;
     private final RegionService regionService;
+    private final ControllerMethod controllerMethod;
+    private final TransferDTO transferDTO;
 
     /**
      * 세션 유무에따라 홈화면 분류
@@ -42,8 +45,8 @@ public class memberController {
     @GetMapping("/")
     public String homeLoginCheck(
             @SessionAttribute(name = "memberId", required = false)
-                    Member loginMember,
-            Model model) {
+                              Member loginMember,
+                              Model model) {
         //세션에 회원 데이터가 없으면 home
         if (loginMember == null) {
             return "HomeLogin";
@@ -77,9 +80,7 @@ public class memberController {
      */
     @PostMapping("/members/new")
     public String memberSave(@Valid MemberDTO memberDTO, BindingResult result) {
-        Member member = new Member(memberDTO.getMemberId(), memberDTO.getMemberPassword(), memberDTO.getMemberSex(), memberDTO.getMemberEmail(), LocalDate.now(), memberDTO.getMemberPnumber());
-        log.info(member.toString());
-
+        Member member = transferDTO.getMember(memberDTO);
         //validation 검증
         if (result.hasErrors()) {
             return "members/createMemberForm";
@@ -88,6 +89,8 @@ public class memberController {
         memberService.memberSave(member);
         return "redirect:/";
     }
+
+
 
     /**
      * 로그인 화면 이동
@@ -116,29 +119,11 @@ public class memberController {
     public String memberLogin(@Valid LoginDTO loginDTO, BindingResult result,
                               HttpServletResponse response, HttpServletRequest request) {
         Member member = new Member(loginDTO.getMemberId(), loginDTO.getMemberPassword());
-        log.info("check = {}", loginDTO.getIdRemember());
-        //아이디 쿠키 생성
-        if (loginDTO.getIdRemember()) {
-            Cookie rememberId = new Cookie("rememberId", loginDTO.getMemberId());
-            response.addCookie(rememberId);
-        } else {
-            Cookie deleteCookie = new Cookie("rememberId", null);
-            deleteCookie.setMaxAge(0);
-            response.addCookie(deleteCookie);
-        }
-
         log.info("memberLogin(controller start");
-        int loginCheck = memberService.loginCheck(member);
-        log.info(String.valueOf(loginCheck));
 
-        switch (loginCheck) {
-            case 1:
-                result.addError(new ObjectError("loginDTO", "등록된 아이디가 없습니다."));
-                break;
-            case 3:
-                result.addError(new ObjectError("loginDTO", "등록된 비밀번호가 틀렸습니다."));
-                break;
-        }
+        controllerMethod.createCookie(loginDTO, response);
+        int loginCheck = memberService.loginCheck(member);
+        controllerMethod.addErrorMessage(result, loginCheck);
         if (result.hasErrors()) {
             return "members/login";
         }
@@ -147,6 +132,7 @@ public class memberController {
         return "redirect:/";
 
     }
+
 
     /**
      * 로그아웃

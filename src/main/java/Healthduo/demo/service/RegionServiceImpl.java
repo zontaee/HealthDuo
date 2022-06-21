@@ -2,6 +2,7 @@ package Healthduo.demo.service;
 
 import Healthduo.demo.domain.Region;
 import Healthduo.demo.repository.RegionRepository;
+import Healthduo.demo.web.ServiceMethod;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RegionServiceImpl implements RegionService {
     private final RegionRepository regionRepository;
+    private final ServiceMethod serviceMethod;
 
 
     @Override
@@ -27,15 +29,10 @@ public class RegionServiceImpl implements RegionService {
     @Override
     public List<String> cityInfo(String region) {
         log.info("cityInfo(controller start)");
-        if(region.equals("서울특별시")) {
-            List<String> fullCity = regionRepository.findFullCity(region);
-            return fullCity;
-        }else {
-            List<String> citys = regionRepository.findCity(region);
-            return citys;
-        }
+        return serviceMethod.distinguishRegion(region);
 
     }
+
 
     @Override
     public List<String> fullCityInfo(String city) {

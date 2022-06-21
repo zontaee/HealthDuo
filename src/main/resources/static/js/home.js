@@ -3,7 +3,7 @@ let addressInfo = document.getElementById("addressInfo");
 window.onload = async function () {
     str = "";
     asd = "";
-    let URL = "http://localhost:8080/bbsRegion"
+    let URL = "http://localhost:8080/findRegion"
     let options = {
         method: 'POST',
         headers: {
