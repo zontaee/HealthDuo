@@ -59,7 +59,3 @@ JpaRepository를 extends 받아서 save기능을 사용하고 있는데 회원�
 
 ![image](https://user-images.githubusercontent.com/90680271/155350662-f972c9a9-366f-4fb3-be24-78a49e7ec3bc.png)
 
-대댓글 기능은 구현했다. 코드가 좀 복잡하다...
-
-또한 대대대댓글을 계층형으로 표현해야하는데 아직 어떻게 로직을 짤지 생각중이다
-
