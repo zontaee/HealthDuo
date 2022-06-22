@@ -91,7 +91,7 @@
         let comment = await response.json();
 
         for (let i = 0; i < comment.length; i++) {
-            let childIdLevel = "L" + comment[i].commentGroup + "L" + comment[i].level + "L" + comment[i].checkInfo;
+            let childIdLevel = "L" + comment[i].commentGroup + "L" + comment[i].level;
             let seq = comment[i].commentSequence;
             let cnt = comment[i].commentCnt;
             let div = "divId" + cnt;

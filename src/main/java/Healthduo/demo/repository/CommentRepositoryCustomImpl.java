@@ -1,10 +1,8 @@
 package Healthduo.demo.repository;
 
-import Healthduo.demo.domain.Bbs;
 import Healthduo.demo.domain.Comment;
 import Healthduo.demo.domain.QComment;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -33,7 +31,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
         List<Comment> contentFind = queryFactory
                 .selectFrom(comment)
                 .where(comment.bbs.bbsNo.eq(bbsNo))
-                .orderBy(comment.commentGroup.desc(), comment.commentSequence.asc())
+                .orderBy(comment.commentGroup.asc(), comment.commentSequence.asc())
                 .fetch();
         return contentFind;
     }
@@ -68,27 +66,40 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
     }
 
     @Override
-    public Integer findLevel(String childinfo) {
+    public Integer findLevel(String childInfo) {
         Integer findLevel = queryFactory
                 .select(comment.level.max())
                 .from(comment)
-                .where(comment.childInfo.eq(childinfo))
+                .where(comment.childInfo.eq(childInfo))
                 .fetchOne();
         return findLevel;
     }
 
+
+
     @Override
-    public Integer findCommentSequence(Integer Groupumber) {
+    public Integer findSameLevelAndGroupMaxSeq(Integer group, Integer level) {
+        Integer findLevel = queryFactory
+                .select(comment.commentSequence.max())
+                .from(comment)
+                .where(comment.commentGroup.eq(group).and(comment.level.eq(level)))
+                .fetchOne();
+        return findLevel;
+    }
+
+
+    @Override
+    public Integer findCommentSequence(Integer GroupNumber) {
         Integer findCommentSequence = queryFactory
                 .select(comment.commentSequence.max())
                 .from(comment)
-                .where(comment.commentGroup.eq(Groupumber))
+                .where(comment.commentGroup.eq(GroupNumber))
                 .fetchOne();
         return findCommentSequence;
     }
 
     @Override
-    public void updateSequence(int seq) {
+    public void updateAllSequence(int seq) {
         queryFactory
                 .update(comment)
                 .set(comment.commentSequence, comment.commentSequence.add(1))

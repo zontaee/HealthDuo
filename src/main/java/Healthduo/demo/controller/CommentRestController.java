@@ -47,7 +47,6 @@ public class CommentRestController {
     public List<CommentDTO> findComment(@RequestParam("bbsNo") Long bbsNo) {
         log.info("findComment(controller start)");
         List<CommentDTO> commentDTO = commentRestService.commentFind(bbsNo);
-        log.info("commentDTO.size() =" + commentDTO.size());
         return commentDTO;
     }
 

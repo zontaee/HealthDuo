@@ -1,8 +1,10 @@
 package Healthduo.demo.web;
 
 import Healthduo.demo.domain.Bbs;
+import Healthduo.demo.domain.Comment;
 import Healthduo.demo.domain.Member;
 import Healthduo.demo.dto.BbsDTO;
+import Healthduo.demo.dto.CommentDTO;
 import Healthduo.demo.dto.MemberDTO;
 import Healthduo.demo.service.BbsService;
 import Healthduo.demo.service.RegionService;
@@ -99,6 +101,15 @@ public class TransferDTO {
         Member member = new Member(memberDTO.getMemberId(), memberDTO.getMemberPassword(), memberDTO.getMemberSex(), memberDTO.getMemberEmail(), LocalDate.now(), memberDTO.getMemberPnumber());
         return member;
     }
+    public void transferCommentDTO(List<CommentDTO> commentDTO, List<Comment> comments) {
+        for (Comment comment : comments) {
+            CommentDTO recommentDTO = new CommentDTO(comment.getCommentId(), comment.getContent(), comment.getCommentCnt(),
+                    comment.getCommentGroup(), comment.getDate(), comment.getCommentSequence(), comment.getLevel(), comment.getMember().getMemberId());
+            commentDTO.add(recommentDTO);
+        }
+    }
+
+
 
 
     private Page<BbsDTO> getBbsDTOS(Page<Bbs> bbsList, String BbsListPaging_start) {
@@ -117,6 +128,8 @@ public class TransferDTO {
                 , bbs.get().getBbsDate(), bbs.get().getBbsHit(), bbs.get().getBbsNotice(), bbs.get().getBbsSecret(), bbs.get().getCheckNS(), bbs.get().getMember());
         return bbsDTO;
     }
+
+
 
 
 

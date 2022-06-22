@@ -19,9 +19,11 @@ public interface CommentRepositoryCustom {
 
     Integer findLevel(String childinfo);
 
+    Integer findSameLevelAndGroupMaxSeq(Integer group, Integer level);
+
     Integer findCommentSequence(Integer Groupnumber);
 
-    void updateSequence(int seq);
+    void updateAllSequence(int seq);
 
     void updateCheck(int seq);
 
