@@ -89,7 +89,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
 
 
     @Override
-    public Integer findCommentSequence(Integer GroupNumber) {
+    public Integer findCommentMaxSequence(Integer GroupNumber) {
         Integer findCommentSequence = queryFactory
                 .select(comment.commentSequence.max())
                 .from(comment)

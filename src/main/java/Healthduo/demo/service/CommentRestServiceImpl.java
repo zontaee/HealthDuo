@@ -12,12 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -28,6 +26,12 @@ public class CommentRestServiceImpl implements CommentRestService {
     private final ServiceMethod serviceMethod;
     private final TransferDTO transferDTO;
 
+    /**
+     * 일반 댓글 저장
+     * @param content
+     * @param bbs
+     * @param member
+     */
     @Override
     public void CommentSave(String content, Bbs bbs, Member member) {
         log.info("CommentSave(Service start)");
@@ -56,7 +60,7 @@ public class CommentRestServiceImpl implements CommentRestService {
 
     }
 
-    /**
+    /** 대댓글 저장
      *  checkInfo -> 부모댓글 구분
      * @param content
      * @param bbs
@@ -73,7 +77,7 @@ public class CommentRestServiceImpl implements CommentRestService {
         Integer commentCnt;
         Integer level;
         Integer check = 0;
-        Integer commentSequenceFinded = commentRepository.findCommentSequence(commentGroupNubmer);
+        Integer commentSequenceFinded = commentRepository.findCommentMaxSequence(commentGroupNubmer);
         if (Integer.parseInt(sliceChildInfo[2]) == 0) { //level이 0일때
             commentSequence = commentSequenceFinded + 1;
             level = 1;

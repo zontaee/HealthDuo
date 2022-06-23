@@ -21,7 +21,7 @@ public interface CommentRepositoryCustom {
 
     Integer findSameLevelAndGroupMaxSeq(Integer group, Integer level);
 
-    Integer findCommentSequence(Integer Groupnumber);
+    Integer findCommentMaxSequence(Integer Groupnumber);
 
     void updateAllSequence(int seq);
 
