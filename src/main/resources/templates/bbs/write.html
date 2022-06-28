@@ -16,30 +16,10 @@
 
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <form class="form-horizontal" th:action="@{/bbsSave}" th:object="${bbsDTO}" method="post">
-        <div class="row justify-content-start">
-            <!--  <div class= "col-sm-2">-->
-            <label class="col-sm-2 control-label">지역</label>
-            <!--     </div>-->
-            <div class="col-sm-2 ">
-                <select class="form-select" id="region" name="region" field="지역"
-                        onchange="changeRegion(this.value)">
-                    <option value="">지역</option>
-                    <option th:each="region : ${region}" th:value="${region}"
-                            th:text="${region}">FAST
-                    </option>
-                </select>
-            </div>
-            <div id="one" class="col-sm-2 ">
 
-            </div>
-            <div id="two" class="col-sm-2 ">
+            <h3 style="text-align: center;" class="text-muted" th:text="${address}">"${address}"</h3>
+        <input type="hidden" id="address" name="address" th:value="${address}">
 
-            </div>
-            <div id="three" class="col-sm-2 ">
-
-            </div>
-
-        </div>
         <input type="hidden" th:if="*{bbsNo != null and bbsNo > 0}" th:field="*{bbsNo}"/>
         <div class="row justify-content-start">
             <label th:for="bbs_notice" class="col-sm-2 control-label">공지글 설정</label>
@@ -69,7 +49,7 @@
         </div>
 
         <div class="btn_wrap text-center">
-            <a th:href="@{/bbsLists}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
+            <a th:href="@{/bbsLists(address=${address})}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
             <button type="submit" class="btn btn-primary waves-effect waves-light">저장하기</button>
         </div>
     </form>

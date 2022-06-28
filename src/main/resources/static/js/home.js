@@ -13,8 +13,9 @@ window.onload = async function () {
     let response = await fetch(URL, options)
     let regionInfo = await response.json();
     for (let i = 0; i < regionInfo.length; i++) {
+
         str += '<button class="btn-secondary btn-lg custom" value="button" onclick="nextRegion(\''+regionInfo[i]+'\')">' + regionInfo[i] + '</button>';
-        if (i % 2 == 0 && i > 0) {
+        if (i % 2 == 1 && i > 0) {
             str += '<br>'
         }
     }
@@ -40,19 +41,19 @@ async function nextRegion(region) {
 
     if (region == "서울특별시") {
         for (let i = 0; i < nextinfo.length; i++) {
-
-            str += '<button class="btn-secondary btn-lg custom" type="button" onclick="nextStreet(\''+ nextinfo[i] +'\')">' + nextinfo[i] + '</button>';
             if (i % 2 == 0 && i > 0) {
                 str += '<br>'
             }
+            str += '<button class="btn-secondary btn-lg custom" type="button" onclick="nextStreet(\''+ nextinfo[i] +'\')">' + nextinfo[i] + '</button>';
+
         }
         addressInfo.innerHTML = str;
     } else {
         for (let i = 0; i < nextinfo.length; i++) {
-            str += '<button class="btn-secondary btn-lg custom" type="button" onclick="nextFullCity(\'' + nextinfo[i] +'\' )">' + nextinfo[i] + '</button>';
             if (i % 2 == 0 && i > 0) {
                 str += '<br>'
             }
+            str += '<button class="btn-secondary btn-lg custom" type="button" onclick="nextFullCity(\'' + nextinfo[i] +'\' )">' + nextinfo[i] + '</button>';
         }
         addressInfo.innerHTML = str;
     }

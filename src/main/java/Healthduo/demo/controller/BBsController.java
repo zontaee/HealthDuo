@@ -45,6 +45,7 @@ public class BBsController {
         log.info("bbsLists(controller start)");
         Page<BbsDTO> bbsDTO = transferDTO.BbsListPaging(pageable, address);
         List<BbsDTO> noticeBbs = transferDTO.getBbsDTO();
+        model.addAttribute("address",address);
         model.addAttribute("bbsDTO", bbsDTO);
         model.addAttribute("noticeBbs", noticeBbs);
         return "bbs/bbsList";
@@ -79,13 +80,14 @@ public class BBsController {
      * @param model
      * @return
      */
-    @RequestMapping("/write")
-    public String BbsWrite(Model model) {
+    @GetMapping("/write")
+    public String BbsWrite(@RequestParam("address") String address,Model model) {
         log.info("BbsWrite(controller start)");
-        List<String> region = regionService.getRegionInfo();
+      /*  List<String> region = regionService.getRegionInfo();*/
         BbsDTO bbsDTO = new BbsDTO();
         model.addAttribute("bbsDTO", bbsDTO);
-        model.addAttribute("region", region);
+        model.addAttribute("address",address);
+      /*  model.addAttribute("region", region);*/
         return "bbs/write";
     }
 
@@ -99,14 +101,14 @@ public class BBsController {
      */
     @PostMapping("/bbsSave")
     public String BbsSave(Bbs bbs,
-                          @RequestParam("street") String street,
+                          @RequestParam("address") String address,
                           RedirectAttributes redirectAttributes,
                           @SessionAttribute(name = "memberId", required = false)
                                   String loginMember) {
         log.info("bbsSave(controller start)");
         Member member = memberService.memberfindById(loginMember);
-        redirectAttributes.addAttribute("address", street);
-        bbsService.bbsSave(bbs, street, member);
+        redirectAttributes.addAttribute("address", address);
+        bbsService.bbsSave(bbs, address, member);
         return "redirect:/bbsLists";
     }
 

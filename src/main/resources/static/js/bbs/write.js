@@ -1,8 +1,9 @@
-/**
+/*
+/!**
  * 지역 선택 메소드 -> 특별시와 도를 구분하여 셀렉트박스 생성
  * @param region
  * @returns {Promise<void>}
- */
+ *!/
 let firstSelect = document.getElementById("one");
 let secondSelect = document.getElementById("two");
 let thridSelect = document.getElementById("three");
@@ -129,4 +130,4 @@ async function changeStreet(fullCity) {
     streetId.innerHTML = str;
 
 
-}
+}*/
