@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -98,6 +99,11 @@ public class ServiceMethod {
         return checkIdNumber;
     }
 
+    /**
+     * ex 경기도면 성남시 서울특별시면 강남구 시랑 구랑 다르기때문에 구별해주는 메소드가 필요하다.
+     * @param region
+     * @return
+     */
     public List<String> distinguishRegion(String region) {
         if (region.equals("서울특별시")) {
             List<String> fullCity = regionRepository.findFullCity(region);
