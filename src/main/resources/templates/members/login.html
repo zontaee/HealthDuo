@@ -70,5 +70,18 @@
 <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
-<script type="text/javascript" src="js/members/login.js"></script>
+<script type="text/javascript">
+    let checkCookie = document.cookie;
+    let value = checkCookie.split('=');
+    console.log(value[1]);
+    if(value[1] === undefined){
+
+        value[1] ="";
+    }
+
+    window.onload = function (){
+        let id = document.getElementById("loginId");
+        id.setAttribute("value",value[1]);
+    }
+</script>
 </html>
