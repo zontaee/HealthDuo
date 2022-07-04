@@ -41,7 +41,7 @@ public class BBsController {
     @GetMapping("/bbsLists")
     public String BbsList(@PageableDefault() Pageable pageable,
                           @RequestParam("address") String address,
-                          Model model) throws Exception {
+                          Model model){
         log.info("bbsLists(controller start)");
         Page<BbsDTO> bbsDTO = transferDTO.BbsListPaging(pageable, address);
         List<BbsDTO> noticeBbs = transferDTO.getBbsDTO();
@@ -64,7 +64,7 @@ public class BBsController {
     @RequestMapping("bbsListSearch")
     public String bbsListSearch(@PageableDefault() Pageable pageable, Model model,
                                 @RequestParam("searchField") String bbsListSearch,
-                                @RequestParam("searchText") String searchText) throws Exception {
+                                @RequestParam("searchText") String searchText) {
         log.info("bbsListSearch(controller start)");
         Page<BbsDTO> bbsDTO = transferDTO.BbsListSerchPaging(pageable, bbsListSearch, searchText);
         transferDTO.BbsListSerchPaging(pageable, bbsListSearch, searchText);

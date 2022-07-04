@@ -34,7 +34,7 @@ public class TransferDTO {
      * @return
      * @throws Exception
      */
-    public Page<BbsDTO> BbsListPaging(Pageable pageable, String address) throws Exception {
+    public Page<BbsDTO> BbsListPaging(Pageable pageable, String address){
         Page<Bbs> bbsList = bbsService.bbsList(pageable, address);
         Page<BbsDTO> bbsDTo = getBbsDTOS(bbsList, "BbsListPaging start");
         return bbsDTo;
@@ -63,7 +63,7 @@ public class TransferDTO {
      * @return
      * @throws Exception
      */
-    public Page<BbsDTO> BbsListSerchPaging(Pageable pageable, String bbsListSearch, String searchText) throws Exception {
+    public Page<BbsDTO> BbsListSerchPaging(Pageable pageable, String bbsListSearch, String searchText)  {
         Page<Bbs> bbsList = bbsService.bbsListSearch(pageable, bbsListSearch, searchText);
         Page<BbsDTO> bbsDTo = getBbsDTOS(bbsList, "BbsListSerchPaging start");
 
