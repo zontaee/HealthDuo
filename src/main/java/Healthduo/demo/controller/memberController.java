@@ -57,6 +57,10 @@ public class memberController {
         model.addAttribute("regionInfo", regionInfo);
         return "Home";
     }
+    @GetMapping("/member/checkinfomember")
+    public String CheckInfoMember(){
+      return "members/CheckInfoMember";
+    }
 
     /**
      * 회원가입 창으로 이동
