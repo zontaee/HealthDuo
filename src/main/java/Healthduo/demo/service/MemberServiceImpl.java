@@ -21,7 +21,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void memberSave(Member member) {
         log.info("memberSave(controller start");
-        Member savedMember = memberRepository.saveMember(member);
+        Member savedMember = memberRepository.save(member);
         log.info("savedMember Member_id =>" + savedMember.getMemberId());
 
     }

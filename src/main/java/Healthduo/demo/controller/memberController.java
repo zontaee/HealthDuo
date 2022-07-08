@@ -45,8 +45,8 @@ public class memberController {
     @GetMapping("/")
     public String homeLoginCheck(
             @SessionAttribute(name = "memberId", required = false)
-                              Member loginMember,
-                              Model model) {
+                    Member loginMember,
+            Model model) {
         //세션에 회원 데이터가 없으면 home
         if (loginMember == null) {
             return "HomeLogin";
@@ -57,9 +57,10 @@ public class memberController {
         model.addAttribute("regionInfo", regionInfo);
         return "Home";
     }
+
     @GetMapping("/member/checkinfomember")
-    public String CheckInfoMember(){
-      return "members/CheckInfoMember";
+    public String CheckInfoMember() {
+        return "members/CheckInfoMember";
     }
 
     /**
@@ -93,7 +94,6 @@ public class memberController {
         memberService.memberSave(member);
         return "redirect:/";
     }
-
 
 
     /**
@@ -153,4 +153,25 @@ public class memberController {
         }
         return "redirect:/";
     }
+
+    /**
+     * my page 이동
+     *
+     * @return
+     */
+    @GetMapping("/mypage")
+    public String myPage() {
+        return "members/mypage";
+    }
+
+    @GetMapping("/member/changeinfomember")
+    public String changeInfoMember(@SessionAttribute(name = "memberId", required = false)
+                                               String loginMember,
+                                               Model model) {
+        Member member = memberService.memberfindById(loginMember);
+        model.addAttribute("member",member);
+
+        return "members/changeinfo";
+    }
+
 }

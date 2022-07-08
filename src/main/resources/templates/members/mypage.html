@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+    </style>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="jumbotron">
+        <h3 th:text="${session.memberId} + '님 안녕하세요!'"></h3>
+        <br><br><br>
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg" type="button"
+                        th:onclick="|location.href='@{/member/changeinfomember}'|">
+                    회원정보 변경
+                </button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        th:onclick="|location.href='@{/member/checkinfomember}'|" type="button">
+                   쪽지 보기
+                </button>
+
+            </div>
+            <br><br><br>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg" type="button"
+                        th:onclick="|location.href='@{/login}'|">
+                    내가 쓴 게시물 보기
+                </button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        th:onclick="|location.href='@{/member/checkinfomember}'|" type="button">
+                    회원 탈퇴
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+<script type="text/javascript">
+</script>
+</html>
