@@ -64,12 +64,14 @@ public class BBsController {
     @RequestMapping("bbsListSearch")
     public String bbsListSearch(@PageableDefault() Pageable pageable, Model model,
                                 @RequestParam("searchField") String bbsListSearch,
-                                @RequestParam("searchText") String searchText) {
+                                @RequestParam("searchText") String searchText,
+                                @RequestParam("address") String address) {
         log.info("bbsListSearch(controller start)");
         Page<BbsDTO> bbsDTO = transferDTO.BbsListSerchPaging(pageable, bbsListSearch, searchText);
         model.addAttribute("bbsDTO", bbsDTO);
         model.addAttribute("searchField", bbsListSearch);
         model.addAttribute("searchText", searchText);
+        model.addAttribute("address",address);
         return "bbs/bbsListSearch";
     }
 
