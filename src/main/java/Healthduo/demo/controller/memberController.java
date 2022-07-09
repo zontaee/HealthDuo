@@ -2,6 +2,7 @@ package Healthduo.demo.controller;
 
 
 import Healthduo.demo.domain.Member;
+import Healthduo.demo.dto.BbsDTO;
 import Healthduo.demo.dto.LoginDTO;
 import Healthduo.demo.dto.MemberDTO;
 import Healthduo.demo.service.RegionService;
@@ -10,6 +11,9 @@ import Healthduo.demo.web.ControllerMethod;
 import Healthduo.demo.web.TransferDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -170,8 +174,26 @@ public class memberController {
                                                Model model) {
         Member member = memberService.memberfindById(loginMember);
         model.addAttribute("member",member);
-
         return "members/changeinfo";
+    }
+
+    /**
+     * 회원이 작성한 글 목록
+     * @param loginMember
+     * @param pageable
+     * @param model
+     * @return
+     */
+    @GetMapping("/member/bbsinfomember")
+    public String bbsInfoMember(@SessionAttribute(name = "memberId", required = false) String loginMember,
+                                @PageableDefault() Pageable pageable,
+                                Model model) {
+        log.info("bbsInfoMember(controller start)");
+        Page<BbsDTO> bbsDTO = transferDTO.BbsListSerchPaging(pageable,"userID",loginMember);
+        model.addAttribute("bbsDTO", bbsDTO);
+        model.addAttribute("searchField", "userID");
+        model.addAttribute("searchText", loginMember);
+        return "members/bbsinfomember";
     }
 
 }

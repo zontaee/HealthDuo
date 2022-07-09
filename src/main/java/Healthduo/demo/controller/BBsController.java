@@ -67,7 +67,6 @@ public class BBsController {
                                 @RequestParam("searchText") String searchText) {
         log.info("bbsListSearch(controller start)");
         Page<BbsDTO> bbsDTO = transferDTO.BbsListSerchPaging(pageable, bbsListSearch, searchText);
-        transferDTO.BbsListSerchPaging(pageable, bbsListSearch, searchText);
         model.addAttribute("bbsDTO", bbsDTO);
         model.addAttribute("searchField", bbsListSearch);
         model.addAttribute("searchText", searchText);
@@ -83,11 +82,9 @@ public class BBsController {
     @GetMapping("/write")
     public String BbsWrite(@RequestParam("address") String address,Model model) {
         log.info("BbsWrite(controller start)");
-      /*  List<String> region = regionService.getRegionInfo();*/
         BbsDTO bbsDTO = new BbsDTO();
         model.addAttribute("bbsDTO", bbsDTO);
         model.addAttribute("address",address);
-      /*  model.addAttribute("region", region);*/
         return "bbs/write";
     }
 
