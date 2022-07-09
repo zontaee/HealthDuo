@@ -35,8 +35,7 @@ public class BbsServiceImpl implements BbsService {
     public Page<Bbs> bbsListSearch(Pageable pageable, String bbsListSearch, String searchText) {
         log.info("bbsListSearch(Service start)");
         pageable = serviceMethod.getPageable(pageable);
-        Page<Bbs> searchedBbsList = bbsRepository.findBySearchContent(searchText, pageable); // 수정 check
-        searchedBbsList = serviceMethod.resultBySearch(pageable, bbsListSearch, searchText, searchedBbsList);
+        Page<Bbs> searchedBbsList = serviceMethod.resultBySearch(pageable, bbsListSearch, searchText);
         return searchedBbsList;
     }
 

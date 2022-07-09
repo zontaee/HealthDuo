@@ -35,8 +35,8 @@ public class ServiceMethod {
         return pageable;
     }
 
-    public Page<Bbs> resultBySearch(Pageable pageable, String bbsListSearch, String searchText, Page<Bbs> searchedBbsList) {
-
+    public Page<Bbs> resultBySearch(Pageable pageable, String bbsListSearch, String searchText) {
+                Page<Bbs> searchedBbsList = null;
         switch (bbsListSearch) {
             case "bbsTitle":
                 searchedBbsList = bbsRepository.findBySearchTitle(searchText, pageable);
