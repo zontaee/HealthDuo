@@ -34,9 +34,9 @@
                 <td class="col-1 text-center" th:text="${bbs.bbsNo}"></td>
                 <td class="col-5 text-center" th:if="${bbs.checkNS.toString().contains('s')}">
                     <a class="secret" th:text="${bbs.bbsTitle} + '-비밀글-'"
-                       th:attr= "onclick=|javascript:secretBbsCheck(${bbs.bbsNo},'${bbs.member.memberId}')|"></a></td>
+                       th:attr="onclick=|javascript:secretBbsCheck(${bbs.bbsNo},'${bbs.member.memberId}')|"></a></td>
                 <td class="col-5 text-center" th:unless="${bbs.checkNS.toString().contains('s')}">
-                    <a th:text="${bbs.bbsTitle}"  th:href="@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}"></a></td>
+                    <a th:text="${bbs.bbsTitle}" th:href="@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}"></a></td>
                 <!--th:onclick="|location.href='@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}'|"-->
                 <td class="col-2 text-center" th:text="${bbs.bbsDate}"></td>
                 <td class="col-2 text-center" th:text="${bbs.member.memberId}"></td>
@@ -78,50 +78,50 @@
             </li>
         </ul>
     </nav>
-    <div class="row"></div>
 
     <form method="post" id="search" name="search" action="bbsListSearch">
-        <table class="pull-right">
+        <table class="table table-striped">
             <input type="hidden" name="address" th:value="${address}">
 
             <tr>
-                <td><select class="form-control" name="searchField">
+                <td class="text-center"><select class="form-control" name="searchField">
                     <option value="bbsTitle">제목</option>
                     <option value="bbsContent">내용</option>
                     <option value="userID">작성자</option>
                 </select></td>
-                <td><input type="text" class="form-control"
-                           placeholder="검색어 입력" name="searchText" maxlength="100"></td>
-                <td>
-                    <button type="submit" class="btn btn-success">검색</button>
+                <td class="text-center"><input type="text" class="form-control"
+                                               placeholder="검색어 입력" name="searchText" maxlength="100"></td>
+                <td class="text-center">
+                    <button type="submit" class="w-100 btn btn-success">검색</button>
                 </td>
             </tr>
 
         </table>
     </form>
-</div>
 
 
-<div class="col">
-    <button class="w-100 btn btn-secondary btn-lg"
-            onclick="location.href='items.html'"
-            th:onclick="|location.href='@{/write(address=${address})}'|"
-            type="button">글 작성하기
-    </button>
-</div>
 
-<div th:replace="fragments/footer :: footer"/>
+        <button class="btn btn-secondary btn-lg btn-block"
+                onclick="location.href='items.html'"
+                th:onclick="|location.href='@{/write(address=${address})}'|"
+                type="button">글 작성하기
+        </button>
+
+
+    <div th:replace="fragments/footer :: footer"/>
 
 </div> <!-- /container -->
 
 </body>
 <script type="text/javascript">
     let getSesstion = "[[ ${session.memberId} ]]";
-    function secretBbsCheck(bbsno,member){
-     if(getSesstion == member){
-         window.location = "http://localhost:8080/content/" + bbsno;
-    }else {
-     alert("비밀글 입니다")}
+
+    function secretBbsCheck(bbsno, member) {
+        if (getSesstion == member) {
+            window.location = "http://localhost:8080/content/" + bbsno;
+        } else {
+            alert("비밀글 입니다")
+        }
     }
 
 </script>
