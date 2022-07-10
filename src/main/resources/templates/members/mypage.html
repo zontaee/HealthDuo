@@ -22,7 +22,7 @@
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         th:onclick="|location.href='@{/member/checkinfomember}'|" type="button">
-                   쪽지 보기
+                    쪽지 보기
                 </button>
 
             </div>
@@ -37,7 +37,7 @@
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
-                        th:onclick="|location.href='@{/member/checkinfomember}'|" type="button">
+                        th:onclick="memberDelete()" type="button">
                     회원 탈퇴
                 </button>
 
@@ -50,5 +50,33 @@
 </div> <!-- /container -->
 </body>
 <script type="text/javascript">
+    let memberId = "[[ ${session.memberId} ]]";
+    let URL = "http://localhost:8080/deletemember";
+    let options = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            memberId: memberId,
+        })
+    }
+
+    function memberDelete() {
+        if (!confirm("확인 또는 취소를 눌러주세요.")) {
+            alert("취소 되었습니다.");
+        } else {
+            fetch(URL, options)
+                .then((response) => response.json())
+                .then((json) => {
+                    if (json === 1) {
+                        alert("삭제 성공")
+                    } else {
+                        alert("삭제 실패")
+                    }
+                })
+        }
+    }
+
 </script>
 </html>

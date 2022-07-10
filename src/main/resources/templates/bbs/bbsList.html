@@ -82,6 +82,8 @@
 
     <form method="post" id="search" name="search" action="bbsListSearch">
         <table class="pull-right">
+            <input type="hidden" name="address" th:value="${address}">
+
             <tr>
                 <td><select class="form-control" name="searchField">
                     <option value="bbsTitle">제목</option>

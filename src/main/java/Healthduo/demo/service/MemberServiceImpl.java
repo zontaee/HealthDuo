@@ -52,4 +52,16 @@ public class MemberServiceImpl implements MemberService {
         return checkIdNumber;
     }
 
+    /**
+     * 삭제에 성공하면 1 실패하면 0 반환
+     * @param memberId
+     * @return
+     */
+    @Override
+    public int deleteMember(String memberId) {
+        log.info("deleteMember(Service start)");
+        int deleteCheckNumber = serviceMethod.getDeleteCheckNumber(memberId);
+        return deleteCheckNumber;
+    }
+
 }

@@ -11,4 +11,5 @@ public interface MemberService {
 
     int duplicatedMember(String memberId);
 
+    int deleteMember(String memberId);
 }

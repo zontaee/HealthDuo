@@ -5,6 +5,7 @@ import Healthduo.demo.domain.Comment;
 import Healthduo.demo.domain.Member;
 import Healthduo.demo.repository.BbsRepository;
 import Healthduo.demo.repository.CommentRepository;
+import Healthduo.demo.repository.MemberRepository;
 import Healthduo.demo.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ public class ServiceMethod {
     private final BbsRepository bbsRepository;
     private final RegionRepository regionRepository;
     private final CommentRepository commentRepository;
+    private final MemberRepository memberRepository;
 
     public Pageable getPageable(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
@@ -175,6 +177,15 @@ public class ServiceMethod {
             }
         }
         return commentSequence;
+    }
+    public int getDeleteCheckNumber(String memberId) {
+        int deleteCheckNumber = 1;
+        try {
+            memberRepository.deleteById(memberId);
+        } catch (Exception e) {
+            deleteCheckNumber = 0;
+        }
+        return deleteCheckNumber;
     }
 
 
