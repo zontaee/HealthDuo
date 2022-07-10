@@ -3,11 +3,6 @@
 <head th:replace="fragments/header :: header">
     <title>Hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <style>
-        .custom {
-            width: 50px;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -15,21 +10,19 @@
     <div class="jumbotron">
         <h3>HEALTHDUO</h3>
         <br><br><br>
-        <div class="row">
-            <div id="addressInfo" class="btn-group col">
-                <!--   <button class="w-200 btn btn-secondary btn-lg" type="button"
-                           th:onclick="|location.href='@{/bbsLists}'|">
-                       게시판
-                   </button>-->
+        <div id="addressInfo" class="col">
+            <!--   <button class="w-200 btn btn-secondary btn-lg" type="button"
+                       th:onclick="|location.href='@{/bbsLists}'|">
+                   게시판
+               </button>-->
 
-            </div>
         </div>
     </div>
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
-<!--<script type="text/javascript" src="js/home.js?version=5"></script>-->
-<script  type="text/javascript">
+
+<script type="text/javascript">
     let addressInfo = document.getElementById("addressInfo");
 
     window.onload = async function () {
@@ -48,7 +41,7 @@
             if (i % 2 == 0 && i > 0) {
                 str += '<br>'
             }
-            str += '<button   class="btn-secondary btn-lg custom" value="button" onclick="nextRegion(\''+regionInfo[i]+'\')">' + regionInfo[i] + '</button>';
+            str += '<button class="w-25 btn btn-secondary btn-lg m-1" value="button" onclick="nextRegion(\'' + regionInfo[i] + '\')">' + regionInfo[i] + '</button>';
         }
         addressInfo.innerHTML = str;
     }
@@ -75,7 +68,7 @@
                 if (i % 2 == 0 && i > 0) {
                     str += '<br>'
                 }
-                str += '<button class="btn-secondary btn-lg custom" type="button" onclick="nextStreet(\''+ nextinfo[i] +'\')">' + nextinfo[i] + '</button>';
+                str += '<button class="w-25 btn btn-secondary btn-lg m-1" type="button" onclick="nextStreet(\'' + nextinfo[i] + '\')">' + nextinfo[i] + '</button>';
 
             }
             addressInfo.innerHTML = str;
@@ -84,7 +77,7 @@
                 if (i % 2 == 0 && i > 0) {
                     str += '<br>'
                 }
-                str += '<button class="btn-secondary btn-lg custom" type="button" onclick="nextFullCity(\'' + nextinfo[i] +'\' )">' + nextinfo[i] + '</button>';
+                str += '<button class="w-25 btn btn-secondary btn-lg m-1" type="button" onclick="nextFullCity(\'' + nextinfo[i] + '\' )">' + nextinfo[i] + '</button>';
             }
             addressInfo.innerHTML = str;
         }
@@ -111,7 +104,7 @@
             if (i % 2 == 0 && i > 0) {
                 str += '<br>'
             }
-            str += '<button class="btn-secondary btn-lg custom" type="button"  onclick="nextStreet(\''+ nextinfo[i] +'\')">' + nextinfo[i] + '</button>';
+            str += '<button class="w-25 btn btn-secondary btn-lg m-1" type="button"  onclick="nextStreet(\'' + nextinfo[i] + '\')">' + nextinfo[i] + '</button>';
         }
         addressInfo.innerHTML = str;
 
@@ -139,7 +132,7 @@
             if (i % 2 == 0 && i > 0) {
                 str += '<br>'
             }
-            str += '<button class="btn-secondary btn-lg custom" type="button" onclick="location.href=\'bbsLists?address='+ nextinfo[i] + '\'">' + nextinfo[i] + '</button>';
+            str += '<button class="w-25 btn btn-secondary btn-lg m-1" type="button" onclick="location.href=\'bbsLists?address=' + nextinfo[i] + '\'">' + nextinfo[i] + '</button>';
         }
         addressInfo.innerHTML = str;
     }
