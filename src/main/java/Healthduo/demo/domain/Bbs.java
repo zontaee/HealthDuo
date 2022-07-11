@@ -12,12 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@SequenceGenerator(
-        name = "BBS_NO_SEQ", //시퀀스 제너레이터 이름
-        sequenceName = "BBS_NO", //시퀀스 이름
-        initialValue = 1, //시작값
-        allocationSize = 1 //메모리를 통해 할당할 범위 사이즈
-)
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -39,10 +33,9 @@ public class Bbs {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
-
     private Member member;
 
-    @OneToMany(mappedBy = "bbs")
+    @OneToMany(mappedBy = "bbs",cascade = CascadeType.REMOVE,orphanRemoval = true )
     List<Comment> comments = new ArrayList<>();
 
     public void addMember(Member member) {
