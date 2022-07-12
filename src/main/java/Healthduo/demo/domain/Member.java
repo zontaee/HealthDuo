@@ -26,13 +26,18 @@ public class Member {
     private LocalDate memberDate;
     private String memberPnumber;
 
-    @OneToMany(mappedBy = "member")
-
+    @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE,orphanRemoval = true )
     List<Bbs> bbs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
-
+    @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE,orphanRemoval = true)
     List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE,orphanRemoval = true)
+    List<MessageReceive> messageReceive = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE,orphanRemoval = true)
+    List<MessageSend> messageSend = new ArrayList<>();
+
 
     public Member() {
 

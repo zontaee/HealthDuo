@@ -27,7 +27,7 @@ public class BBsController {
     private final TransferDTO transferDTO;
     private final BbsService bbsService;
     private final MemberService memberService;
-    private final RegionService regionService;
+
 
     /**
      * 게시판 글 목록(페이징)
