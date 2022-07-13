@@ -78,13 +78,13 @@ public class CommentRestServiceImpl implements CommentRestService {
         Integer level;
         Integer check = 0;
         Integer commentSequenceFinded = commentRepository.findCommentMaxSequence(commentGroupNubmer);
-        if (Integer.parseInt(sliceChildInfo[2]) == 0) { //level이 0일때
+        if (Integer.parseInt(sliceChildInfo[2]) == 0) { //처음 댓글이 달렸을때
             commentSequence = commentSequenceFinded + 1;
             level = 1;
             commentCnt = commentRepository.findCommentCnt().get() + 1;
-        } else {
-            commentSequence = serviceMethod.sortLogic(seq, sliceChildInfo, commentGroupNubmer);
-            commentRepository.updateCheck(seq);
+        } else { // 대댓글에 대댓글이 달렸을때
+            commentSequence = serviceMethod.sortLogic(seq, sliceChildInfo, commentGroupNubmer); //
+            commentRepository.updateCheck(seq);// 대댓글에 댓글이 달렸을때 해당 대댓글에 CheckInfo =1 값을 주어 부모 객체로 만들어준다
             commentCnt = serviceMethod.incrementCnt();
             level = serviceMethod.incrementLevel(sliceChildInfo);
         }

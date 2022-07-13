@@ -163,12 +163,13 @@ public class ServiceMethod {
     }
     public Integer sortLogic(int seq, String[] sliceChildInfo, Integer commentGroupNubmer) {
         Integer commentSequence;
-        Integer sameLevelAndGroupMaxSeq = commentRepository.findSameLevelAndGroupMaxSeq(commentGroupNubmer, Integer.parseInt(sliceChildInfo[2])+1);
-        if(sameLevelAndGroupMaxSeq == null){
+        Integer sameLevelAndGroupMaxSeq = commentRepository.findSameLevelAndGroupMaxSeq(commentGroupNubmer, Integer.parseInt(sliceChildInfo[2])+1); //해당 그룹에 다음레벨(+1)의 가장 높은 seq값을 가져온다
+
+        if(sameLevelAndGroupMaxSeq == null){ //해당 댓글에 처음 대댓글이 달렸을때
             commentSequence = seq + 1;
             commentRepository.updateAllSequence(seq);
-        }else {
-            if(seq <= sameLevelAndGroupMaxSeq){
+        }else {  //해당댓글에 처음 대댓글이 달리지 않았을때
+            if(seq <= sameLevelAndGroupMaxSeq){  //비교를 해주는 이유는 같은 그룹넘버에서 부모가 다르지만 레벨같은 요소가 있을 경우를 구분해주기 위해 존재하는 로직이다.
                 commentSequence = sameLevelAndGroupMaxSeq +1;
                 commentRepository.updateAllSequence(sameLevelAndGroupMaxSeq);
             }else {
