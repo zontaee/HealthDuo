@@ -30,8 +30,16 @@ public class MessageSend {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    public void MessageSend(Member member) {
+    public void addMessageSendMember(Member member) {
         this.member = member;
         member.getMessageSend().add(this);
+    }
+
+    public MessageSend( String messageSendTitle, String messageSendContent, String messageSendDate, String sendMemberId, String receiveMemberId) {
+        this.messageSendTitle = messageSendTitle;
+        this.messageSendContent = messageSendContent;
+        this.messageSendDate = messageSendDate;
+        this.sendMemberId = sendMemberId;
+        this.receiveMemberId = receiveMemberId;
     }
 }

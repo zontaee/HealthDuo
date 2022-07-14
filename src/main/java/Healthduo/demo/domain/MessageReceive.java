@@ -29,8 +29,16 @@ public class MessageReceive {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    public void MessageReceive(Member member) {
+    public void addMessageReceive(Member member) {
         this.member = member;
         member.getMessageReceive().add(this);
+    }
+
+    public MessageReceive( String messageReceiveTitle, String messageReceiveContent, String messageReceiveDate, String sendMemberId, String receiveMemberId) {
+        this.messageReceiveTitle = messageReceiveTitle;
+        this.messageReceiveContent = messageReceiveContent;
+        this.messageReceiveDate = messageReceiveDate;
+        this.sendMemberId = sendMemberId;
+        this.receiveMemberId = receiveMemberId;
     }
 }

@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+</head>
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+
+                <th class="text-center">보낸 사람</th>
+                <th class="text-center">제목</th>
+                <th class="text-center">작성일</th>
+                <th class="text-center">받은 사람</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bbs : ${bbsDTO}">
+                <td class="col-3 text-center" th:text="${bbs.bbsNo}"></td>
+                <td class="col-5 text-center">
+                    <a th:text="${bbs.bbsTitle}"
+                       th:attr="onclick=|javascript:secretBbsCheck(${bbs.bbsNo},'${bbs.member.memberId}')|"></a></td>
+                <!--th:onclick="|location.href='@{/content/{bbsNo}(bbsNo=${bbs.bbsNo})}'|"-->
+                <td class="col-2 text-center" th:text="${bbs.bbsDate}"></td>
+                <td class="col-2 text-center" th:text="${bbs.member.memberId}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav style="text-align: center;">
+        <ul class="pagination"
+            th:with="start=${T(Math).floor(bbsDTO.number/10)*10 + 1},
+                    last=(${start + 9 < bbsDTO.totalPages ? start + 9 : bbsDTO.totalPages})">
+            <li>
+                <a th:href="@{/bbsLists(page=1)}" aria-label="First">
+                    <span aria-hidden="true">First</span>
+                </a>
+            </li>
+
+            <li th:class="${bbsDTO.first} ? 'disabled'">
+                <a th:href="${bbsDTO.first} ? '#' :@{/bbsLists(page=${bbsDTO.number})}" aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+
+            <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == bbsDTO.number + 1} ? 'active'">
+                <a th:text="${page}" th:href="@{/bbsLists(page=${page})}"></a>
+            </li>
+
+            <li th:class="${bbsDTO.last} ? 'disabled'">
+                <a th:href="${bbsDTO.last} ? '#' : @{/bbsLists(page=${bbsDTO.number + 2})}" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/bbsLists(page=${bbsDTO.totalPages})}" aria-label="Last">
+                    <span aria-hidden="true">Last</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <button class="btn btn-secondary btn-lg btn-block"
+            onclick="location.href='items.html'"
+            th:onclick="|location.href='@{/write(address=${address})}'|"
+            type="button">쪽지 보내기
+    </button>
+
+
+    <div th:replace="fragments/footer :: footer"/>
+
+</div> <!-- /container -->
+
+</body>
+<script type="text/javascript">
+</script>
+</html>
