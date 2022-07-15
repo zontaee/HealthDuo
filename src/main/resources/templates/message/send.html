@@ -2,15 +2,6 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="board/layout/basic">
 <head th:replace="fragments/header :: header"/>
-<style>
-    .fieldError {
-        border-color: #bd2130;
-    }
-
-    .pError {
-        color: red;
-    }
-</style>
 <body>
 <div id="justify-content" class="container">
 
@@ -44,7 +35,7 @@
         </div>
 
         <div class="btn_wrap text-center">
-            <a th:href="@{/bbsLists}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
+            <a th:href="@{/messagemenu}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
             <button type="button" onclick="sendMessage()" class="btn btn-primary waves-effect waves-light">저장하기</button>
         </div>
     </form>
@@ -53,15 +44,12 @@
 </body>
 <script type="text/javascript">
 
-
     async function sendMessage() {
         let receiveMemberId = document.getElementById("receiveMemberId").value;
         let messageSendTitle = document.getElementById("messageSendTitle").value;
         let messageSendContent = document.getElementById("messageSendContent").value;
 
         let URL = "http://localhost:8080/messagesave"
-
-        alert(receiveMemberId);
         let options = {
             method: 'POST',
             headers: {
@@ -78,15 +66,10 @@
         if (text == "받는 사람 아이디가 존재하지 않습니다." ||
             text == "쪽지 제목을 입력해주세요." ||
             text == "쪽지 내용을 입력해주세요.") {
+            alert(text);
         } else {
             location.href = "http://localhost:8080/messagemenu"
-
         }
-
-
     }
-
-
 </script>
-
 </html>

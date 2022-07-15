@@ -9,9 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Slf4j
 @Controller
@@ -34,17 +31,4 @@ public class MessageController {
         model.addAttribute("messageSendDTO", messageSendDTO);
         return "message/send";
     }
-
-/*    @PostMapping("messagesave")
-    public String messageSave(@RequestParam("receiveMemberId") String receiveMemberId,
-                              @RequestParam("messageSendTitle") String messageSendTitle,
-                              @RequestParam("messageSendContent") String messageSendContent,
-                              @SessionAttribute(name = "memberId", required = false) String loginMember) {
-        log.info("messagesave(controller start)");
-        int resultMessageSave = messageService.messageSave(receiveMemberId, messageSendTitle, messageSendContent,loginMember);
-        return "/message/menu";
-
-    }*/
-
-
 }
