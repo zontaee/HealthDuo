@@ -27,11 +27,11 @@ public class MessageServiceImpl implements MessageService{
 
 
     @Override
-    public int messageSave(String receiveMemberId, String messageSendTitle, String messageSendContent, String loginMember) {
+    public void messageSave(String receiveMemberId, String messageSendTitle, String messageSendContent, String loginMember) {
         log.info("messageSave(Service start)");
         Optional<Member> findReciveMemberId = memberRepository.findById(receiveMemberId);
-        int result = 0;
-        result = CheckReceiveMemberId(findReciveMemberId, result);
+        log.info("findReciveMemberId={} messageSendTitle={}",findReciveMemberId);
+        CheckError(messageSendTitle, messageSendContent, findReciveMemberId);
         Optional<Member> SendMemberInfo = memberRepository.findById(loginMember);
 
         MessageSend messageSend = new MessageSend(receiveMemberId, messageSendContent, String.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))), loginMember, receiveMemberId);
@@ -42,14 +42,19 @@ public class MessageServiceImpl implements MessageService{
         messageReceive.addMessageReceive(SendMemberInfo.get());
         messageReceiveRepository.save(messageReceive);
 
-        return result;
     }
 
-    private int CheckReceiveMemberId(Optional<Member> findId, int result) {
-        if(findId == null){
-            result = 1;
+    private void CheckError(String messageSendTitle, String messageSendContent, Optional<Member> findReciveMemberId) {
+        if(findReciveMemberId.isEmpty()){
             throw new RuntimeException("받는 사람 아이디가 존재하지 않습니다.");
         }
-        return result;
+        if(messageSendTitle.isBlank()){
+            throw new RuntimeException("쪽지 제목을 입력해주세요.");
+        }
+        if(messageSendContent.isBlank()){
+            throw new RuntimeException("쪽지 내용을 입력해주세요.");
+        }
     }
+
+
 }
