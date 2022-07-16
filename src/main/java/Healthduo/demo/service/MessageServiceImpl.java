@@ -6,8 +6,11 @@ import Healthduo.demo.domain.MessageSend;
 import Healthduo.demo.repository.MemberRepository;
 import Healthduo.demo.repository.MessageReceiveRepository;
 import Healthduo.demo.repository.MessageSendRepository;
+import Healthduo.demo.web.ServiceMethod;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
@@ -23,6 +26,7 @@ public class MessageServiceImpl implements MessageService{
     private final MemberRepository memberRepository;
     private final MessageSendRepository messageSendRepository;
     private final MessageReceiveRepository messageReceiveRepository;
+    private final ServiceMethod serviceMethod;
 
 
     @Override
@@ -40,6 +44,12 @@ public class MessageServiceImpl implements MessageService{
         messageReceive.addMessageReceive(SendMemberInfo.get());
         messageReceiveRepository.save(messageReceive);
 
+    }
+
+    @Override
+    public Page<MessageReceive> messageReceiveList(Pageable pageable, String loginMember) {
+        pageable = serviceMethod.getPageableMessage(pageable);
+        return messageReceiveRepository.findMessageReceive(loginMember,pageable);
     }
 
     private void CheckError(String messageSendTitle, String messageSendContent, Optional<Member> findReciveMemberId) {
