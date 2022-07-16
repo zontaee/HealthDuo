@@ -3,11 +3,13 @@ package Healthduo.demo.web;
 import Healthduo.demo.domain.Bbs;
 import Healthduo.demo.domain.Comment;
 import Healthduo.demo.domain.Member;
+import Healthduo.demo.domain.MessageReceive;
 import Healthduo.demo.dto.BbsDTO;
 import Healthduo.demo.dto.CommentDTO;
 import Healthduo.demo.dto.MemberDTO;
+import Healthduo.demo.dto.MessageReceiveDTO;
 import Healthduo.demo.service.BbsService;
-import Healthduo.demo.service.RegionService;
+import Healthduo.demo.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,21 @@ import java.util.Optional;
 public class TransferDTO {
 
     private final BbsService bbsService;
+    private final MessageService messageService;
+
+    /**
+     * message
+     * @param pageable
+     * @param loginMember
+     * @return
+     */
+    public Page<MessageReceiveDTO> messagePaging(Pageable pageable, String loginMember) {
+        Page<MessageReceive> messageReceiveList = messageService.messageReceiveList(pageable, loginMember);
+        Page<MessageReceiveDTO> messageReceiveDTOS = messageReceiveList.map(m -> new MessageReceiveDTO(m.getMessageReceiveNo(), m.getMessageReceiveTitle(), m.getMessageReceiveContent()
+                , m.getMessageReceiveDate(), m.getSendMemberId(), m.getReceiveMemberId(), m.getMember()));
+        return messageReceiveDTOS;
+    }
+
 
     /**
      * bbs페이징 DTO 변환 메서드
@@ -34,9 +51,9 @@ public class TransferDTO {
      * @return
      * @throws Exception
      */
-    public Page<BbsDTO> BbsListPaging(Pageable pageable, String address){
+    public Page<BbsDTO> BbsListPaging(Pageable pageable, String address) {
         Page<Bbs> bbsList = bbsService.bbsList(pageable, address);
-        Page<BbsDTO> bbsDTo = getBbsDTOS(bbsList, "BbsListPaging start");
+        Page<BbsDTO> bbsDTo = getBbsDTOS(bbsList);
         return bbsDTo;
     }
 
@@ -50,7 +67,7 @@ public class TransferDTO {
 
     public Page<BbsDTO> BbsListPaging(Pageable pageable) throws Exception {
         Page<Bbs> bbsList = bbsService.bbsList(pageable);
-        Page<BbsDTO> bbsDTo = getBbsDTOS(bbsList, "BbsListPaging start");
+        Page<BbsDTO> bbsDTo = getBbsDTOS(bbsList);
         return bbsDTo;
     }
 
@@ -63,9 +80,9 @@ public class TransferDTO {
      * @return
      * @throws Exception
      */
-    public Page<BbsDTO> BbsListSerchPaging(Pageable pageable, String bbsListSearch, String searchText)  {
+    public Page<BbsDTO> BbsListSerchPaging(Pageable pageable, String bbsListSearch, String searchText) {
         Page<Bbs> bbsList = bbsService.bbsListSearch(pageable, bbsListSearch, searchText);
-        Page<BbsDTO> bbsDTo = getBbsDTOS(bbsList, "BbsListSerchPaging start");
+        Page<BbsDTO> bbsDTo = getBbsDTOS(bbsList);
 
         return bbsDTo;
     }
@@ -101,6 +118,7 @@ public class TransferDTO {
         Member member = new Member(memberDTO.getMemberId(), memberDTO.getMemberPassword(), memberDTO.getMemberSex(), memberDTO.getMemberEmail(), LocalDate.now(), memberDTO.getMemberPnumber());
         return member;
     }
+
     public void transferCommentDTO(List<CommentDTO> commentDTO, List<Comment> comments) {
         for (Comment comment : comments) {
             CommentDTO recommentDTO = new CommentDTO(comment.getCommentId(), comment.getContent(), comment.getCommentCnt(),
@@ -110,12 +128,9 @@ public class TransferDTO {
     }
 
 
-
-
-    private Page<BbsDTO> getBbsDTOS(Page<Bbs> bbsList, String BbsListPaging_start) {
+    private Page<BbsDTO> getBbsDTOS(Page<Bbs> bbsList) {
         Page<BbsDTO> bbsDTo = bbsList.map(m -> new BbsDTO(m.getBbsNo(), m.getBbsTitle(), m.getBbsContent()
                 , m.getBbsDate(), m.getBbsHit(), m.getBbsNotice(), m.getBbsSecret(), m.getCheckNS(), m.getMember()));
-        log.info(BbsListPaging_start);
         return bbsDTo;
     }
 

@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,7 +30,7 @@ public class ServiceMethod {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
 
-    public Pageable getPageable(Pageable pageable) {
+    public Pageable getPageableBbs(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "bbsNo"));
         return pageable;
@@ -190,5 +189,10 @@ public class ServiceMethod {
     }
 
 
+    public Pageable getPageableMessage(Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "messageReceiveNo"));
+        return pageable;
+    }
 }
 

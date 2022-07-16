@@ -26,7 +26,7 @@ public class BbsServiceImpl implements BbsService {
     @Override
     public Page<Bbs> bbsList(Pageable pageable) {
         log.info("bbsList(Service start)");
-        pageable = serviceMethod.getPageable(pageable);
+        pageable = serviceMethod.getPageableBbs(pageable);
         return bbsRepository.findAll(pageable);
     }
 
@@ -34,7 +34,7 @@ public class BbsServiceImpl implements BbsService {
     @Override
     public Page<Bbs> bbsListSearch(Pageable pageable, String bbsListSearch, String searchText) {
         log.info("bbsListSearch(Service start)");
-        pageable = serviceMethod.getPageable(pageable);
+        pageable = serviceMethod.getPageableBbs(pageable);
         Page<Bbs> searchedBbsList = serviceMethod.resultBySearch(pageable, bbsListSearch, searchText);
         return searchedBbsList;
     }
@@ -49,7 +49,7 @@ public class BbsServiceImpl implements BbsService {
     @Override
     public Page<Bbs> bbsList(Pageable pageable, String address) {
         log.info("bbsList(Service start)");
-        pageable = serviceMethod.getPageable(pageable);
+        pageable = serviceMethod.getPageableBbs(pageable);
         return bbsRepository.findAllAddress(pageable, address);
     }
 
