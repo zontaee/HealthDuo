@@ -30,7 +30,7 @@ public class TransferDTO {
     private final MessageService messageService;
 
     /**
-     * message
+     * message 페이징 DTO 변환 메서드
      * @param pageable
      * @param loginMember
      * @return
@@ -56,6 +56,17 @@ public class TransferDTO {
         Page<BbsDTO> bbsDTo = getBbsDTOS(bbsList);
         return bbsDTo;
     }
+
+    public MessageReceiveDTO messageReceivedContent(Long messageReceiveNo) {
+        Optional<MessageReceive> messageReceive = messageService.messageReceivedContent(messageReceiveNo);
+        MessageReceiveDTO messageReceiveDTO = new MessageReceiveDTO(messageReceive.get().getMessageReceiveNo(),
+                messageReceive.get().getMessageReceiveTitle(),messageReceive.get().getMessageReceiveContent(),
+                messageReceive.get().getMessageReceiveDate(),messageReceive.get().getSendMemberId(),
+                messageReceive.get().getReceiveMemberId(),messageReceive.get().getMember());
+        return  messageReceiveDTO;
+    }
+
+
 
     /**
      * bbs페이징 DTO 변환 메서드

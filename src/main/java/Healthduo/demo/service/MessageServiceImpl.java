@@ -48,8 +48,16 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public Page<MessageReceive> messageReceiveList(Pageable pageable, String loginMember) {
+        log.info("messageReceiveList(Service start)");
         pageable = serviceMethod.getPageableMessage(pageable);
         return messageReceiveRepository.findMessageReceive(loginMember,pageable);
+    }
+
+    @Override
+    public Optional<MessageReceive> messageReceivedContent(Long messageReceiveNo) {
+        log.info("messageReceivedContent(Service start)");
+        Optional<MessageReceive> messageReceivedContent = messageReceiveRepository.findById(messageReceiveNo);
+        return messageReceivedContent;
     }
 
     private void CheckError(String messageSendTitle, String messageSendContent, Optional<Member> findReciveMemberId) {

@@ -1,5 +1,7 @@
 package Healthduo.demo.controller;
 
+import Healthduo.demo.domain.Bbs;
+import Healthduo.demo.dto.BbsDTO;
 import Healthduo.demo.dto.MessageReceiveDTO;
 import Healthduo.demo.dto.MessageSendDTO;
 import Healthduo.demo.service.BbsService;
@@ -13,7 +15,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
+
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -45,5 +50,13 @@ public class MessageController {
         Page<MessageReceiveDTO> messageReceiveDTO = transferDTO.messagePaging(pageable, loginMember);
         model.addAttribute("messageReceiveDTO", messageReceiveDTO);
         return "message/receivedlist";
+    }
+    @GetMapping("/messagereceivedcontent/{messageReceiveNo}")
+    public String messageReceivedContent(@PathVariable Long messageReceiveNo, Model model) {
+        log.info("messageReceivedContent(controller start)");
+
+        MessageReceiveDTO messageReceiveDTO = transferDTO.messageReceivedContent(messageReceiveNo);
+        model.addAttribute("messageReceiveDTO", messageReceiveDTO);
+        return "message/receivedContent";
     }
 }

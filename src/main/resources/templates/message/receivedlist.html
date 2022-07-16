@@ -22,7 +22,7 @@
                 <td class="col-3 text-center" th:text="${messageReceive.sendMemberId}"></td>
                 <td class="col-5 text-center">
                     <a th:text="${messageReceive.messageReceiveTitle}"
-                       th:href="@{/messagecontent/{messageNo}(messageNo=${messageReceive.messageReceiveNo})}" th:href="|location.href='@{/messagecontent/{messageNo}(messageNoNo=${messageReceive.messageReceiveNo})}'|"></a>
+                       th:href="@{/messagereceivedcontent/{messageNo}(messageNo=${messageReceive.messageReceiveNo})}"></a>
 
                 </td>
                 <td class="col-4 text-center" th:text="${messageReceive.messageReceiveDate}"></td>
@@ -68,7 +68,12 @@
     <button class="btn btn-secondary btn-lg btn-block"
             onclick="location.href='items.html'"
             th:onclick="|location.href='@{/write(address=${address})}'|"
-            type="button">쪽지 보내기
+            type="button">회신
+    </button>
+    <button class="btn btn-secondary btn-lg btn-block"
+            onclick="location.href='items.html'"
+            th:onclick="|location.href='@{/write(address=${address})}'|"
+            type="button">삭제
     </button>
 
 
