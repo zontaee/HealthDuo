@@ -1,6 +1,7 @@
 package Healthduo.demo.service;
 
 import Healthduo.demo.domain.MessageReceive;
+import Healthduo.demo.domain.MessageSend;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,4 +13,8 @@ public interface MessageService {
     Page<MessageReceive> messageReceiveList(Pageable pageable, String loginMember);
 
     Optional<MessageReceive> messageReceivedContent(Long messageReceiveNo);
+
+    Page<MessageSend> messageSendList(Pageable pageable, String loginMember);
+
+    Optional<MessageSend> messageSendContent(Long messageSendNo);
 }

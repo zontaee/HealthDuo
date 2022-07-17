@@ -1,7 +1,5 @@
 package Healthduo.demo.controller;
 
-import Healthduo.demo.domain.Bbs;
-import Healthduo.demo.dto.BbsDTO;
 import Healthduo.demo.dto.MessageReceiveDTO;
 import Healthduo.demo.dto.MessageSendDTO;
 import Healthduo.demo.service.BbsService;
@@ -17,8 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
-
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -42,15 +38,16 @@ public class MessageController {
         return "message/send";
     }
 
-    @GetMapping("messagereceived")
-    public String messageReceived(@PageableDefault() Pageable pageable,
-                                  @SessionAttribute(name = "memberId", required = false) String loginMember,
-                                  Model model) {
-        log.info("messagereceived(controller start)");
-        Page<MessageReceiveDTO> messageReceiveDTO = transferDTO.messagePaging(pageable, loginMember);
+    @GetMapping("messagereceivedlist")
+    public String messageReceivedList(@PageableDefault() Pageable pageable,
+                                      @SessionAttribute(name = "memberId", required = false) String loginMember,
+                                      Model model) {
+        log.info("messagereceivedlist(controller start)");
+        Page<MessageReceiveDTO> messageReceiveDTO = transferDTO.messageReceivedPaging(pageable, loginMember);
         model.addAttribute("messageReceiveDTO", messageReceiveDTO);
         return "message/receivedlist";
     }
+
     @GetMapping("/messagereceivedcontent/{messageReceiveNo}")
     public String messageReceivedContent(@PathVariable Long messageReceiveNo, Model model) {
         log.info("messageReceivedContent(controller start)");
@@ -59,4 +56,23 @@ public class MessageController {
         model.addAttribute("messageReceiveDTO", messageReceiveDTO);
         return "message/receivedContent";
     }
+
+    @GetMapping("messagesendlist")
+    public String messageSendList(@PageableDefault() Pageable pageable,
+                                  @SessionAttribute(name = "memberId", required = false) String loginMember,
+                                  Model model) {
+        log.info("messageSendList(controller start)");
+        Page<MessageSendDTO> messageSendDTO = transferDTO.messageSendPaging(pageable, loginMember);
+        model.addAttribute("messageSendDTO", messageSendDTO);
+        return "message/sendlist";
+    }
+    @GetMapping("/messagesendcontent/{messageSendNo}")
+    public String messageSendContent(@PathVariable Long messageSendNo, Model model) {
+        log.info("messageReceivedContent(controller start)");
+
+        MessageSendDTO messageSendDTO = transferDTO.messageSendContent(messageSendNo);
+        model.addAttribute("messageSendDTO", messageSendDTO);
+        return "message/sendContent";
+    }
+
 }

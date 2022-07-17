@@ -49,8 +49,8 @@ public class MessageServiceImpl implements MessageService{
     @Override
     public Page<MessageReceive> messageReceiveList(Pageable pageable, String loginMember) {
         log.info("messageReceiveList(Service start)");
-        pageable = serviceMethod.getPageableMessage(pageable);
-        return messageReceiveRepository.findMessageReceive(loginMember,pageable);
+        pageable = serviceMethod.getPageableMessageReceived(pageable);
+        return messageReceiveRepository.findMessageReceiveList(loginMember,pageable);
     }
 
     @Override
@@ -58,6 +58,20 @@ public class MessageServiceImpl implements MessageService{
         log.info("messageReceivedContent(Service start)");
         Optional<MessageReceive> messageReceivedContent = messageReceiveRepository.findById(messageReceiveNo);
         return messageReceivedContent;
+    }
+
+    @Override
+    public Page<MessageSend> messageSendList(Pageable pageable, String loginMember) {
+        log.info("messageSendList(Service start)");
+        pageable = serviceMethod.getPageableMessageSend(pageable);
+        return messageReceiveRepository.findMessageSendList(loginMember,pageable);
+    }
+
+    @Override
+    public Optional<MessageSend> messageSendContent(Long messageSendNo) {
+        log.info("messageSendContent(Service start)");
+        Optional<MessageSend> messageSendContent = messageSendRepository.findById(messageSendNo);
+        return messageSendContent;
     }
 
     private void CheckError(String messageSendTitle, String messageSendContent, Optional<Member> findReciveMemberId) {

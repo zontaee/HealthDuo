@@ -1,13 +1,7 @@
 package Healthduo.demo.web;
 
-import Healthduo.demo.domain.Bbs;
-import Healthduo.demo.domain.Comment;
-import Healthduo.demo.domain.Member;
-import Healthduo.demo.domain.MessageReceive;
-import Healthduo.demo.dto.BbsDTO;
-import Healthduo.demo.dto.CommentDTO;
-import Healthduo.demo.dto.MemberDTO;
-import Healthduo.demo.dto.MessageReceiveDTO;
+import Healthduo.demo.domain.*;
+import Healthduo.demo.dto.*;
 import Healthduo.demo.service.BbsService;
 import Healthduo.demo.service.MessageService;
 import lombok.RequiredArgsConstructor;
@@ -30,17 +24,32 @@ public class TransferDTO {
     private final MessageService messageService;
 
     /**
-     * message 페이징 DTO 변환 메서드
+     * messageReceiveList 페이징 DTO 변환 메서드
      * @param pageable
      * @param loginMember
      * @return
      */
-    public Page<MessageReceiveDTO> messagePaging(Pageable pageable, String loginMember) {
+    public Page<MessageReceiveDTO> messageReceivedPaging(Pageable pageable, String loginMember) {
         Page<MessageReceive> messageReceiveList = messageService.messageReceiveList(pageable, loginMember);
         Page<MessageReceiveDTO> messageReceiveDTOS = messageReceiveList.map(m -> new MessageReceiveDTO(m.getMessageReceiveNo(), m.getMessageReceiveTitle(), m.getMessageReceiveContent()
                 , m.getMessageReceiveDate(), m.getSendMemberId(), m.getReceiveMemberId(), m.getMember()));
         return messageReceiveDTOS;
     }
+
+    /**
+     * messageSendList 페이징 DTO 변환 메서드
+     * @param pageable
+     * @param loginMember
+     * @return
+     */
+    public Page<MessageSendDTO> messageSendPaging(Pageable pageable, String loginMember) {
+        Page<MessageSend> messageSendList = messageService.messageSendList(pageable, loginMember);
+        Page<MessageSendDTO> messageSendDTO = messageSendList.map(m -> new MessageSendDTO(m.getMessageSendNo(),m.getMessageSendTitle(),m.getMessageSendContent()
+        ,m.getMessageSendDate(),m.getSendMemberId(),m.getReceiveMemberId(),m.getMember()));
+        return  messageSendDTO;
+    }
+
+
 
 
     /**
@@ -57,6 +66,11 @@ public class TransferDTO {
         return bbsDTo;
     }
 
+    /**
+     * 받은 쪽지 list DTO 변환 메서드
+     * @param messageReceiveNo
+     * @return
+     */
     public MessageReceiveDTO messageReceivedContent(Long messageReceiveNo) {
         Optional<MessageReceive> messageReceive = messageService.messageReceivedContent(messageReceiveNo);
         MessageReceiveDTO messageReceiveDTO = new MessageReceiveDTO(messageReceive.get().getMessageReceiveNo(),
@@ -66,6 +80,19 @@ public class TransferDTO {
         return  messageReceiveDTO;
     }
 
+    /**
+     * 보낸 쪽지 list DTO 변환 메서드
+     * @param messageSendNo
+     * @return
+     */
+    public MessageSendDTO messageSendContent(Long messageSendNo) {
+        Optional<MessageSend> messageSend = messageService.messageSendContent(messageSendNo);
+        MessageSendDTO messageSendDTO = new MessageSendDTO(messageSend.get().getMessageSendNo(),
+                messageSend.get().getMessageSendTitle(),messageSend.get().getMessageSendContent(),
+                messageSend.get().getMessageSendDate(),messageSend.get().getSendMemberId(),
+                messageSend.get().getReceiveMemberId(),messageSend.get().getMember());
+        return messageSendDTO;
+    }
 
 
     /**
@@ -151,9 +178,6 @@ public class TransferDTO {
                 , bbs.get().getBbsDate(), bbs.get().getBbsHit(), bbs.get().getBbsNotice(), bbs.get().getBbsSecret(), bbs.get().getCheckNS(), bbs.get().getMember());
         return bbsDTO;
     }
-
-
-
 
 
     /*public List<RegionDTO> getRegionDTO() {

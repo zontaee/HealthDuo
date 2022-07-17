@@ -17,47 +17,47 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="messageReceive : ${messageReceiveDTO}">
-                <td class="col-3 text-center" th:text="${messageReceive.sendMemberId}"></td>
+            <tr th:each="messageSend : ${messageSendDTO}">
+                <td class="col-3 text-center" th:text="${messageSend.sendMemberId}"></td>
                 <td class="col-5 text-center">
-                    <a th:text="${messageReceive.messageReceiveTitle}"
-                       th:href="@{/messagereceivedcontent/{messageNo}(messageNo=${messageReceive.messageReceiveNo})}"></a>
+                    <a th:text="${messageSend.messageSendTitle}"
+                       th:href="@{/messagesendcontent/{messageNo}(messageNo=${messageSend.messageSendNo})}"></a>
 
                 </td>
-                <td class="col-4 text-center" th:text="${messageReceive.messageReceiveDate}"></td>
-                <td class="col-2 text-center" th:text="${messageReceive.receiveMemberId}"></td>
+                <td class="col-4 text-center" th:text="${messageSend.messageSendDate}"></td>
+                <td class="col-2 text-center" th:text="${messageSend.receiveMemberId}"></td>
             </tr>
             </tbody>
         </table>
     </div>
     <nav style="text-align: center;">
         <ul class="pagination"
-            th:with="start=${T(Math).floor(messageReceiveDTO.number/10)*10 + 1},
-                    last=(${start + 9 < messageReceiveDTO.totalPages ? start + 9 : messageReceiveDTO.totalPages})">
+            th:with="start=${T(Math).floor(messageSendDTO.number/10)*10 + 1},
+                    last=(${start + 9 < messageSendDTO.totalPages ? start + 9 : messageSendDTO.totalPages})">
             <li>
-                <a th:href="@{/messagereceivedlist(page=1)}" aria-label="First">
+                <a th:href="@{/messagesendlist(page=1)}" aria-label="First">
                     <span aria-hidden="true">First</span>
                 </a>
             </li>
 
-            <li th:class="${messageReceiveDTO.first} ? 'disabled'">
-                <a th:href="${messageReceiveDTO.first} ? '#' :@{/messagereceivedlist(page=${messageReceiveDTO.number})}" aria-label="Previous">
+            <li th:class="${messageSendDTO.first} ? 'disabled'">
+                <a th:href="${messageSendDTO.first} ? '#' :@{/messagesendlist(page=${messageSendDTO.number})}" aria-label="Previous">
                     <span aria-hidden="true">&lt;</span>
                 </a>
             </li>
 
-            <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == messageReceiveDTO.number + 1} ? 'active'">
-                <a th:text="${page}" th:href="@{/messagereceivedlist(page=${page})}"></a>
+            <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == messageSendDTO.number + 1} ? 'active'">
+                <a th:text="${page}" th:href="@{/messagesendlist(page=${page})}"></a>
             </li>
 
-            <li th:class="${messageReceiveDTO.last} ? 'disabled'">
-                <a th:href="${messageReceiveDTO.last} ? '#' : @{/messagereceivedlist(page=${messageReceiveDTO.number + 2})}" aria-label="Next">
+            <li th:class="${messageSendDTO.last} ? 'disabled'">
+                <a th:href="${messageSendDTO.last} ? '#' : @{/messagesendlist(page=${messageSendDTO.number + 2})}" aria-label="Next">
                     <span aria-hidden="true">&gt;</span>
                 </a>
             </li>
 
             <li>
-                <a th:href="@{/messagereceivedlist(page=${messageReceiveDTO.totalPages})}" aria-label="Last">
+                <a th:href="@{/messagesendlist(page=${messageSendDTO.totalPages})}" aria-label="Last">
                     <span aria-hidden="true">Last</span>
                 </a>
             </li>

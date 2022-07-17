@@ -16,4 +16,19 @@ public class MessageSendDTO {
     private String sendMemberId;
     private String receiveMemberId;
     private Member member;
+
+
+    public MessageSendDTO(Long messageSendNo, String messageSendTitle, String messageSendContent, String messageSendDate, String sendMemberId, String receiveMemberId, Member member) {
+        this.messageSendNo = messageSendNo;
+        this.messageSendTitle = messageSendTitle;
+        this.messageSendContent = messageSendContent;
+        this.messageSendDate = messageSendDate;
+        this.sendMemberId = sendMemberId;
+        this.receiveMemberId = receiveMemberId;
+        this.member = member;
+    }
+
+    public MessageSendDTO() {
+
+    }
 }
