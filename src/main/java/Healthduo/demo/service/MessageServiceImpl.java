@@ -33,17 +33,10 @@ public class MessageServiceImpl implements MessageService{
     public void messageSave(String receiveMemberId, String messageSendTitle, String messageSendContent, String loginMember) {
         log.info("messageSave(Service start)");
         Optional<Member> findReciveMemberId = memberRepository.findById(receiveMemberId);
-        CheckError(messageSendTitle, messageSendContent, findReciveMemberId);//오류 검증 기능
+        serviceMethod.CheckError(messageSendTitle, messageSendContent, findReciveMemberId);//오류 검증 기능
         Optional<Member> SendMemberInfo = memberRepository.findById(loginMember);
-
-        MessageSend messageSend = new MessageSend(receiveMemberId, messageSendContent, String.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))), loginMember, receiveMemberId);
-        messageSend.addMessageSendMember(SendMemberInfo.get());
-        messageSendRepository.save(messageSend);
-
-        MessageReceive messageReceive = new MessageReceive(receiveMemberId, messageSendContent, String.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))), loginMember, receiveMemberId);
-        messageReceive.addMessageReceive(SendMemberInfo.get());
-        messageReceiveRepository.save(messageReceive);
-
+        serviceMethod.messageSendSave(receiveMemberId, messageSendContent, loginMember, SendMemberInfo);//보낸 메시지 저장
+        serviceMethod.messageReceivedSave(receiveMemberId, messageSendContent, loginMember, SendMemberInfo);//받은 메시지 저장
     }
 
     @Override
@@ -72,18 +65,6 @@ public class MessageServiceImpl implements MessageService{
         log.info("messageSendContent(Service start)");
         Optional<MessageSend> messageSendContent = messageSendRepository.findById(messageSendNo);
         return messageSendContent;
-    }
-
-    private void CheckError(String messageSendTitle, String messageSendContent, Optional<Member> findReciveMemberId) {
-        if(findReciveMemberId.isEmpty()){
-            throw new RuntimeException("받는 사람 아이디가 존재하지 않습니다.");
-        }
-        if(messageSendTitle.isBlank()){
-            throw new RuntimeException("쪽지 제목을 입력해주세요.");
-        }
-        if(messageSendContent.isBlank()){
-            throw new RuntimeException("쪽지 내용을 입력해주세요.");
-        }
     }
 
 

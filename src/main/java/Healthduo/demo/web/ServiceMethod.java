@@ -1,12 +1,7 @@
 package Healthduo.demo.web;
 
-import Healthduo.demo.domain.Bbs;
-import Healthduo.demo.domain.Comment;
-import Healthduo.demo.domain.Member;
-import Healthduo.demo.repository.BbsRepository;
-import Healthduo.demo.repository.CommentRepository;
-import Healthduo.demo.repository.MemberRepository;
-import Healthduo.demo.repository.RegionRepository;
+import Healthduo.demo.domain.*;
+import Healthduo.demo.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -29,6 +24,8 @@ public class ServiceMethod {
     private final RegionRepository regionRepository;
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
+    private final MessageReceiveRepository messageReceiveRepository;
+    private final MessageSendRepository messageSendRepository;
 
     public Pageable getPageableBbs(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
@@ -187,6 +184,36 @@ public class ServiceMethod {
         }
         return deleteCheckNumber;
     }
+
+    /**
+     * 메시지 오류 체크 메서드
+     * @param messageSendTitle
+     * @param messageSendContent
+     * @param findReciveMemberId
+     */
+    public void CheckError(String messageSendTitle, String messageSendContent, Optional<Member> findReciveMemberId) {
+        if(findReciveMemberId.isEmpty()){
+            throw new RuntimeException("받는 사람 아이디가 존재하지 않습니다.");
+        }
+        if(messageSendTitle.isBlank()){
+            throw new RuntimeException("쪽지 제목을 입력해주세요.");
+        }
+        if(messageSendContent.isBlank()){
+            throw new RuntimeException("쪽지 내용을 입력해주세요.");
+        }
+    }
+    public void messageReceivedSave(String receiveMemberId, String messageSendContent, String loginMember, Optional<Member> SendMemberInfo) {
+        MessageReceive messageReceive = new MessageReceive(receiveMemberId, messageSendContent, String.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))), loginMember, receiveMemberId);
+        messageReceive.addMessageReceive(SendMemberInfo.get());
+        messageReceiveRepository.save(messageReceive);
+    }
+
+    public void messageSendSave(String receiveMemberId, String messageSendContent, String loginMember, Optional<Member> SendMemberInfo) {
+        MessageSend messageSend = new MessageSend(receiveMemberId, messageSendContent, String.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))), loginMember, receiveMemberId);
+        messageSend.addMessageSendMember(SendMemberInfo.get());
+        messageSendRepository.save(messageSend);
+    }
+
     public Pageable getPageableMemberList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "memberId"));

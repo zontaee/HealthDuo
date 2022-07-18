@@ -3,6 +3,7 @@ package Healthduo.demo.service;
 import Healthduo.demo.domain.Bbs;
 import Healthduo.demo.domain.Member;
 import Healthduo.demo.repository.BbsRepository;
+import Healthduo.demo.repository.MemberRepository;
 import Healthduo.demo.web.ServiceMethod;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import java.util.Optional;
 public class BbsServiceImpl implements BbsService {
     private final BbsRepository bbsRepository;
     private final ServiceMethod serviceMethod;
+    private final MemberRepository memberRepository;
 
     @Override
     public Page<Bbs> bbsList(Pageable pageable) {
@@ -54,12 +56,12 @@ public class BbsServiceImpl implements BbsService {
     }
 
     @Override
-    public void bbsSave(Bbs bbs, String street, Member member) {
+    public void bbsSave(Bbs bbs, String street, String loginMember) {
         log.info("bbsSave(Service start)");
+        Member member = memberRepository.findById(loginMember).orElse(null);
         serviceMethod.bbsLnitialization(bbs, street, member);
         bbsRepository.BbsSave(bbs);
     }
-
 
     @Override
     public Optional<Bbs> findContent(Long bbsNo) {

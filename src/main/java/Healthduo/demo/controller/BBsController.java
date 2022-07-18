@@ -26,7 +26,7 @@ import java.util.Optional;
 public class BBsController {
     private final TransferDTO transferDTO;
     private final BbsService bbsService;
-    private final MemberService memberService;
+
 
 
     /**
@@ -105,9 +105,8 @@ public class BBsController {
                           @SessionAttribute(name = "memberId", required = false)
                                   String loginMember) {
         log.info("bbsSave(controller start)");
-        Member member = memberService.memberfindById(loginMember);
         redirectAttributes.addAttribute("address", address);
-        bbsService.bbsSave(bbs, address, member);
+        bbsService.bbsSave(bbs, address, loginMember);
         return "redirect:/bbsLists";
     }
 

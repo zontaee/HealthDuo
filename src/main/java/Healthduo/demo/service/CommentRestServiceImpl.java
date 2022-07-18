@@ -5,6 +5,7 @@ import Healthduo.demo.domain.Comment;
 import Healthduo.demo.domain.Member;
 import Healthduo.demo.dto.CommentDTO;
 import Healthduo.demo.repository.CommentRepository;
+import Healthduo.demo.repository.MemberRepository;
 import Healthduo.demo.web.ServiceMethod;
 import Healthduo.demo.web.TransferDTO;
 import lombok.RequiredArgsConstructor;
@@ -25,20 +26,22 @@ public class CommentRestServiceImpl implements CommentRestService {
     private final CommentRepository commentRepository;
     private final ServiceMethod serviceMethod;
     private final TransferDTO transferDTO;
+    private final MemberRepository memberRepository;
 
     /**
      * 일반 댓글 저장
      * @param content
      * @param bbs
-     * @param member
+     * @param loginMember
      */
     @Override
-    public void CommentSave(String content, Bbs bbs, Member member) {
+    public void CommentSave(String content, Bbs bbs, String loginMember) {
         log.info("CommentSave(Service start)");
         Integer commentGroup;
         Integer commentCnt;
         commentGroup = serviceMethod.incrementGroup();
         commentCnt = serviceMethod.incrementCnt();
+        Member member = memberRepository.findById(loginMember).orElse(null);
         serviceMethod.saveComment(content, bbs, member, commentGroup, commentCnt);
     }
 
@@ -60,16 +63,17 @@ public class CommentRestServiceImpl implements CommentRestService {
 
     }
 
-    /** 대댓글 저장
-     *  checkInfo -> 부모댓글 구분
+    /**
+     * 대댓글 저장
+     * checkInfo -> 부모댓글 구분
      * @param content
      * @param bbs
-     * @param member
+     * @param loginMember
      * @param childinfo
      * @param seq
      */
     @Override
-    public void childCommentSave(String content, Bbs bbs, Member member, String childinfo, int seq) {
+    public void childCommentSave(String content, Bbs bbs, String loginMember, String childinfo, int seq) {
         String childInfo = childinfo;
         String[] sliceChildInfo = childInfo.split("L");
         Integer commentGroupNubmer = Integer.parseInt(sliceChildInfo[1]);
@@ -77,6 +81,7 @@ public class CommentRestServiceImpl implements CommentRestService {
         Integer commentCnt;
         Integer level;
         Integer check = 0;
+        Member member = memberRepository.findById(loginMember).orElse(null);
         Integer commentSequenceFinded = commentRepository.findCommentMaxSequence(commentGroupNubmer);
         if (Integer.parseInt(sliceChildInfo[2]) == 0) { //처음 댓글이 달렸을때
             commentSequence = commentSequenceFinded + 1;

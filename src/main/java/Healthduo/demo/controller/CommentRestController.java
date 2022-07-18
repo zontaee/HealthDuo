@@ -34,7 +34,7 @@ public class CommentRestController {
         log.info("CommentWrite(controller start)");
         Bbs bbs = bbsService.bbsfindById(bbsNo);
         Member member = memberService.memberfindById(loginMember);
-        commentRestService.CommentSave(content, bbs, member);
+        commentRestService.CommentSave(content, bbs, loginMember);
 
     }
 
@@ -78,8 +78,7 @@ public class CommentRestController {
                                   @SessionAttribute(name = "memberId", required = false) String loginMember) {
         log.info("childCommentWrite(controller start)");
         Bbs bbs = bbsService.bbsfindById(bbsNo);
-        Member member = memberService.memberfindById(loginMember);
-        commentRestService.childCommentSave(content,bbs,member,childinfo, seq);
+        commentRestService.childCommentSave(content,bbs,loginMember,childinfo, seq);
 
     }
 }
