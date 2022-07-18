@@ -13,8 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 
@@ -35,8 +33,8 @@ public class MessageServiceImpl implements MessageService{
         Optional<Member> findReciveMemberId = memberRepository.findById(receiveMemberId);
         serviceMethod.CheckError(messageSendTitle, messageSendContent, findReciveMemberId);//오류 검증 기능
         Optional<Member> SendMemberInfo = memberRepository.findById(loginMember);
-        serviceMethod.messageSendSave(receiveMemberId, messageSendContent, loginMember, SendMemberInfo);//보낸 메시지 저장
-        serviceMethod.messageReceivedSave(receiveMemberId, messageSendContent, loginMember, SendMemberInfo);//받은 메시지 저장
+        serviceMethod.messageSendSave(messageSendTitle,receiveMemberId, messageSendContent, loginMember, SendMemberInfo);//보낸 메시지 저장
+        serviceMethod.messageReceivedSave(messageSendTitle,receiveMemberId, messageSendContent, loginMember, SendMemberInfo);//받은 메시지 저장
     }
 
     @Override

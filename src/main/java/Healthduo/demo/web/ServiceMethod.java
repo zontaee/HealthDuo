@@ -62,6 +62,8 @@ public class ServiceMethod {
             bbs.secretAddCheck();
 
         }
+        bbs.addMember(member);
+
     }
 
     public void increaseHit(Optional<Bbs> bbsContent) {
@@ -138,6 +140,8 @@ public class ServiceMethod {
         comment.addMember(member);
         comment.setCheckInfo(1);
         commentRepository.contentSave(comment);
+        comment.addMember(member);
+        comment.addBbs(bbs);
     }
     public Integer incrementLevel(String[] sliceChildInfo) {
         Integer level;
@@ -159,6 +163,7 @@ public class ServiceMethod {
     }
     public Integer sortLogic(int seq, String[] sliceChildInfo, Integer commentGroupNubmer) {
         Integer commentSequence;
+
         Integer sameLevelAndGroupMaxSeq = commentRepository.findSameLevelAndGroupMaxSeq(commentGroupNubmer, Integer.parseInt(sliceChildInfo[2])+1); //해당 그룹에 다음레벨(+1)의 가장 높은 seq값을 가져온다
 
         if(sameLevelAndGroupMaxSeq == null){ //해당 댓글에 처음 대댓글이 달렸을때
@@ -202,16 +207,16 @@ public class ServiceMethod {
             throw new RuntimeException("쪽지 내용을 입력해주세요.");
         }
     }
-    public void messageReceivedSave(String receiveMemberId, String messageSendContent, String loginMember, Optional<Member> SendMemberInfo) {
-        MessageReceive messageReceive = new MessageReceive(receiveMemberId, messageSendContent, String.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))), loginMember, receiveMemberId);
+    public void messageReceivedSave(String messageReceiveTitle, String receiveMemberId, String messageSendContent, String loginMember, Optional<Member> SendMemberInfo) {
+        MessageReceive messageReceive = new MessageReceive(messageReceiveTitle, messageSendContent, String.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))), loginMember, receiveMemberId);
         messageReceive.addMessageReceive(SendMemberInfo.get());
         messageReceiveRepository.save(messageReceive);
     }
 
-    public void messageSendSave(String receiveMemberId, String messageSendContent, String loginMember, Optional<Member> SendMemberInfo) {
-        MessageSend messageSend = new MessageSend(receiveMemberId, messageSendContent, String.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))), loginMember, receiveMemberId);
+    public void messageSendSave(String messageSendTitle, String receiveMemberId, String messageSendContent, String loginMember, Optional<Member> SendMemberInfo) {
+        MessageSend messageSend = new MessageSend(messageSendTitle, messageSendContent, String.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))), loginMember, receiveMemberId);
         messageSend.addMessageSendMember(SendMemberInfo.get());
-        messageSendRepository.save(messageSend);
+        messageSendRepository.save(messageSend);//Spring JPA save기능 사용
     }
 
     public Pageable getPageableMemberList(Pageable pageable) {
