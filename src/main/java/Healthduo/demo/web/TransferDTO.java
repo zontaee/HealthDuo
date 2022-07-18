@@ -3,6 +3,7 @@ package Healthduo.demo.web;
 import Healthduo.demo.domain.*;
 import Healthduo.demo.dto.*;
 import Healthduo.demo.service.BbsService;
+import Healthduo.demo.service.MemberService;
 import Healthduo.demo.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,11 @@ public class TransferDTO {
 
     private final BbsService bbsService;
     private final MessageService messageService;
+    private final MemberService memberService;
 
     /**
      * messageReceiveList 페이징 DTO 변환 메서드
+     *
      * @param pageable
      * @param loginMember
      * @return
@@ -38,18 +41,17 @@ public class TransferDTO {
 
     /**
      * messageSendList 페이징 DTO 변환 메서드
+     *
      * @param pageable
      * @param loginMember
      * @return
      */
     public Page<MessageSendDTO> messageSendPaging(Pageable pageable, String loginMember) {
         Page<MessageSend> messageSendList = messageService.messageSendList(pageable, loginMember);
-        Page<MessageSendDTO> messageSendDTO = messageSendList.map(m -> new MessageSendDTO(m.getMessageSendNo(),m.getMessageSendTitle(),m.getMessageSendContent()
-        ,m.getMessageSendDate(),m.getSendMemberId(),m.getReceiveMemberId(),m.getMember()));
-        return  messageSendDTO;
+        Page<MessageSendDTO> messageSendDTO = messageSendList.map(m -> new MessageSendDTO(m.getMessageSendNo(), m.getMessageSendTitle(), m.getMessageSendContent()
+                , m.getMessageSendDate(), m.getSendMemberId(), m.getReceiveMemberId(), m.getMember()));
+        return messageSendDTO;
     }
-
-
 
 
     /**
@@ -68,29 +70,31 @@ public class TransferDTO {
 
     /**
      * 받은 쪽지 list DTO 변환 메서드
+     *
      * @param messageReceiveNo
      * @return
      */
     public MessageReceiveDTO messageReceivedContent(Long messageReceiveNo) {
         Optional<MessageReceive> messageReceive = messageService.messageReceivedContent(messageReceiveNo);
         MessageReceiveDTO messageReceiveDTO = new MessageReceiveDTO(messageReceive.get().getMessageReceiveNo(),
-                messageReceive.get().getMessageReceiveTitle(),messageReceive.get().getMessageReceiveContent(),
-                messageReceive.get().getMessageReceiveDate(),messageReceive.get().getSendMemberId(),
-                messageReceive.get().getReceiveMemberId(),messageReceive.get().getMember());
-        return  messageReceiveDTO;
+                messageReceive.get().getMessageReceiveTitle(), messageReceive.get().getMessageReceiveContent(),
+                messageReceive.get().getMessageReceiveDate(), messageReceive.get().getSendMemberId(),
+                messageReceive.get().getReceiveMemberId(), messageReceive.get().getMember());
+        return messageReceiveDTO;
     }
 
     /**
      * 보낸 쪽지 list DTO 변환 메서드
+     *
      * @param messageSendNo
      * @return
      */
     public MessageSendDTO messageSendContent(Long messageSendNo) {
         Optional<MessageSend> messageSend = messageService.messageSendContent(messageSendNo);
         MessageSendDTO messageSendDTO = new MessageSendDTO(messageSend.get().getMessageSendNo(),
-                messageSend.get().getMessageSendTitle(),messageSend.get().getMessageSendContent(),
-                messageSend.get().getMessageSendDate(),messageSend.get().getSendMemberId(),
-                messageSend.get().getReceiveMemberId(),messageSend.get().getMember());
+                messageSend.get().getMessageSendTitle(), messageSend.get().getMessageSendContent(),
+                messageSend.get().getMessageSendDate(), messageSend.get().getSendMemberId(),
+                messageSend.get().getReceiveMemberId(), messageSend.get().getMember());
         return messageSendDTO;
     }
 
@@ -152,6 +156,14 @@ public class TransferDTO {
         return bbsdto;
     }
 
+    public Page<MemberDTO> memberListDTO(Pageable pageable) {
+        Page<Member> memberList = memberService.memberList(pageable);
+        Page<MemberDTO> memberDTO = memberList.map(m -> new MemberDTO(m.getMemberId(), m.getMemberPassword(), m.getMemberSex(), m.getMemberEmail(),
+                m.getMemberDate(), m.getMemberPnumber()));
+        return memberDTO;
+    }
+
+
     public Member getMember(MemberDTO memberDTO) {
         Member member = new Member(memberDTO.getMemberId(), memberDTO.getMemberPassword(), memberDTO.getMemberSex(), memberDTO.getMemberEmail(), LocalDate.now(), memberDTO.getMemberPnumber());
         return member;
@@ -178,6 +190,7 @@ public class TransferDTO {
                 , bbs.get().getBbsDate(), bbs.get().getBbsHit(), bbs.get().getBbsNotice(), bbs.get().getBbsSecret(), bbs.get().getCheckNS(), bbs.get().getMember());
         return bbsDTO;
     }
+
 
 
     /*public List<RegionDTO> getRegionDTO() {

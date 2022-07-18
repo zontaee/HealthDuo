@@ -167,6 +167,10 @@ public class memberController {
     public String myPage() {
         return "members/mypage";
     }
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin/adminpage";
+    }
 
     @GetMapping("/member/changeinfomember")
     public String changeInfoMember(@SessionAttribute(name = "memberId", required = false)
@@ -195,5 +199,15 @@ public class memberController {
         model.addAttribute("searchText", loginMember);
         return "members/bbsinfomember";
     }
+
+    @GetMapping("/member/memberlist")
+    public String memberList(@PageableDefault() Pageable pageable,
+                             Model model) {
+        log.info("memberList(controller start)");
+        Page<MemberDTO> memberListDTO = transferDTO.memberListDTO(pageable);
+        model.addAttribute("memberListDTO",memberListDTO);
+        return "members/memberList";
+    }
+
 
 }

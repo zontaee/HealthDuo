@@ -187,7 +187,11 @@ public class ServiceMethod {
         }
         return deleteCheckNumber;
     }
-
+    public Pageable getPageableMemberList(Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "memberId"));
+        return pageable;
+    }
 
     public Pageable getPageableMessageReceived(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);

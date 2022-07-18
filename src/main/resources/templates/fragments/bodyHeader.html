@@ -3,7 +3,8 @@
 <div class="header" th:fragment="bodyHeader">
     <ul class="nav nav-pills pull-right">
         <li><a href="/">Home</a></li>
-        <li th:if ="${session.memberId !=null}" ><a th:href="@{/mypage}">My page</a></li>
+        <li th:if ="${session.memberId != 'admin' and session.memberId !=null}" ><a th:href="@{/mypage}">My page</a></li>
+        <li th:if ="${session.memberId == 'admin'}" ><a th:href="@{/admin}">admin</a></li>
         <li th:if ="${session.memberId ==null}" ><a th:href="@{/login}">Login</a></li>
         <li th:if ="${session.memberId !=null}" ><a th:href="@{/logout}">Logout</a></li>
     </ul>

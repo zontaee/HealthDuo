@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+    </style>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="jumbotron">
+        <h3 th:text="${session.memberId} + '님 안녕하세요!'"></h3>
+        <br><br><br>
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg" type="button"
+                        th:onclick="|location.href='@{/member/memberlist}'|">
+                    회원리스트
+                </button>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+<script type="text/javascript">
+    let memberId = "[[ ${session.memberId} ]]";
+    let URL = "http://localhost:8080/deletemember";
+    let options = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            memberId: memberId,
+        })
+    }
+
+    function memberDelete() {
+        if (!confirm("확인 또는 취소를 눌러주세요.")) {
+            alert("취소 되었습니다.");
+        } else {
+            fetch(URL, options)
+                .then((response) => response.json())
+                .then((json) => {
+                    if (json === 1) {
+                        alert("삭제 성공")
+                    } else {
+                        alert("삭제 실패")
+                    }
+                })
+        }
+    }
+
+</script>
+</html>

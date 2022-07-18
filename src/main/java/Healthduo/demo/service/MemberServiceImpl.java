@@ -5,10 +5,10 @@ import Healthduo.demo.repository.MemberRepository;
 import Healthduo.demo.web.ServiceMethod;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -62,6 +62,13 @@ public class MemberServiceImpl implements MemberService {
         log.info("deleteMember(Service start)");
         int deleteCheckNumber = serviceMethod.getDeleteCheckNumber(memberId);
         return deleteCheckNumber;
+    }
+
+    @Override
+    public Page<Member> memberList(Pageable pageable) {
+        log.info("memberList(Service start)");
+        pageable = serviceMethod.getPageableMemberList(pageable);
+        return memberRepository.findAll(pageable);
     }
 
 }

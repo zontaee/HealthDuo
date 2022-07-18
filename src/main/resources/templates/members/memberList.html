@@ -9,7 +9,6 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>#</th>
                 <th>이름</th>
                 <th>성별</th>
                 <th>이메일주소</th>
@@ -18,12 +17,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="member : ${memberDTO}">
-                <td th:text="${member.member_id}"></td>
-                <td th:text="${member.member_sex}"></td>
-                <td th:text="${member.member_email}"></td>
-                <td th:text="${member.member_date}"></td>
-                <td th:text="${member.member_pnumber}"></td>
+            <tr th:each="member : ${memberListDTO}">
+                <td th:text="${member.memberId}"></td>
+                <td th:text="${member.memberSex}"></td>
+                <td th:text="${member.memberEmail}"></td>
+                <td th:text="${member.memberDate}"></td>
+                <td th:text="${member.memberPnumber}"></td>
             </tr>
             </tbody>
         </table>

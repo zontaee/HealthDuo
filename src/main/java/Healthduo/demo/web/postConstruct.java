@@ -35,6 +35,7 @@ public class postConstruct {
         ArrayList<Region> addRegion = new ArrayList<>();
         Member member = new Member("asd", "123", "남자", "whdlsxo123@naver.com", LocalDate.now(), "010-2323-4343");
         Member member2 = new Member("test", "123", "남자", "whdlsxo123@naver.com", LocalDate.now(), "010-2323-4343");
+        Member admin = new Member("admin", "123", "남자", "whdlsxo123@naver.com", LocalDate.now(), "010-2323-4343");
         addRegion.add(new Region("경기도", "성남시", "분당구", "서현동"));
         addRegion.add(new Region("경기도", "성남시", "분당구", "분당동"));
         addRegion.add(new Region("경기도", "성남시", "분당구", "수내동"));
@@ -59,6 +60,7 @@ public class postConstruct {
         }
         memberRepository.save(member);
         memberRepository.save(member2);
+        memberRepository.save(admin);
     }
 
 
