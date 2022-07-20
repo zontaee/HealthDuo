@@ -59,8 +59,7 @@ public class BbsServiceImpl implements BbsService {
     public void bbsSave(Bbs bbs, String street, String loginMember) {
         log.info("bbsSave(Service start)");
         Member member = memberRepository.findById(loginMember).orElse(null);
-
-        serviceMethod.bbsLnitialization(bbs, street, member);
+        serviceMethod.bbsSetting(bbs, street, member);
         bbsRepository.BbsSave(bbs);
     }
 

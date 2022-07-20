@@ -49,7 +49,7 @@ public class ServiceMethod {
         return searchedBbsList;
     }
 
-    public void bbsLnitialization(Bbs bbs, String street, Member member) {
+    public void bbsSetting(Bbs bbs, String street, Member member) {
         bbs.setMember(member);
         bbs.setAddress(street);
         bbs.setBbsDate(String.valueOf(LocalDate.now()));

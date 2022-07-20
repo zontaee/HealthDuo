@@ -41,18 +41,13 @@ class ServiceMethodTest {
     MessageSendRepository messageSendRepository;
     @Autowired
     MessageReceiveRepository messageReceiveRepository;
-/*
-    @AfterEach
-    public void afterEach(){
-    em.clear();
-    }*/
 
     @Test
     void bbsLnitialization() {
         Member member = new Member();
         member.setMemberId("아이디");
         Bbs bbs = new Bbs("제목 Test", "내용 Test", "2022-05-18", 1, true, false, member);
-        serviceMethod.bbsLnitialization(bbs, "분당동", member);
+        serviceMethod.bbsSetting(bbs, "분당동", member);
         assertThat(bbs.getBbsHit()).isEqualTo(0);
         assertThat(bbs.getCheckNS()).isEqualTo(" n");
     }
@@ -120,8 +115,9 @@ class ServiceMethodTest {
     void saveComment() {
         Member member = new Member();
         member.setMemberId("아이디");
-        Bbs bbs = new Bbs("제목 Test", "내용 Test", "2022-05-18", 1, true, false, member);
         memberRepository.save(member);
+        Bbs bbs = new Bbs("제목 Test", "내용 Test", "2022-05-18", 1, true, false, member);
+        serviceMethod.bbsSetting(bbs,"분당동",member);
         commentRestService.CommentSave("test", bbs, "아이디");
         Optional<Comment> comment = commentRepository.findById(1L);
         assertThat(comment.get().getContent()).isEqualTo("test");
